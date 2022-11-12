@@ -1,0 +1,52 @@
+<div class="page-container">
+    <div class="name"
+        *ngIf="name">{{name}}</div>
+    <form [formGroup]="form">
+        <div class="input-header">
+            <mat-icon>info</mat-icon>
+
+            <button mat-raised-button
+                (click)="addHeader()">add header
+            </button>
+            <!-- <button (click)="onCheckForHeaderLength()">check header</button> -->
+
+
+        </div>
+
+        <mat-form-field>
+            <textarea (click)="textareaClicked()"
+                #textarea
+                type="text"
+                placeholder="enter your description here"
+                [ngStyle]="{'height': textAreaHeight}"
+                (keyup)="textareaKeyUp()"
+                class="content"
+                formControlName="description"
+                matInput>{{description}}
+            </textarea>
+        </mat-form-field>
+
+    </form>
+
+    <div class="output">
+        <div class="output-header">
+            <mat-icon>info</mat-icon>
+            <button mat-raised-button
+                color="warn"
+                (click)="onCancel()">cancel</button>
+            <button mat-raised-button
+                [disabled]="submitDisabled"
+                (click)="onSubmit()">submit output</button>
+
+
+        </div>
+
+        <div class="content"
+            [innerHTML]="description"
+            #output>
+            <!-- {{selectedString}} -->
+
+        </div>
+    </div>
+</div>
+<!-- Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem labore similique facere tempora sunt adipisci harum aperiam consectetur. Ullam vitae perferendis, sed voluptas molestias quibusdam aperiam eum dignissimos optio nostrum sequi numquam laudantium recusandae cumque veritatis asperiores corrupti odit nemo tempore libero aliquam nihil aspernatur. Dolor aliquam doloribus sit. Odio? -->

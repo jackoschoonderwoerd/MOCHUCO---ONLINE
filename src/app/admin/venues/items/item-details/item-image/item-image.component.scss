@@ -1,0 +1,24 @@
+.page-container {
+    background-color: wheat;
+    padding: 1rem;
+    mat-spinner {
+        margin: auto;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        img {
+            width: 100%;
+        }
+
+        .delete {
+            width: 100%;
+        }
+
+        .add {
+            width: 100%;
+        }
+    }
+}

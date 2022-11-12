@@ -1,0 +1,6 @@
+https://stackoverflow.com/questions/61234507/ios-pwaadd-to-home-screen-is-not-asking-for-camera-permission-in-angular-for-v
+
+
+I have created PWA using angular in which I am using zxing-ngx-scanner library, which library for barcode scan. In ios browsers(Safari, Chrome and Firefox) and on Android it's asking for camera permissions and it's working fine, but if I add my site to homescreen(in ios), then it's not asking me for the camera permissions.
+
+Try to upgrade to iOS 13.4 and try again. The fix that Apple provided may work now.

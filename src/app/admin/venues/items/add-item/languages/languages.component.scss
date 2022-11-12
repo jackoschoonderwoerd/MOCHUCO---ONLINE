@@ -1,0 +1,61 @@
+.page-container {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .navigation {
+        padding: 1rem;
+        background-color: wheat;
+        display: flex;
+        gap: 1rem;
+    }
+    .header {
+        background-color: wheat;
+        border: 3px solid red;
+        padding: 0.2rem 0.5rem;
+        .item-name {
+            text-transform: uppercase;
+            font-weight: bolder;
+        }
+    }
+    .items-by-language {
+        display: flex;
+        flex-direction: column;
+        .item-by-language {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            // justify-content: center;
+            padding: 0.2rem 1rem;
+            background-color: wheat;
+            .language {
+                flex: 1;
+                border: 1px solid red;
+                text-transform: capitalize;
+            }
+            .name {
+                border: 1px solid red;
+                flex: 2;
+
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .description {
+                border: 1px solid red;
+                flex: 5;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .buttons {
+                justify-content: end;
+                border: 1px solid green;
+                min-width: 26rem;
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+            }
+        }
+    }
+}

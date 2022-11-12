@@ -1,0 +1,15 @@
+.page-container {
+    background-color: wheat;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    justify-items: center;
+    audio {
+        // border: 1px solid red;
+        width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+}

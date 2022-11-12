@@ -1,0 +1,23 @@
+<div class="page-container">
+
+    <mat-spinner *ngIf="itemDetailsService.uploadingImage$|async"></mat-spinner>
+    <input type="file"
+        #fileInput
+        (change)="onFileInputChange($event)">
+    <div class="content">
+        <img *ngIf="imageSrc"
+            [src]="imageSrc"
+            alt="">
+        <button class="delete"
+            (click)="onDeleteImage()"
+            mat-raised-button
+            color="warn">delete image</button>
+        <button class="add"
+            mat-raised-button
+            color="primary"
+            (click)="fileInput.click()">image
+        </button>
+        <button mat-raised-button
+            (click)="onConfirm()">confirm</button>
+    </div>
+</div>

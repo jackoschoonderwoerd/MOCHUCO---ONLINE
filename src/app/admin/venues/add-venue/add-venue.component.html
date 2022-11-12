@@ -1,0 +1,13 @@
+<div class="page-container">
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input type="text"
+                matInput
+                formControlName="name"
+                placeholder="venue name">
+        </mat-form-field>
+        <button mat-raised-button
+            [disabled]="form.invalid"
+            (click)='onSubmit()'>submit</button>
+    </form>
+</div>

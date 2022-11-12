@@ -1,0 +1,30 @@
+<div class="page-container">
+    <h4 class="name">{{itemName}}</h4>
+    <img [src]="imageUrl"
+        alt="">
+    <div class="description"
+        [innerHTML]="description"></div>
+    <audio [src]="audioUrl"
+        controls></audio>
+    <!-- {{itemName}}{{description}}
+    <div class="content-container"
+        *ngFor="let itemByLanguage of (itemService.item$|async)?.itemsByLanguage">
+        <div class="item"
+            *ngIf="(languageService.language$|async) === itemByLanguage.language">
+
+            <h4 class="name">{{(itemByLanguage.itemLS).name}}</h4>
+            <div class="image-container">
+                <img [src]="(itemService.item$|async).imageUrl"
+                    alt="">
+            </div>
+            <div class="description"
+                [innerHTML]="(itemByLanguage.itemLS).description"></div>
+            <div class="audio-container">
+                <audio *ngIf="(itemByLanguage.itemLS).audioUrl"
+                    [src]="(itemByLanguage.itemLS).audioUrl"
+                    [autoplay]="(itemByLanguage.itemLS).audioAutoplay"
+                    controls></audio>
+            </div>
+        </div>
+    </div> -->
+</div>

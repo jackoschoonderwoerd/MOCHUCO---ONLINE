@@ -1,0 +1,43 @@
+<div class="page-container"
+    *ngIf="!local">
+    <div class="print-area"
+        #printarea>
+        <div class="item-name">{{itemName}}</div>
+        <ngx-qrcode-styling #qrcode
+            [type]="'canvas'"
+            [shape]="'square'"
+            [width]="500"
+            [height]="500"
+            [margin]="50"
+            [data]="'https://mochuco-offline-b06e7.web.app/item?venueId=' +
+                                        venueId +
+                                        '&itemId=' +
+                                        itemId"
+            image="./../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png">
+        </ngx-qrcode-styling>
+    </div>
+    <button mat-raised-button
+        (click)="onDownloadQrCode()">download qr-code</button>
+</div>
+
+<div class="page-container"
+    style="background-color: red;"
+    *ngIf="local">
+    <div class="local">LOCAL!!!</div>
+    <div class="print-area"
+        #printarea>
+        <div class="item-name">{{itemName}}</div>
+        <ngx-qrcode-styling #qrcode
+            [type]="'canvas'"
+            [shape]="'square'"
+            [width]="500"
+            [height]="500"
+            [margin]="50"
+            [data]="'http://localhost:4200/item?venueId=' + venueId + '&itemId=' + itemId"
+            image="./../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png">
+
+        </ngx-qrcode-styling>
+    </div>
+    <button mat-raised-button
+        (click)="onDownloadQrCode()">download qr-code</button>
+</div>

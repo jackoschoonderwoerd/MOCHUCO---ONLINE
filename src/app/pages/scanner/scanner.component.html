@@ -1,0 +1,32 @@
+<div class="page-container">
+
+  <div class="scanner" #scanner>
+    <!-- ngx-scanner-qrcode -->
+    <!-- <ngx-scanner-qrcode #action="scanner" (data)="output = $event" (error)="onError($event)"></ngx-scanner-qrcode> -->
+
+    <ngx-scanner-qrcode #action="scanner" (data)="onData($event)" (error)="onError($event)"></ngx-scanner-qrcode>
+
+    <!-- data  -->
+
+    <p class="data">{{ output }}</p>
+    <a [href]="output">{{output}}</a>
+
+    <!-- Loading -->
+    <p *ngIf="action.isLoading" class="text-light text-center">⌛ Loading...</p>
+
+    <!-- toggleCamera -->
+    <div class="text-center">
+      <button id="cameraButton" (click)="action.toggleCamera()" class="btn"
+        [class.btn-info]="!action.isStart" [class.btn-warning]="action.isStart"
+        [disabled]="action.isLoading">
+        <img *ngIf="!action.isStart"
+          src="https://img.icons8.com/ios/50/000000/no-camera--v2.png"
+          width="30px" />
+        <img *ngIf="action.isStart"
+          src="https://img.icons8.com/ios/50/000000/no-camera--v1.png"
+          width="30px" />
+      </button>
+    </div>
+  </div>
+
+</div>

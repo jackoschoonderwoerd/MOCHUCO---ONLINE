@@ -1,0 +1,60 @@
+<div class="page-container">
+
+    <form [formGroup]="form">
+
+        <mat-form-field>
+            <mat-select (selectionChange)="onLanguageSelectionChange($event)"
+                formControlName="language"
+                placeholder="select language">
+                <mat-option *ngFor="let language of availableLanguages"
+                    [value]="language">
+                    {{language}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div class="language-is-selected">
+            <mat-checkbox formControlName="isMainPage">main page</mat-checkbox>
+            <mat-form-field>
+                <input type="text"
+                    matInput
+                    formControlName="itemName"
+                    placeholder="item name">
+            </mat-form-field>
+
+
+
+            <div class="description"
+                *ngIf="description"
+                [innerHTML]="description">
+            </div>
+
+            <button mat-raised-button
+                (click)="onDescription()">
+                description
+            </button>
+            <button mat-raised-button
+                (click)="onImage()">image
+            </button>
+            <img *ngIf="imageUrl"
+                [src]="imageUrl"
+                alt="">
+            <button mat-raised-button
+                (click)="onAudio()">audio
+            </button>
+            <audio *ngIf="audioUrl"
+                [src]="audioUrl"
+                controls></audio>
+        </div>
+        <button mat-raised-button
+            (click)="onSubmit()"
+            [disabled]="form.invalid"
+            color="primary">
+            submit
+            <div class="unsaved"
+                *ngIf="unsaved">*</div>
+        </button>
+        <button mat-raised-button
+            (click)="onVenues()">venues</button>
+
+    </form>
+</div>

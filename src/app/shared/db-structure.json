@@ -1,0 +1,64 @@
+{
+    "venues": {
+        "amsterdamBridges": {
+            "imageUrl": "",
+            "languages": {
+                "dutch": {
+                    "venueName": "amsterdamse bruggen",
+                    "venueContent": "amsterdamse bruggen dutch content",
+                    "audioUrl": ""
+                },
+                "english": {
+
+                }
+            },
+            "objects": {
+                "muntsluis": {
+                    "imageUrl": "",
+                    "languages": {
+                        "dutch": {
+                            "objectName": "muntsluis",
+                            "objectContent": "muntsluis dutch content",
+                            "audioUrl": ""
+                        },
+                        "english": {
+                            "objectName": "muntsluis",
+                            "objectContent": "muntsluis dutch content",
+                            "audioUrl": ""
+                        }
+                    }
+                },
+                "heibrug": {
+                    "imageUrl": "",
+                    "languages": {
+                        "dutch": {
+                            "objectName": "heibrug",
+                            "objectContent": "heibrug dutch content",
+                            "audioUrl": ""
+                        },
+                        "english": {
+                            "objectName": "heibrug",
+                            "objectContent": "heibrug dutch content",
+                            "audioUrl": ""
+                        }
+                    }
+                },
+                "krijtbrug": {
+                    "imageUrl": "",
+                    "languages": {
+                        "dutch": {
+                            "objectName": "krijtbrug",
+                            "objectContent": "krijtbrug dutch content",
+                            "audioUrl": ""
+                        },
+                        "english": {
+                            "objectName": "krijtbrug",
+                            "objectContent": "krijtbrug dutch content",
+                            "audioUrl": ""
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

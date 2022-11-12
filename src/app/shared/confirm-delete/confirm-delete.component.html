@@ -1,0 +1,15 @@
+<div class="page-container">
+    <div class="content">
+        <div>Are you sure?</div>
+        <div *ngIf="data"
+            class="message">{{(data.message)}}</div>
+    </div>
+    <div class="buttons">
+        <button mat-raised-button
+            color="warn"
+            (click)="onConfirm()">confirm</button>
+        <button mat-raised-button
+            color="primary"
+            (click)="onCancel()">cancel</button>
+    </div>
+</div>

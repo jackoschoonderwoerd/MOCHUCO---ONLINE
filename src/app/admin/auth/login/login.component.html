@@ -1,0 +1,21 @@
+<div class="page-container">
+    <form [formGroup]="form">
+        <mat-form-field>
+            <input matInput
+                type="text"
+                formControlName="email"
+                placeholder="email">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput
+                type="text"
+                formControlName="password"
+                placeholder="password">
+        </mat-form-field>
+
+        <button [disabled]="form.invalid"
+            color="primary"
+            mat-raised-button
+            (click)="onLogIn()">log in</button>
+    </form>
+</div>

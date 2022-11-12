@@ -1,0 +1,41 @@
+<div class="page-container">
+    <div class="navigation">
+        <button mat-raised-button
+            (click)="onVenues()">venues</button>
+        <button mat-raised-button
+            (click)="onItems()">items</button>
+    </div>
+    <div class="venue-id">VENUEID: {{venueId}}</div>
+    <div class="item-id">ITEMID: {{itemId}}</div>
+    <div class="header">overview of active languages in item: <span class="item-name">{{itemName}}</span></div>
+    <div class="items-by-language"
+        *ngFor="let itemByLanguage of item?.itemsByLanguage">
+        <div class="item-by-language">
+            <div class="language">{{itemByLanguage.language}}</div>
+            <div *ngIf="itemByLanguage.itemLS.name"
+                class="name">{{itemByLanguage.itemLS.name}}</div>
+            <div *ngIf="itemByLanguage.itemLS.description"
+                [matTooltip]="itemByLanguage.itemLS.description"
+                class="description">{{itemByLanguage.itemLS.description}}</div>
+            <div class="buttons">
+                <audio *ngIf="itemByLanguage.itemLS.audioUrl"
+                    [src]="itemByLanguage.itemLS.audioUrl"
+                    controls></audio>
+                <button mat-mini-fab
+                    color="warn"
+                    (click)="onDelete(itemByLanguage.language)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-mini-fab
+                    color="primary"
+                    (click)="onEdit(itemByLanguage)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <button mat-raised-button
+        color="primary"
+        (click)="onAddLanguage()">add language
+    </button>
+</div>

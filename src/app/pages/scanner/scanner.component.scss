@@ -1,0 +1,30 @@
+.page-container {
+    background-color: white;
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    min-height: 100%;
+    .scanner {
+        // border: 1px solid blue;
+        padding-top: 3rem;
+        margin: auto;
+        height: 100%;
+        width: 90%;
+        ngx-scanner-qr-code {
+            // width: 80%;
+            height: 100px;
+        }
+        .data {
+        }
+        a {
+        }
+        .text-light {
+        }
+        .text-center {
+            // display: none;
+            .btn {
+            }
+        }
+    }
+}

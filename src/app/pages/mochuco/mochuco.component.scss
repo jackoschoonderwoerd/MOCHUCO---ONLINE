@@ -1,0 +1,21 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    min-height: 100%;
+    .content {
+        .content-nl {
+        }
+        .content-en {
+        }
+        .content-fr {
+        }
+    }
+    .admin-btn {
+    }
+}

@@ -1,0 +1,77 @@
+<div class="page-container">
+    <div class="navigation">
+        <button mat-raised-button
+            (click)="onVenues()">venues
+        </button>
+        <button mat-raised-button
+            (click)="onItems()">items
+        </button>
+        <button mat-raised-button
+            (click)="onLanguages()">languages
+        </button>
+
+    </div>
+    <div class="editmode">EDITMODE: {{editmode}}</div>
+    <div class="venue-id">VENUEID: {{venueId}}</div>
+    <div class="item-id">ITEMID: {{itemId}}</div>
+    <form [formGroup]="form">
+        <div class="header">add language to <span class="header-name">{{item?.name}}</span></div>
+
+        <mat-form-field>
+            <mat-select (selectionChange)="onLanguageSelectionChange($event)"
+                [disabled]="editmode"
+                formControlName="language"
+                placeholder="select language">
+                <mat-option *ngFor="let language of languages"
+                    [value]="language">
+                    {{language}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+        <mat-form-field>
+            <input type="text"
+                matInput
+                formControlName="name"
+                placeholder="name">
+        </mat-form-field>
+
+        <div class="description"
+            *ngIf="description"
+            [innerHTML]="description">
+        </div>
+
+        <button mat-raised-button
+            (click)="onDescription()">
+            description
+        </button>
+        <button mat-raised-button
+            [disabled]="!isLanguageSelected"
+            (click)="onAudio()">audio
+        </button>
+        <audio *ngIf="audioUrl"
+            [src]="audioUrl"
+            controls></audio>
+
+        <mat-radio-group [(ngModel)]="audioAutoplay"
+            formControlName="audioAutoplay">
+            <div class="label">audio autoplay</div>
+            <mat-radio-button [value]="true">on</mat-radio-button>
+            <mat-radio-button class="example-margin"
+                [value]="false">off</mat-radio-button>
+        </mat-radio-group>
+
+        <button mat-raised-button
+            (click)="onSubmit()"
+            [disabled]="form.invalid"
+            color="primary">
+            submit
+            <div class="unsaved"
+                *ngIf="unsaved">*</div>
+        </button>
+
+
+    </form>
+</div>
