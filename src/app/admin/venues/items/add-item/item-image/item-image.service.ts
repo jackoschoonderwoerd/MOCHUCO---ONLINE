@@ -21,11 +21,13 @@ export class ItemImageService {
 
     constructor(private storage: Storage) { }
 
-    async storeImage(file: File): Promise<string> {
-
+    async storeImage(venueId: string, itemId: string, file: File): Promise<string> {
+        console.log(venueId, itemId);
         if (file) {
             try {
-                const storageRef = ref(this.storage, 'images');
+                const path = `venues/${venueId}/items/${itemId}`
+
+                const storageRef = ref(this.storage, path);
                 const task = uploadBytesResumable(storageRef, file);
                 await task;
                 const url = await getDownloadURL(storageRef);

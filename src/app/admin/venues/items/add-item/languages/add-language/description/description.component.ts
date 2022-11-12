@@ -2,10 +2,10 @@
 
 import { Component, OnInit, ViewChild, ElementRef, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Venue, ItemLS, ItemByLanguage } from '../../../../../shared/models';
-import { VenuesService } from '../../../venues.service';
+import { Venue, ItemLS, ItemByLanguage } from '../../../../../../../shared/models';
+import { VenuesService } from '../../../../../venues.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { ItemDetailsService } from '../item-details.service';
+import { ItemDetailsService } from '../../../../item-details/item-details.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { InjectFlags } from '@angular/compiler/src/core';
 import { ConfirmDeleteComponent } from 'src/app/shared/confirm-delete/confirm-delete.component';

@@ -40,7 +40,7 @@ export class ItemsComponent implements OnInit {
             this.venueName = params.venueName;
             this.venueId = params.venueId
 
-            this.items$ = this.venuesService.getItems(this.venueId)
+            this.items$ = this.venuesService.getItems(this.venueId);
             this.venue$ = this.venuesService.getVenueById(this.venueId);
 
             this.venuesService.getVenueById(this.venueId).subscribe((venue: Venue) => {
@@ -79,12 +79,14 @@ export class ItemsComponent implements OnInit {
         })
     }
     onEdit(itemId: string) {
+        // this.venuesService.setActiveItem(this.venueId, itemId)
         console.log(itemId)
         this.router.navigate(['/admin/add-item', { venueId: this.venue.id, itemId: itemId }])
     }
 
-    onLanguages(itemId: string, itemName: string) {
-        this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: itemId, itemName: itemName }])
+    onLanguages(item) {
+        this.venuesService.setActiveItem(item)
+        this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: item.id, itemName: item.name }])
     }
 
     XXXonDelete(itemId: string, language: string) {

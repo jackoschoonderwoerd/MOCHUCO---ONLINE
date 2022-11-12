@@ -9,15 +9,19 @@
         <button mat-raised-button
             (click)="onLanguages()">languages
         </button>
-
+        <!-- <div class="editmode">EDITMODE: {{editmode}}</div>
+        <div class="venue-id">VENUEID: {{venueId}}</div> -->
+        <div class="item-id">ITEMID: {{itemId}}</div>
     </div>
-    <div class="editmode">EDITMODE: {{editmode}}</div>
-    <div class="venue-id">VENUEID: {{venueId}}</div>
-    <div class="item-id">ITEMID: {{itemId}}</div>
     <form [formGroup]="form">
-        <div class="header">add language to <span class="header-name">{{item?.name}}</span></div>
+        <div *ngIf="editmode"
+            class="header">editing language
+            <span class="active-language">{{itemByLanguage.language}}</span>&nbsp;in&nbsp;
+            <span class="header-name">{{item?.name}}</span></div>
+        <div *ngIf="!editmode"
+            class="header">add language to <span class="header-name">{{item?.name}}</span></div>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="!editmode">
             <mat-select (selectionChange)="onLanguageSelectionChange($event)"
                 [disabled]="editmode"
                 formControlName="language"
@@ -37,11 +41,6 @@
                 formControlName="name"
                 placeholder="name">
         </mat-form-field>
-
-        <div class="description"
-            *ngIf="description"
-            [innerHTML]="description">
-        </div>
 
         <button mat-raised-button
             (click)="onDescription()">
@@ -64,14 +63,15 @@
         </mat-radio-group>
 
         <button mat-raised-button
+            [ngClass]="{'unsaved': unsaved}"
             (click)="onSubmit()"
             [disabled]="form.invalid"
-            color="primary">
-            submit
-            <div class="unsaved"
-                *ngIf="unsaved">*</div>
+            color="primary">{{editmode ? 'save edits' : 'add language'}}
         </button>
 
 
     </form>
+    <div class="description"
+        [innerHTML]="description">
+    </div>
 </div>

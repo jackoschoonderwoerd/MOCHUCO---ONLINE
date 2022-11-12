@@ -1,20 +1,21 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, Inject } from '@angular/core';
-import { VenuesService } from '../../../venues.service';
+import { VenuesService } from '../../../../../venues.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmDeleteComponent } from 'src/app/shared/confirm-delete/confirm-delete.component';
 import { Item, ItemByLanguage } from 'src/app/shared/models';
 import { ThisReceiver } from '@angular/compiler';
-import { ItemDetailsService } from '../item-details.service';
+import { ItemDetailsService } from '../../../../item-details/item-details.service';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { ItemAudioService } from './item-audio.service';
 
+
 @Component({
     selector: 'app-item-audio',
-    templateUrl: './item-audio.component.html',
-    styleUrls: ['./item-audio.component.scss']
+    templateUrl: './language-audio.component.html',
+    styleUrls: ['./language-audio.component.scss']
 })
-export class ItemAudioComponent implements OnInit {
+export class LanguageAudioComponent implements OnInit {
 
     audioSrc: any;
     file: File;
@@ -28,11 +29,12 @@ export class ItemAudioComponent implements OnInit {
         private dialog: MatDialog,
         private itemAudioService: ItemAudioService,
         public sanitizer: DomSanitizer,
-        private dialogRef: MatDialogRef<ItemAudioComponent>,
+        private dialogRef: MatDialogRef<LanguageAudioComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any
     ) { }
 
     ngOnInit(): void {
+
         this.venueId = this.data.venueId
         this.itemId = this.data.itemId;
         this.language = this.data.language
@@ -49,7 +51,7 @@ export class ItemAudioComponent implements OnInit {
             this.audioSrc = fileReader.result;
         }
     }
-    onConfirm() {
+    onConfirmSelection() {
         this.isStoring = true
         this.itemAudioService.storeAudio(this.itemId, this.venueId, this.language, this.file)
             .then((audioUrl: string) => {

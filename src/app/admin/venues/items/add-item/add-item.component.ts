@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ItemImageComponent } from '../item-details/item-image/item-image.component';
+import { ItemImageComponent } from './item-image/item-image.component';
 import { Item } from 'src/app/shared/models';
 import { VenuesService } from '../../venues.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -61,7 +61,7 @@ export class AddItemComponent implements OnInit {
         console.log(e.target.files[0])
     }
     onImage() {
-        const dialogRef = this.dialog.open(ItemImageComponent)
+        const dialogRef = this.dialog.open(ItemImageComponent, { data: { venueId: this.venueId, itemId: this.itemId } })
         dialogRef.afterClosed().subscribe((imageUrl: string) => {
             this.imageUrl = imageUrl
         })
@@ -70,9 +70,11 @@ export class AddItemComponent implements OnInit {
         const item: Item = {
             name: this.form.value.name,
             imageUrl: this.imageUrl,
-            isMainPage: this.form.value.isMainPage
+            isMainPage: this.form.value.isMainPage,
+
         }
         if (!this.editmode) {
+            console.log('ADDING ITEM: ', item)
             this.venuesService.addItemToVenue(this.venueId, item)
                 .then(res => {
                     console.log('item added!')
@@ -80,6 +82,8 @@ export class AddItemComponent implements OnInit {
                 })
                 .catch(err => console.log(err));
         } else {
+            console.log('UPDATING ITEM: ', item)
+            item.itemsByLanguage = this.item.itemsByLanguage
             this.venuesService.updateItem(this.venueId, this.itemId, item)
                 .then((res) => {
                     console.log('item updated')
@@ -91,7 +95,7 @@ export class AddItemComponent implements OnInit {
     onVenues() {
         this.router.navigateByUrl('/admin/venues')
     }
-    onLanguages() {
-        this.router.navigate(['/admin/languages', { venueId: this.venueId, itenId: this.itemId }])
+    onItems() {
+        this.router.navigate(['/admin/items', { venueId: this.venueId, itenId: this.itemId }])
     }
 }

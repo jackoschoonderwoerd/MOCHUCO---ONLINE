@@ -1,5 +1,7 @@
 .page-container {
     background-color: wheat;
+    min-width: 25rem;
+    display: flex;
     padding: 1rem;
     mat-spinner {
         margin: auto;
@@ -18,6 +20,9 @@
         }
 
         .add {
+            width: 100%;
+        }
+        .confirm {
             width: 100%;
         }
     }

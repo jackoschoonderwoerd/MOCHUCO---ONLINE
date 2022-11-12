@@ -26,7 +26,7 @@ export class ItemAudioService {
         const path = `/${venueId}/${itemId}`
         if (file) {
             try {
-                const storageRef = ref(this.storage, `venues/audio/${venueId}/${itemId}/${language}`);
+                const storageRef = ref(this.storage, `venues/${venueId}/items/${itemId}/audio${language}`);
                 const task = uploadBytesResumable(storageRef, file);
                 await task;
                 const url = await getDownloadURL(storageRef);

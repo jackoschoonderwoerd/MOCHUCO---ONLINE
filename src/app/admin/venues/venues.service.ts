@@ -40,6 +40,9 @@ export class VenuesService {
     private activeVenueSubject = new BehaviorSubject<Venue>(null)
     public activeVenue$ = this.activeVenueSubject.asObservable()
 
+    private activeItemSubject = new BehaviorSubject<Item>(null)
+    public activeItem$ = this.activeItemSubject.asObservable()
+
     private loadingVenuesSubject = new BehaviorSubject<boolean>(false)
     public loadingVenuew$ = this.loadingVenuesSubject.asObservable();
 
@@ -74,7 +77,7 @@ export class VenuesService {
         return docData(itemRef)
     }
     updateItem(venueId: string, itemId: string, item: Item) {
-        // console.log(venueId, itemId, item);
+        localStorage.setItem('activeItem', JSON.stringify(item))
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return setDoc(itemRef, item);
     }
@@ -94,7 +97,6 @@ export class VenuesService {
     }
     updateVenue(venue: Venue) {
         // console.log(venue)
-
         localStorage.setItem('activeVenue', JSON.stringify(venue))
         const venueRef = doc(this.firestore, `venues/${venue.id}`)
         return setDoc(venueRef, venue)
@@ -107,6 +109,18 @@ export class VenuesService {
             }
         } else {
             this.activeVenueSubject.next(venue);
+        }
+    }
+    setActiveItem(item: Item) {
+        console.log('setting item');
+        if (localStorage.getItem('activeItem')) {
+            console.log('LS')
+            const item: Item = JSON.parse(localStorage.getItem('activeItem'))
+            this.activeItemSubject.next(item)
+        } else {
+            console.log('DB')
+            localStorage.setItem('activeItem', JSON.stringify(item))
+            this.activeItemSubject.next(item);
         }
     }
 

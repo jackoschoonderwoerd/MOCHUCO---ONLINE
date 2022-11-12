@@ -3,10 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { LanguageService } from 'src/app/shared/language.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DescriptionComponent } from '../../../item-details/description/description.component';
+import { DescriptionComponent } from './description/description.component';
 import { VenuesService } from '../../../../venues.service';
 import { Item, ItemByLanguage, ItemLS } from '../../../../../../shared/models';
-import { ItemAudioComponent } from '../../../item-details/item-audio/item-audio.component';
+import { LanguageAudioComponent } from './language-audio/language-audio.component';
 
 @Component({
     selector: 'app-add-language',
@@ -15,21 +15,21 @@ import { ItemAudioComponent } from '../../../item-details/item-audio/item-audio.
 })
 export class AddLanguageComponent implements OnInit, OnDestroy {
 
-    venueId: string;
-    itemId: string;
-
-    form: FormGroup;
-    languages: string[];
-    selectedLanguage: string;
-    isLanguageSelected: boolean = false
-    description: string = '';
-    audioUrl: string = '';
-    unsaved: boolean = false;
-    item: Item;
-    mainPage: string = 'secondaryPage';
     audioAutoplay: boolean = false;
+    audioUrl: string = '';
+    description: string = '';
     editmode: boolean = false;
-    itemByLanguage: ItemByLanguage
+    form: FormGroup;
+    isLanguageSelected: boolean = false
+    item: Item;
+    itemByLanguage: ItemByLanguage;
+    itemId: string;
+    languages: string[];
+    mainPage: string = 'secondaryPage';
+    selectedLanguage: string;
+    unsaved: boolean = false;
+    venueId: string;
+
 
     constructor(
         private router: Router,
@@ -40,9 +40,12 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         private venuesService: VenuesService) { }
 
     ngOnInit(): void {
-        console.log(this.selectedLanguage)
         this.initForm()
-        this.languages = this.languageService.getLanguages()
+        // this.languages = this.languageService.getLanguages()
+        if (this.route.snapshot.paramMap.get('availableLanguages')) {
+            this.languages = this.route.snapshot.paramMap.get('availableLanguages').split(',')
+        }
+
         this.route.params.subscribe((params: any) => {
             this.venueId = params.venueId;
             this.itemId = params.itemId;
@@ -54,9 +57,11 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         this.venuesService.itemByLanguage$.subscribe((itemByLanguage: ItemByLanguage) => {
             if (itemByLanguage) {
                 this.itemByLanguage = itemByLanguage;
+
                 console.log(this.itemByLanguage);
                 this.editmode = true;
                 this.isLanguageSelected = true;
+
                 this.form.patchValue({
                     language: this.itemByLanguage.language,
                     name: this.itemByLanguage.itemLS.name,
@@ -68,6 +73,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         })
     }
 
+
     initForm() {
         this.form = this.fb.group({
             language: new FormControl('', [Validators.required]),
@@ -78,7 +84,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
 
     onLanguageSelectionChange(e) {
         this.selectedLanguage = e.value;
-        this.isLanguageSelected = true
+        this.isLanguageSelected = true;
     }
     onDescription() {
         const dialogRef = this.dialog.open(DescriptionComponent, { data: { description: this.description } })
@@ -88,7 +94,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         })
     }
     onAudio() {
-        const dialogRef = this.dialog.open(ItemAudioComponent,
+        const dialogRef = this.dialog.open(LanguageAudioComponent,
             {
                 data:
                 {
@@ -143,7 +149,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
 
     }
     onLanguages() {
-        this.router.navigate(['/admin/languages', { venueId: this.venueId }])
+        this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: this.itemId }])
     }
     onItems() {
         this.router.navigate(['/admin/items', { venueId: this.venueId }])

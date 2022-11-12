@@ -3,7 +3,8 @@
         <button mat-raised-button
             (click)="onVenues()">venues</button>
         <button mat-raised-button
-            (click)="onLanguages()">languages</button>
+            (click)="onItems()">items</button>
+
     </div>
     <form [formGroup]="form">
         <div class="venue-data">
@@ -28,9 +29,9 @@
         <button mat-raised-button
             [disabled]="form.invalid"
             (click)="onSubmit()">{{editmode ? 'update item': 'add item'}}</button>
-        <button mat-raised-button
-            (click)="onVenues()">venues</button>
     </form>
-    <img [src]="imageUrl"
-        alt="">
+    <div class="image-container">
+        <img [src]="imageUrl"
+            alt="">
+    </div>
 </div>

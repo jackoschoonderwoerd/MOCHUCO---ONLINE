@@ -7,9 +7,9 @@ import { AdminComponent } from './admin.component';
 import { VenuesComponent } from './venues/venues.component';
 import { AddVenueComponent } from './venues/add-venue/add-venue.component';
 import { ItemsComponent } from "./venues/items/items.component";
-import { ItemDetailsComponent } from './venues/items/item-details/item-details.component';
 
-import { DescriptionComponent } from './venues/items/item-details/description/description.component';
+
+import { DescriptionComponent } from './venues/items/add-item/languages/add-language/description/description.component';
 import { AddItemComponent } from "./venues/items/add-item/add-item.component";
 import { LanguagesComponent } from './venues/items/add-item/languages/languages.component';
 import { AddLanguageComponent } from './venues/items/add-item/languages/add-language/add-language.component';
@@ -22,7 +22,7 @@ const routes: Routes = [
     { path: 'venues', component: VenuesComponent },
 
     { path: 'items', component: ItemsComponent },
-    { path: 'item-details', component: ItemDetailsComponent },
+
     { path: 'description', component: DescriptionComponent },
     { path: 'add-venue', component: AddVenueComponent },
     { path: 'add-item', component: AddItemComponent },

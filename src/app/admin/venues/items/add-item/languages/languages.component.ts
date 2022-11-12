@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Item, ItemByLanguage } from '../../../../../shared/models';
+import { Item, ItemByLanguage, Venue } from '../../../../../shared/models';
 import { VenuesService } from '../../../venues.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteComponent } from '../../../../../shared/confirm-delete/confirm-delete.component';
+import { Observable } from 'rxjs';
+import { LanguageService } from 'src/app/shared/language.service';
 
 @Component({
     selector: 'app-languages',
@@ -12,7 +14,8 @@ import { ConfirmDeleteComponent } from '../../../../../shared/confirm-delete/con
 })
 export class LanguagesComponent implements OnInit {
 
-
+    venue$: Observable<Venue>;
+    activeItem$: Observable<Item>
     venueId: string;
     itemId: string;
     item: Item;
@@ -22,10 +25,14 @@ export class LanguagesComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private venuesService: VenuesService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private languageService: LanguageService
     ) { }
 
     ngOnInit(): void {
+        this.venue$ = this.venuesService.activeVenue$;
+        this.activeItem$ = this.venuesService.activeItem$;
+
         console.log('onInit')
         this.route.params.subscribe((params: any) => {
             console.log(params);
@@ -62,16 +69,38 @@ export class LanguagesComponent implements OnInit {
 
     }
     onAddLanguage() {
+        this.getAvailableLanguages()
         this.router.navigate(['/admin/add-language', {
             venueId: this.venueId,
             itemId: this.itemId,
+            availableLanguages: this.getAvailableLanguages()
+            // availableLanguages: this.getAvailableLanguages()
 
         }])
     }
     onItems() {
+        this.getAvailableLanguages()
         this.router.navigate(['/admin/items', {
             venueId: this.venueId
         }])
+    }
+    getAvailableLanguages() {
+        const languages = this.languageService.getLanguages();
+        const takenLanguages: string[] = [];
+        const availableLanguages: string[] = []
+
+        this.item.itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
+            takenLanguages.push(itemByLanguage.language);
+        })
+        languages.forEach((language: string) => {
+            if (!takenLanguages.includes(language)) {
+                availableLanguages.push(language);
+            }
+        })
+        console.log(availableLanguages)
+        return availableLanguages
+
+
     }
     onVenues() {
         this.router.navigateByUrl('/admin/venues');

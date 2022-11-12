@@ -37,7 +37,13 @@ button {
 }
 .mat-tooltip {
     font-size: 1rem !important;
+    width: 50vw !important;
 }
+
+.my-custom-tooltip {
+    max-width: unset !important;
+}
+
 h5 {
     margin-top: 0.5rem;
 }

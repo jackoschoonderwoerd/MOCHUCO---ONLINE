@@ -1,0 +1,26 @@
+<mat-spinner *ngIf="isStoring"></mat-spinner>
+<div *ngIf="!isStoring"
+    class="page-container">
+    <input type="file"
+        style="display: none;"
+        #fileInput
+        (change)="onFileInputChange($event)">
+    <audio *ngIf="audioSrc"
+        [src]="sanitizer.bypassSecurityTrustResourceUrl(audioSrc)"
+        controls
+        type="audio/mp4"></audio>
+    <button mat-raised-button
+        color="primary"
+        (click)="fileInput.click()">select audio</button>
+    <button class="delete"
+        *ngIf="audioSrc"
+        (click)="onDeleteAudio()"
+        mat-raised-button
+        color="warn">delete audio</button>
+    <button mat-raised-button
+        *ngIf="audioSrc"
+        color="primary"
+        (click)="onConfirmSelection()">
+        confirm selection
+    </button>
+</div>

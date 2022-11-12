@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { VenuesService } from '../../../venues.service';
 import { ConfirmDeleteComponent } from '../../../../../shared/confirm-delete/confirm-delete.component';
 import { Item } from 'src/app/shared/models';
-import { ItemDetailsService } from '../item-details.service';
+import { ItemDetailsService } from '../../item-details/item-details.service';
 import { ItemImageService } from './item-image.service';
 
 @Component({
@@ -16,11 +16,9 @@ export class ItemImageComponent implements OnInit {
 
     file: File;
     imageSrc: any;
+    venueId: string;
+    itemId: string;
 
-    @Input() venueId: string;
-    @Input() itemId: string;
-    @Input() imageUrl: string;
-    @Input() item: Item;
     @ViewChild('fileInput') fileInput: ElementRef;
 
     @Output() fileInputChanged: EventEmitter<string> = new EventEmitter()
@@ -34,10 +32,11 @@ export class ItemImageComponent implements OnInit {
         private dialog: MatDialog,
         public itemDetailsService: ItemDetailsService,
         private dialogRef: MatDialogRef<ItemImageComponent>,
-        private itemImageService: ItemImageService) { }
-
+        private itemImageService: ItemImageService,
+        @Inject(MAT_DIALOG_DATA) private data: any) { }
     ngOnInit(): void {
-
+        this.venueId = this.data.venueId;
+        this.itemId = this.data.itemId;
     }
 
     onFileInputChange(e) {
@@ -49,7 +48,7 @@ export class ItemImageComponent implements OnInit {
         }
     }
     onConfirm() {
-        this.itemImageService.storeImage(this.file)
+        this.itemImageService.storeImage(this.venueId, this.itemId, this.file)
             .then((url: string) => {
                 this.dialogRef.close(url)
             })

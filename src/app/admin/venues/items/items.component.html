@@ -1,22 +1,24 @@
-<div class="page-container">
+<div class="page-container"
+    *ngIf="items$|async">
     <div class="navigation">
+        <div class="navigation-title">navigation</div>
         <button class="back-to-all-venues"
             mat-raised-button
-            color="primary"
             (click)="onVenues()">venues</button>
+        <div class="venue-name"><span>current venue:&nbsp;</span>{{(venue$|async)?.name}}</div>
     </div>
     <div class="venue">
         <div class="venue-data">
-            <div class="name">{{venueName}}</div>
-            <div class="id">{{venueId}}</div>
+            <!-- <div class="id">{{venueId}}</div> -->
         </div>
         <!-- <div class="venue-id">vene id: {{(venue$|async)?.id}}</div> -->
+        <div class="items-title">items list:</div>
         <div class="items"
             *ngFor="let item of items$|async">
             <div class="item">
                 <div class="name_id">
                     <div class="name">{{item.name}}</div>
-                    <div class="id">{{item.id}}</div>
+                    <!-- <div class="id">{{item.id}}</div> -->
                 </div>
                 <div class="img_languages">
                     <button mat-mini-fab
@@ -42,7 +44,7 @@
                     <img [src]="item.imageUrl"
                         alt="">
                     <button mat-raised-button
-                        (click)="onLanguages(item.id, item.name)">languages</button>
+                        (click)="onLanguages(item)">languages</button>
                 </div>
             </div>
         </div>

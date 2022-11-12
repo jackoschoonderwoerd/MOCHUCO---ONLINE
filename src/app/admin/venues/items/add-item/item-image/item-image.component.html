@@ -2,6 +2,7 @@
 
     <mat-spinner *ngIf="itemDetailsService.uploadingImage$|async"></mat-spinner>
     <input type="file"
+        style="display: none;"
         #fileInput
         (change)="onFileInputChange($event)">
     <div class="content">
@@ -9,15 +10,19 @@
             [src]="imageSrc"
             alt="">
         <button class="delete"
+            *ngIf="imageSrc"
             (click)="onDeleteImage()"
             mat-raised-button
             color="warn">delete image</button>
         <button class="add"
             mat-raised-button
             color="primary"
-            (click)="fileInput.click()">image
+            (click)="fileInput.click()">select image
         </button>
         <button mat-raised-button
-            (click)="onConfirm()">confirm</button>
+            class="confirm"
+            *ngIf="imageSrc"
+            color="primary"
+            (click)="onConfirm()">confirm selection</button>
     </div>
 </div>
