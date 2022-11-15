@@ -3,14 +3,14 @@
         *ngIf="name">{{name}}</div>
     <form [formGroup]="form">
         <div class="input-header">
-            <mat-icon>info</mat-icon>
+            <div class="icon">
+                <mat-icon matTooltip="A header can contain a maximum of 25 characters. It will start on a new line and the font will be bigger than the reguar text. The text following the header will start on a new line. A header with the name of the item will be automatically generated. Do NOT alter the <h5></h5> tags. Any text between tags, other than the <hs> tags will automatically be removed.">info</mat-icon>
+            </div>
 
             <button mat-raised-button
                 (click)="addHeader()">add header
             </button>
             <!-- <button (click)="onCheckForHeaderLength()">check header</button> -->
-
-
         </div>
 
         <mat-form-field>
@@ -30,7 +30,9 @@
 
     <div class="output">
         <div class="output-header">
-            <mat-icon>info</mat-icon>
+            <div class="icon">
+                <mat-icon matTooltip="This is a reprentation of your input in the left part of the screen. You cannot edit in this window. ">info</mat-icon>
+            </div>
             <button mat-raised-button
                 color="warn"
                 (click)="onCancel()">cancel</button>

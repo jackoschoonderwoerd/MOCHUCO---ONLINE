@@ -58,9 +58,13 @@ export class VenuesService {
         return addDoc(venueRef, venue)
     }
     getVenues() {
-        const venuesRef = collection(this.firestore, 'venues')
-        // const myVenues = collectionData(venuesRef, { idField: 'id' });
-        return collectionData(venuesRef, { idField: 'id' }) as Observable<Venue[]>;
+        if (localStorage.getItem('venues')) {
+            return JSON.parse(localStorage.getItem('venues')) as Observable<Venue[]>
+        } else {
+            const venuesRef = collection(this.firestore, 'venues')
+            // const myVenues = collectionData(venuesRef, { idField: 'id' });
+            return collectionData(venuesRef, { idField: 'id' }) as Observable<Venue[]>;
+        }
     }
 
     getItems(venueId) {
@@ -191,9 +195,18 @@ export class VenuesService {
             }
         }
     }
-    deleteImage(venueId, itemId) {
-        const path = `venues/images/${venueId}/${itemId}`;
-        const storageRef = ref(this.storage, path)
-        return deleteObject(storageRef)
+
+    // removeImageUrlFromDB(venueId: string, itemId: string) {
+    //     const itemsRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`);
+    //     return updateDoc(itemsRef, { imageUrl: null })
+    // }
+
+    // deleteImage(venueId, itemId) {
+    //     const path = `venues/images/${venueId}/${itemId}`;
+    //     const storageRef = ref(this.storage, path)
+    //     return deleteObject(storageRef)
+    // }
+    removeItemFromDB() {
+
     }
 }

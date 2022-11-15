@@ -1,28 +1,33 @@
+<div class="spinner"
+    *ngIf="itemDetailsService.uploadingImage$|async">
+    <mat-spinner></mat-spinner>
+</div>
 <div class="page-container">
-
-    <mat-spinner *ngIf="itemDetailsService.uploadingImage$|async"></mat-spinner>
+    <div class="editmode">EDITMODE: {{editmode}}</div>
     <input type="file"
         style="display: none;"
         #fileInput
         (change)="onFileInputChange($event)">
-    <div class="content">
-        <img *ngIf="imageSrc"
-            [src]="imageSrc"
-            alt="">
-        <button class="delete"
-            *ngIf="imageSrc"
-            (click)="onDeleteImage()"
-            mat-raised-button
-            color="warn">delete image</button>
-        <button class="add"
-            mat-raised-button
-            color="primary"
-            (click)="fileInput.click()">select image
-        </button>
-        <button mat-raised-button
-            class="confirm"
-            *ngIf="imageSrc"
-            color="primary"
-            (click)="onConfirm()">confirm selection</button>
-    </div>
+
+    <img *ngIf="imageSrc"
+        [src]="imageSrc"
+        alt="">
+    <img *ngIf="imageUrl"
+        [src]="imageUrl"
+        alt="">
+    <button class="delete"
+        *ngIf="imageSrc || imageUrl"
+        (click)="onDeleteImage()"
+        mat-raised-button
+        color="warn">delete image</button>
+    <button class="add"
+        mat-raised-button
+        color="primary"
+        (click)="fileInput.click()">{{editmode ? 'change selection' : 'select image'}}
+    </button>
+    <button mat-raised-button
+        class="confirm"
+        *ngIf="imageSrc"
+        color="primary"
+        (click)="onConfirm()">confirm selection</button>
 </div>

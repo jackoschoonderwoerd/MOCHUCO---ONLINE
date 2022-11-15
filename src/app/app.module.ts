@@ -34,6 +34,7 @@ import { AdminComponent } from './admin/admin.component';
 import { StageComponent } from './pages/stage/stage.component';
 import { ItemComponent } from './pages/item/item.component';
 import { LanguagesComponent } from './admin/venues/items/add-item/languages/languages.component';
+import { WarningComponent } from './shared/warning/warning.component';
 
 
 
@@ -58,6 +59,7 @@ import { LanguagesComponent } from './admin/venues/items/add-item/languages/lang
         StageComponent,
         ItemComponent,
         LanguagesComponent,
+        WarningComponent,
 
 
     ],

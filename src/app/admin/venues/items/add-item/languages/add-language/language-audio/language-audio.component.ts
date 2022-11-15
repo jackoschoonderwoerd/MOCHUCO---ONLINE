@@ -8,6 +8,7 @@ import { ItemDetailsService } from '../../../../item-details/item-details.servic
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { ItemAudioService } from './item-audio.service';
+import { WarningComponent } from '../../../../../../../shared/warning/warning.component';
 
 
 @Component({
@@ -44,16 +45,24 @@ export class LanguageAudioComponent implements OnInit {
 
 
     onFileInputChange(e) {
-        var fileReader = new FileReader()
-        this.file = e.target.files[0]
-        fileReader.readAsDataURL(this.file)
-        fileReader.onload = () => {
-            this.audioSrc = fileReader.result;
+        const filename: string = e.target.files[0].name;
+        const ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        if (ext != 'mp3') {
+            this.dialog.open(WarningComponent, { data: { message: 'wrong filetype, only files ending on \'mp3\' are allowed' } })
+            this.dialogRef.close();
+        } else {
+            var fileReader = new FileReader()
+            this.file = e.target.files[0]
+            fileReader.readAsDataURL(this.file)
+            fileReader.onload = () => {
+                this.audioSrc = fileReader.result;
+            }
         }
     }
+
     onConfirmSelection() {
         this.isStoring = true
-        this.itemAudioService.storeAudio(this.itemId, this.venueId, this.language, this.file)
+        this.itemAudioService.storeAudio(this.venueId, this.itemId, this.language, this.file)
             .then((audioUrl: string) => {
                 this.isStoring = false;
                 this.dialogRef.close(audioUrl)

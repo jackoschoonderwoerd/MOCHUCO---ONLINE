@@ -57,13 +57,24 @@ export class AddItemComponent implements OnInit {
             isMainPage: new FormControl(null, [Validators.required])
         })
     }
-    onFileInputChange(e) {
-        console.log(e.target.files[0])
-    }
+
+
     onImage() {
-        const dialogRef = this.dialog.open(ItemImageComponent, { data: { venueId: this.venueId, itemId: this.itemId } })
+        console.log(this.item.imageUrl)
+        const dialogRef = this.dialog.open(ItemImageComponent, {
+            data: {
+                venueId: this.venueId,
+                itemId: this.itemId,
+                imageUrl: this.item.imageUrl
+            },
+            maxHeight: '80vh'
+        })
         dialogRef.afterClosed().subscribe((imageUrl: string) => {
-            this.imageUrl = imageUrl
+            if (imageUrl) {
+                this.imageUrl = imageUrl
+            }
+            return;
+
         })
     }
     onSubmit() {
@@ -83,7 +94,11 @@ export class AddItemComponent implements OnInit {
                 .catch(err => console.log(err));
         } else {
             console.log('UPDATING ITEM: ', item)
-            item.itemsByLanguage = this.item.itemsByLanguage
+            if (this.item.itemsByLanguage) {
+                item.itemsByLanguage = this.item.itemsByLanguage
+            } else {
+                item.itemsByLanguage = [];
+            }
             this.venuesService.updateItem(this.venueId, this.itemId, item)
                 .then((res) => {
                     console.log('item updated')

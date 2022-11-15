@@ -66,10 +66,8 @@
             [ngClass]="{'unsaved': unsaved}"
             (click)="onSubmit()"
             [disabled]="form.invalid"
-            color="primary">{{editmode ? 'save edits' : 'add language'}}
+            color="primary">{{editmode ? 'save edits' : 'publish language'}}
         </button>
-
-
     </form>
     <div class="description"
         [innerHTML]="description">

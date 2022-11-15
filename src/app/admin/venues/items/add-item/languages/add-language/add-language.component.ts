@@ -87,7 +87,12 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         this.isLanguageSelected = true;
     }
     onDescription() {
-        const dialogRef = this.dialog.open(DescriptionComponent, { data: { description: this.description } })
+        const dialogRef = this.dialog.open(DescriptionComponent, {
+            panelClass: 'full-screen-modal',
+            width: '100vw',
+            // height: '100vh',
+            data: { description: this.description }
+        })
         dialogRef.afterClosed().subscribe((description: string) => {
             this.unsaved = true;
             this.description = description
@@ -104,8 +109,11 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
                 }
             })
         dialogRef.afterClosed().subscribe((audioUrl: string) => {
-            this.audioUrl = audioUrl;
-            this.unsaved = true;
+            if (audioUrl) {
+                this.audioUrl = audioUrl;
+                this.unsaved = true;
+            }
+            return;
         })
     }
     onSubmit() {

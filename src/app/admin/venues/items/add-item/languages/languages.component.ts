@@ -88,7 +88,11 @@ export class LanguagesComponent implements OnInit {
         const languages = this.languageService.getLanguages();
         const takenLanguages: string[] = [];
         const availableLanguages: string[] = []
-
+        console.log(this.item)
+        if (!this.item.itemsByLanguage) {
+            this.item.itemsByLanguage = [];
+        }
+        console.log(this.item)
         this.item.itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
             takenLanguages.push(itemByLanguage.language);
         })

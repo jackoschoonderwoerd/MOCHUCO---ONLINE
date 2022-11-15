@@ -48,13 +48,14 @@ export class DescriptionComponent implements OnInit {
         private venuesService: VenuesService,
         private router: Router,
         private fb: FormBuilder,
-        private dialogref: MatDialogRef<DescriptionComponent>,
+        private dialogRef: MatDialogRef<DescriptionComponent>,
         private dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) private data: any
 
     ) { }
 
     ngOnInit(): void {
+
         this.initForm()
         console.log(this.data)
         this.description = this.data.description;
@@ -183,13 +184,13 @@ export class DescriptionComponent implements OnInit {
     }
 
     onSubmit() {
-        this.dialogref.close(this.form.value.description);
+        this.dialogRef.close(this.form.value.description);
     }
     onCancel() {
         const dialogRef = this.dialog.open(ConfirmDeleteComponent, { data: { message: 'All your edits will be lost' } });
         dialogRef.afterClosed().subscribe(res => {
             if (res) {
-                this.dialogref.close();
+                this.dialogRef.close();
             }
             return;
         })

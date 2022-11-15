@@ -23,10 +23,10 @@ export class ItemAudioService {
     constructor(private storage: Storage) { }
 
     async storeAudio(venueId: string, itemId: string, language: string, file: File): Promise<string> {
-        const path = `/${venueId}/${itemId}`
+        const path = `venues/${venueId}/items/${itemId}/audio/${language}`
         if (file) {
             try {
-                const storageRef = ref(this.storage, `venues/${venueId}/items/${itemId}/audio${language}`);
+                const storageRef = ref(this.storage, path);
                 const task = uploadBytesResumable(storageRef, file);
                 await task;
                 const url = await getDownloadURL(storageRef);

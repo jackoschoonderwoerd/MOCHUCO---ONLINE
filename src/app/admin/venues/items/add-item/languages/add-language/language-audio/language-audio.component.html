@@ -1,4 +1,8 @@
-<mat-spinner *ngIf="isStoring"></mat-spinner>
+<div class="spinner"
+    *ngIf="isStoring">
+    <div class="storing-audio">storing audio</div>
+    <mat-spinner></mat-spinner>
+</div>
 <div *ngIf="!isStoring"
     class="page-container">
     <input type="file"
@@ -11,7 +15,7 @@
         type="audio/mp4"></audio>
     <button mat-raised-button
         color="primary"
-        (click)="fileInput.click()">select audio</button>
+        (click)="fileInput.click()">{{audioSrc ? 'change selection' : 'select audio'}}</button>
     <button class="delete"
         *ngIf="audioSrc"
         (click)="onDeleteAudio()"

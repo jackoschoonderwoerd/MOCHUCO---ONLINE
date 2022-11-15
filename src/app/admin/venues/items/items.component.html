@@ -1,13 +1,19 @@
 <div class="page-container"
     *ngIf="items$|async">
-    <div class="navigation">
-        <div class="navigation-title">navigation</div>
-        <button class="back-to-all-venues"
-            mat-raised-button
-            (click)="onVenues()">venues</button>
-        <div class="venue-name"><span>current venue:&nbsp;</span>{{(venue$|async)?.name}}</div>
+    <div class="navigation_location">
+        <div class="navigation">
+            <div class="navigation-title">navigation</div>
+            <button class="back-to-all-venues"
+                mat-raised-button
+                (click)="onVenues()">venues</button>
+        </div>
+        <div class="location">
+            <div class="location-title">location</div>
+            <div class="venue-name"><span>venue:&nbsp;</span>{{(venue$|async)?.name}}</div>
+        </div>
     </div>
-    <div class="venue">
+
+    <div class="items-list">
         <div class="venue-data">
             <!-- <div class="id">{{venueId}}</div> -->
         </div>
@@ -52,28 +58,8 @@
         <div class="items"
             *ngFor="let item of (venue$|async)?.items"
             [ngClass]="[item.isMainPage ? 'main-page' : '']">
-            <!-- <div class="item-data">
-                <div class="is-main-page">{{item.isMainPage ? 'main-item' : 'secondary item'}}
-                </div>
-                <mat-icon class="info"
-                    matTooltip="A venue can only have one main-item. Apart from being accesible through the QR-code, the name of this item will appear in the header of the page, and the item can be reached by clicking on the header. All the other items are secondary items and can only be reached by reading a QR-code. In the overview the background of the main item will appear red.">info</mat-icon>
-                <div class="item-image-container"
-                    *ngIf="item.imageUrl"
-                    matTooltip="+"
-                    (click)="onItemImage(item.imageUrl)">
-                    <img class="item-image"
-                        [src]="item.imageUrl"
-                        alt="N.A.">
-                </div>
-                <div class="id">item id: {{item.id}}</div>
-            </div>
 
-            <button class="add-language"
-                mat-raised-button
-                color="primary"
-                (click)="onAddLanguage(item.id)">
-                add language
-            </button> -->
+
         </div>
         <button class="add-item"
             mat-raised-button
@@ -83,47 +69,4 @@
         </button>
 
     </div>
-
-    <!-- <div class="items-by-language-container">
-                    <div class="items-by-language"
-                        *ngFor=" let itemByLanguage of item.itemsByLanguage; let myIndex=index">
-                        <div class="item-by-language">
-                            <div class="language">{{itemByLanguage.language}}</div>
-                            <div class="name">{{itemByLanguage.itemLS.name}}</div>
-                            <div class="description"
-                                [matTooltip]="itemByLanguage.itemLS.description">{{itemByLanguage.itemLS.description}}</div>
-                            <div class="audio"
-                                (click)="onAudioClicked(item.id, itemByLanguage.itemLS.audioUrl, myIndex)">
-                                <button mat-mini-fab
-                                    *ngIf="itemByLanguage.itemLS.audioUrl"
-                                    [ngStyle]="{'border': (itemByLanguage.itemLS.audioAutoplay) ? '1px solid black':''}"
-                                    matTooltip="A black border around the play button indicates that autoplay is activated"
-                                    [matTooltipDisabled]="!itemByLanguage.itemLS.audioAutoplay">
-                                    <mat-icon [id]="'id' + item.id + '-' + myIndex"
-                                        [class]="item.id">play_arrow</mat-icon>
-                                </button>
-                                <button style="visibility:hidden"
-                                    mat-mini-fab
-                                    *ngIf="!(itemByLanguage.itemLS.audioUrl)">
-                                    <mat-icon>music_off</mat-icon>
-                                </button>
-
-
-                            </div>
-
-                            <div class="edit-delete-buttons">
-                                <button mat-raised-button
-                                    color="warn"
-                                    (click)="onDelete(item.id, itemByLanguage.language)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                                <button mat-raised-button
-                                    matTooltip="Modify the name, description or the soundfragment of the item in this particular language, Change the image for all languages"
-                                    color="primary"
-                                    (click)="onEditItemByLanguage(item.id, itemByLanguage.language)">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+</div>

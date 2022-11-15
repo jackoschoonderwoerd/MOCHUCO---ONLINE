@@ -6,6 +6,7 @@ import { ConfirmDeleteComponent } from '../../../../../shared/confirm-delete/con
 import { Item } from 'src/app/shared/models';
 import { ItemDetailsService } from '../../item-details/item-details.service';
 import { ItemImageService } from './item-image.service';
+import { WarningComponent } from '../../../../../shared/warning/warning.component';
 
 @Component({
     selector: 'app-item-image',
@@ -18,6 +19,8 @@ export class ItemImageComponent implements OnInit {
     imageSrc: any;
     venueId: string;
     itemId: string;
+    imageUrl: string;
+    editmode: boolean = false;
 
     @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -35,16 +38,29 @@ export class ItemImageComponent implements OnInit {
         private itemImageService: ItemImageService,
         @Inject(MAT_DIALOG_DATA) private data: any) { }
     ngOnInit(): void {
+        console.log(this.data)
         this.venueId = this.data.venueId;
         this.itemId = this.data.itemId;
+
+        if (this.data.imageUrl != undefined) {
+            this.imageUrl = this.data.imageUrl
+            this.editmode = true;
+        }
     }
 
     onFileInputChange(e) {
-        var fileReader = new FileReader();
-        this.file = e.target.files[0]
-        fileReader.readAsDataURL(this.file)
-        fileReader.onload = () => {
-            this.imageSrc = fileReader.result;
+        const filename = e.target.files[0].name;
+        const ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg') {
+            this.dialog.open(WarningComponent, { data: { message: 'wrong filetype, only files ending on \'jpg\' or \'png\' are allowed' } })
+            this.dialogRef.close()
+        } else {
+            var fileReader = new FileReader();
+            this.file = e.target.files[0]
+            fileReader.readAsDataURL(this.file)
+            fileReader.onload = () => {
+                this.imageSrc = fileReader.result;
+            }
         }
     }
     onConfirm() {
@@ -58,12 +74,19 @@ export class ItemImageComponent implements OnInit {
         const dialogRef = this.dialog.open(ConfirmDeleteComponent, { data: { message: 'this will permanently remove the image from the db' } })
         dialogRef.afterClosed().subscribe((res) => {
             if (res) {
-                this.venuesService.deleteImage(this.venueId, this.itemId)
-                    .then(res => {
-                        console.log('image deleted')
-                        this.fileInputChanged.emit('')
-                    })
-                    .catch(err => console.log(err));
+                if (this.editmode) {
+                    this.itemImageService.removeImageFromStorage(this.venueId, this.itemId)
+                        .then(res => {
+                            console.log('image removed from storage');
+                            this.itemImageService.removeImageUrlFromDB(this.venueId, this.itemId)
+                                .then(res => {
+                                    console.log('image removed from DB')
+                                    this.dialogRef.close()
+                                })
+                                .catch(err => console.log(err));
+                        })
+
+                }
             }
             return;
         })
