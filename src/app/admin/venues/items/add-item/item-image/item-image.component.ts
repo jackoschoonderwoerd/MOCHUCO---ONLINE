@@ -49,6 +49,12 @@ export class ItemImageComponent implements OnInit {
     }
 
     onFileInputChange(e) {
+        if (this.imageUrl) {
+            this.imageUrl = null;
+        }
+        if (this.imageSrc) {
+            this.imageSrc = null;
+        }
         const filename = e.target.files[0].name;
         const ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
         if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg') {
@@ -60,6 +66,7 @@ export class ItemImageComponent implements OnInit {
             fileReader.readAsDataURL(this.file)
             fileReader.onload = () => {
                 this.imageSrc = fileReader.result;
+
             }
         }
     }

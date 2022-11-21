@@ -22,7 +22,8 @@ export class AddItemComponent implements OnInit {
     itemId: string
     editmode: boolean = false;
     item: Item;
-    mainPage: boolean = false
+    mainPage: boolean = false;
+    unsaved: boolean = false;
 
 
     constructor(
@@ -60,7 +61,8 @@ export class AddItemComponent implements OnInit {
 
 
     onImage() {
-        console.log(this.item.imageUrl)
+
+        console.log(this.item)
         const dialogRef = this.dialog.open(ItemImageComponent, {
             data: {
                 venueId: this.venueId,
@@ -71,12 +73,18 @@ export class AddItemComponent implements OnInit {
         })
         dialogRef.afterClosed().subscribe((imageUrl: string) => {
             if (imageUrl) {
+                this.unsaved = true;
                 this.imageUrl = imageUrl
             }
             return;
 
         })
+
     }
+    onNameChanged() {
+        this.unsaved = true;
+    }
+
     onSubmit() {
         const item: Item = {
             name: this.form.value.name,
@@ -99,13 +107,14 @@ export class AddItemComponent implements OnInit {
             } else {
                 item.itemsByLanguage = [];
             }
-            this.venuesService.updateItem(this.venueId, this.itemId, item)
+            this.venuesService.setItem(this.venueId, this.itemId, item)
                 .then((res) => {
                     console.log('item updated')
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
                 })
                 .catch(err => console.log(err));
         }
+        this.unsaved = false;
     }
     onVenues() {
         this.router.navigateByUrl('/admin/venues')

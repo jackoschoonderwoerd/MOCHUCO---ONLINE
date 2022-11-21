@@ -5,19 +5,33 @@
 </div>
 <div *ngIf="!isStoring"
     class="page-container">
+    <div class="editmode">EDITMODE: {{editmode}}</div>
     <input type="file"
         style="display: none;"
         #fileInput
         (change)="onFileInputChange($event)">
-    <audio *ngIf="audioSrc"
-        [src]="sanitizer.bypassSecurityTrustResourceUrl(audioSrc)"
-        controls
-        type="audio/mp4"></audio>
+    <div class="audio-src"
+        *ngIf="audioSrc">
+
+        <div class="src">audioSrc</div>
+        <audio [src]="sanitizer.bypassSecurityTrustResourceUrl(audioSrc)"
+            controls
+            type="audio/mp4"></audio>
+
+    </div>
+    <div class="audio-src"
+        *ngIf="audioUrl">
+        <div class="src">audioUrl</div>
+        <!-- <div class="url">{{audioUrl}}</div> -->
+        <audio [src]="audioUrl"
+            controls
+            type="audio/mp4"></audio>
+    </div>
     <button mat-raised-button
         color="primary"
         (click)="fileInput.click()">{{audioSrc ? 'change selection' : 'select audio'}}</button>
     <button class="delete"
-        *ngIf="audioSrc"
+        *ngIf="audioSrc || audioUrl"
         (click)="onDeleteAudio()"
         mat-raised-button
         color="warn">delete audio</button>

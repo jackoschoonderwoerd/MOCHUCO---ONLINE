@@ -24,33 +24,36 @@
             <div class="item">
                 <div class="name_id">
                     <div class="name">{{item.name}}</div>
+                    <div class="id">{{item.id}}</div>
                     <!-- <div class="id">{{item.id}}</div> -->
                 </div>
                 <div class="img_languages">
-                    <button mat-mini-fab
+                    <button mat-raised-button
                         color="warn"
                         (click)="onDelete(item.id)">
                         <mat-icon>delete</mat-icon>
                     </button>
-                    <button mat-mini-fab
+                    <button mat-raised-button
                         color="primary"
                         (click)="onQrCodeLocal(item.id, item.name)">
                         QRL
                     </button>
-                    <button mat-mini-fab
+                    <button mat-raised-button
                         color="primary"
                         (click)="onQrCode(item.id, item.name)">
                         <mat-icon>qr_code</mat-icon>
                     </button>
-                    <button mat-mini-fab
+                    <button mat-raised-button
                         color="primary"
                         (click)="onEdit(item.id)">
                         <mat-icon>edit</mat-icon>
                     </button>
                     <img [src]="item.imageUrl"
-                        alt="">
+                        alt=""
+                        (mouseover)="mouseoverImage(item.imageUrl)">
                     <button mat-raised-button
-                        (click)="onLanguages(item)">languages</button>
+                        (click)="onLanguages(item)">languages
+                    </button>
                 </div>
             </div>
         </div>

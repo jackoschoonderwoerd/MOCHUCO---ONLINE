@@ -57,6 +57,7 @@ export class VenuesService {
         const venueRef = collection(this.firestore, 'venues')
         return addDoc(venueRef, venue)
     }
+
     getVenues() {
         if (localStorage.getItem('venues')) {
             return JSON.parse(localStorage.getItem('venues')) as Observable<Venue[]>
@@ -71,16 +72,18 @@ export class VenuesService {
         const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
         return collectionData(itemsRef, { idField: 'id' }) as Observable<Item[]>
     }
+
     addItemToVenue(venueId: string, item: Item) {
         // console.log(venueId, item)
         const itemRef = collection(this.firestore, `venues/${venueId}/items`)
         return addDoc(itemRef, item)
     }
+
     getItem(venueId: string, itemId: string) {
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`);
         return docData(itemRef)
     }
-    updateItem(venueId: string, itemId: string, item: Item) {
+    setItem(venueId: string, itemId: string, item: Item) {
         localStorage.setItem('activeItem', JSON.stringify(item))
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return setDoc(itemRef, item);
@@ -99,7 +102,11 @@ export class VenuesService {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return docData(venueRef, { idField: 'id' }) as Observable<Venue>
     }
-    updateVenue(venue: Venue) {
+    updateVenue(venueId: string, name: string) {
+        const venueRef = doc(this.firestore, `venues/${venueId}`)
+        return updateDoc(venueRef, { name: name })
+    }
+    setVenue(venue: Venue) {
         // console.log(venue)
         localStorage.setItem('activeVenue', JSON.stringify(venue))
         const venueRef = doc(this.firestore, `venues/${venue.id}`)
@@ -127,74 +134,72 @@ export class VenuesService {
             this.activeItemSubject.next(item);
         }
     }
+    deleteVenueStorage(venueId: string) {
+        const venueRef = ref(this.storage, `venues/${venueId}`)
+        return getMetadata(venueRef)
+    }
 
     deleteVenue(venueId: string) {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return deleteDoc(venueRef)
     }
 
-    async storeAudioFile(venueId: string, itemId: string, language: string, file: File | null) {
-        console.log(venueId, itemId, language)
-        const path = `venues/audio/${venueId}/${itemId}/${language}`; {
-            if (file) {
-                try {
-                    const storageRef = ref(this.storage, path);
-                    const task = uploadBytesResumable(storageRef, file);
-                    await task;
-                    const url = await getDownloadURL(storageRef);
-                    return url
-                } catch (e: any) {
-                    console.error(e);
-                }
-            }
-        }
-    }
-    deleteAudio(venueId: string, itemId: string, language: string) {
-        const path = `venues/audio/${venueId}/${itemId}/${language}`;
-        const storageRef = ref(this.storage, path)
-        return deleteObject(storageRef);
-    }
+    // async storeAudioFile(venueId: string, itemId: string, language: string, file: File | null) {
+    //     console.log(venueId, itemId, language)
+    //     const path = `venues/audio/${venueId}/${itemId}/${language}`; {
+    //         if (file) {
+    //             try {
+    //                 const storageRef = ref(this.storage, path);
+    //                 const task = uploadBytesResumable(storageRef, file);
+    //                 await task;
+    //                 const url = await getDownloadURL(storageRef);
+    //                 return url
+    //             } catch (e: any) {
+    //                 console.error(e);
+    //             }
+    //         }
+    //     }
+    // }
+    // async storeImageFile(
+    //     venueId: string,
+    //     itemId: string,
+    //     file: File | null
 
-    async storeImageFile(
-        venueId: string,
-        itemId: string,
-        file: File | null
+    // ): Promise<string> {
+    //     // console.log(file.name)
+    //     // console.log(folder, filename, file);
 
-    ): Promise<string> {
-        // console.log(file.name)
-        // console.log(folder, filename, file);
+    //     // const ext = file!.name.split('.').pop();
 
-        // const ext = file!.name.split('.').pop();
+    //     const path = `venues/images/${venueId}/${itemId}`; {
 
-        const path = `venues/images/${venueId}/${itemId}`; {
+    //         // console.log(path);
 
-            // console.log(path);
+    //         if (file) {
+    //             try {
+    //                 const storageRef = ref(this.storage, path);
+    //                 const task = uploadBytesResumable(storageRef, file);
+    //                 // this.uploadPercent = percentage(task);
+    //                 await task;
+    //                 const url = await getDownloadURL(storageRef);
+    //                 const metadata = await getMetadata(storageRef);
 
-            if (file) {
-                try {
-                    const storageRef = ref(this.storage, path);
-                    const task = uploadBytesResumable(storageRef, file);
-                    // this.uploadPercent = percentage(task);
-                    await task;
-                    const url = await getDownloadURL(storageRef);
-                    const metadata = await getMetadata(storageRef);
+    //                 // console.log(url)
+    //                 // console.log(metadata.fullPath)
 
-                    // console.log(url)
-                    // console.log(metadata.fullPath)
-
-                    // const imageUploadData: ImageUploadData = {
-                    //     imageUrl: url,
-                    //     imageStoragePath: metadata.fullPath
-                    // }
-                    // return url;
-                    // return imageUploadData
-                    return url
-                } catch (e: any) {
-                    console.error(e);
-                }
-            }
-        }
-    }
+    //                 // const imageUploadData: ImageUploadData = {
+    //                 //     imageUrl: url,
+    //                 //     imageStoragePath: metadata.fullPath
+    //                 // }
+    //                 // return url;
+    //                 // return imageUploadData
+    //                 return url
+    //             } catch (e: any) {
+    //                 console.error(e);
+    //             }
+    //         }
+    //     }
+    // }
 
     // removeImageUrlFromDB(venueId: string, itemId: string) {
     //     const itemsRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`);

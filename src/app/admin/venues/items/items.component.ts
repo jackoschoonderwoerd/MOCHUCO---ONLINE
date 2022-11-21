@@ -7,6 +7,8 @@ import { Item, ItemByLanguage, Venue } from '../../../shared/models';
 import { VenuesService } from '../venues.service';
 import { ItemDetailsService } from './item-details/item-details.service';
 import { QrCodeComponent } from './qr-code/qr-code.component';
+import { ItemImageComponent } from './add-item/item-image/item-image.component';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 
 @Component({
@@ -89,46 +91,6 @@ export class ItemsComponent implements OnInit {
         this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: item.id, itemName: item.name }])
     }
 
-    XXXonDelete(itemId: string, language: string) {
-        const itemIndex = this.venue.items.findIndex((item: Item) => {
-            return item.id === itemId
-        })
-        // TODO
-        // let audioCount: number = 0
-        // this.venue.items[itemIndex].itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
-        //     if (itemByLanguage.itemLS.audioUrl) {
-        //         audioCount++
-        //     }
-        // })
-        // console.log(audioCount)
-        // if (audioCount > 0) {
-        //     alert('delete the audio fragment used by this language')
-        //     return;
-        // }
-
-        const dialogRef = this.dialog.open(ConfirmDeleteComponent, { data: { message: 'This will permanently remove the the entry with the selected language from the item' } });
-        dialogRef.afterClosed().subscribe(res => {
-            if (res) {
-
-                const languageIndex = this.venue.items[itemIndex].itemsByLanguage.findIndex((itemByLanguage: ItemByLanguage) => {
-                    return itemByLanguage.language === language;
-                })
-                this.checkForAudioStorage(itemIndex, languageIndex, language);
-                this.venue.items[itemIndex].itemsByLanguage.splice(languageIndex, 1)
-                if (this.venue.items[itemIndex].itemsByLanguage.length === 0) {
-                    this.deleteAllDataInStorage()
-                    console.log('deleting item')
-                    this.venue.items.splice(itemIndex, 1);
-                }
-                this.venuesService.updateVenue(this.venue)
-                    .then(res => {
-                        this.venuesService.setActiveVenue(this.venue)
-                    })
-            }
-            return;
-        })
-    }
-
     deleteAllDataInStorage() {
         this.itemDetailsService.deleteAllDataFromStorage(this.venue.id)
             .then(res => console.log('all venuedata removed from storage'))
@@ -170,6 +132,14 @@ export class ItemsComponent implements OnInit {
             })
             this.audio.pause()
             this.audioPlaying = false;
+        }
+    }
+    // onImage(imageUrl) {
+    //     this.dialog.open(ItemImageComponent, { data: { imageUrl } })
+    // }
+    mouseoverImage(imageUrl: string) {
+        if (imageUrl) {
+            this.dialog.open(ImageDialogComponent, { data: { imageUrl } })
         }
     }
 

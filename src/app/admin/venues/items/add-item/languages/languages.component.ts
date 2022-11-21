@@ -39,8 +39,10 @@ export class LanguagesComponent implements OnInit {
             this.venueId = params.venueId;
             this.itemId = params.itemId;
             this.itemName = params.itemName;
-            this.venuesService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
+            const sub = this.venuesService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
                 this.item = item;
+                console.log(this.item);
+                sub.unsubscribe();
             })
         })
     }
@@ -51,7 +53,7 @@ export class LanguagesComponent implements OnInit {
                 this.item.itemsByLanguage = this.item.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
                     return itemByLanguage.language !== language
                 })
-                this.venuesService.updateItem(this.venueId, this.itemId, this.item)
+                this.venuesService.setItem(this.venueId, this.itemId, this.item)
                     .then((res) => { console.log('item deleted') })
                     .catch(err => console.log(err));
             }

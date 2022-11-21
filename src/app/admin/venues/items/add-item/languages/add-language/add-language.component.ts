@@ -91,7 +91,10 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
             panelClass: 'full-screen-modal',
             width: '100vw',
             // height: '100vh',
-            data: { description: this.description }
+            data:
+            {
+                description: this.description,
+            }
         })
         dialogRef.afterClosed().subscribe((description: string) => {
             this.unsaved = true;
@@ -105,13 +108,19 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
                 {
                     venueId: this.venueId,
                     itemId: this.itemId,
-                    language: this.form.value.language
+                    language: this.form.value.language,
+                    audioUrl: this.audioUrl
                 }
             })
-        dialogRef.afterClosed().subscribe((audioUrl: string) => {
-            if (audioUrl) {
-                this.audioUrl = audioUrl;
-                this.unsaved = true;
+        dialogRef.afterClosed().subscribe((audioDialogData: any) => {
+            if (audioDialogData) {
+                if (audioDialogData.action === 'audio added') {
+                    this.audioUrl = audioDialogData.audioUrl;
+                    this.unsaved = true;
+                } else if (audioDialogData.action === 'audio removed') {
+                    this.audioUrl = null
+                }
+                return;
             }
             return;
         })
@@ -143,7 +152,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
             this.item.itemsByLanguage[itemByLanguageIndex] = newItemByLanguage;
         }
 
-        this.venuesService.updateItem(this.venueId, this.itemId, this.item)
+        this.venuesService.setItem(this.venueId, this.itemId, this.item)
             .then(res => {
                 console.log('venue updated')
                 this.form.reset();

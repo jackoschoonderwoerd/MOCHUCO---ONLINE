@@ -42,17 +42,15 @@
                 placeholder="name">
         </mat-form-field>
 
-        <button mat-raised-button
-            (click)="onDescription()">
-            description
-        </button>
-        <button mat-raised-button
-            [disabled]="!isLanguageSelected"
-            (click)="onAudio()">audio
-        </button>
         <audio *ngIf="audioUrl"
             [src]="audioUrl"
             controls></audio>
+        <button mat-raised-button
+            class="audio-button"
+            [disabled]="!isLanguageSelected"
+            (click)="onAudio()">
+            audio<mat-icon>edit</mat-icon>
+        </button>
 
         <mat-radio-group [(ngModel)]="audioAutoplay"
             formControlName="audioAutoplay">
@@ -69,7 +67,15 @@
             color="primary">{{editmode ? 'save edits' : 'publish language'}}
         </button>
     </form>
-    <div class="description"
-        [innerHTML]="description">
+    <div class="description">
+        <button mat-raised-button
+            (click)="onDescription()">
+            description
+            <mat-icon>edit</mat-icon>
+        </button>
+        <div class="content"
+            [innerHTML]="description">
+
+        </div>
     </div>
 </div>

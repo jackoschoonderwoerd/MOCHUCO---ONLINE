@@ -16,9 +16,14 @@
                     (click)="onDelete(venue.id)">
                     <mat-icon>delete</mat-icon>
                 </button>
+                <button mat-raised-button
+                    color="primary"
+                    class="edit"
+                    (click)="onEditVenue(venue.id, venue.name)">
+                    <mat-icon>edit</mat-icon>
+                </button>
                 <button class="delete"
                     mat-raised-button
-                    color="primary"
                     (click)="onItems(venue)"
                     matTooltip="Add items to this venue">items
                 </button>

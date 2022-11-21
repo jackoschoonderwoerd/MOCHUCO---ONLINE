@@ -27,6 +27,7 @@ export class DescriptionComponent implements OnInit {
     selectedAreaEnd: number;
     textAreaHeight;
     submitDisabled: boolean = false;
+    initialDescription: string;
     description: string;
     name: string
 
@@ -58,7 +59,8 @@ export class DescriptionComponent implements OnInit {
 
         this.initForm()
         console.log(this.data)
-        this.description = this.data.description;
+        this.initialDescription = this.data.description;
+        this.description = this.initialDescription;
         this.form.patchValue({
             description: this.description
         })
@@ -99,7 +101,28 @@ export class DescriptionComponent implements OnInit {
         this.textarea.nativeElement.value = patchedValue;
         this.description = patchedValue.replace(
 
-            /(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+            /(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+        );
+        this.adjustTextareaHeight();
+        // this.selectedAreaStart = 0;
+        // this.selectedAreaEnd = 0;
+
+        currentValue = null;
+        this.setCaretPosition(cursorEnd)
+    }
+    addParagraph() {
+        const cursorStart = this.textarea.nativeElement.selectionStart;
+        const cursorEnd = this.textarea.nativeElement.selectionEnd;
+        console.log(cursorStart, cursorEnd)
+        let currentValue = this.textarea.nativeElement.value;
+        let patchedValue = currentValue.substr(
+            0, cursorStart) +
+            '\n<p>YOUR PARAGRAPH</p>\n' +
+            currentValue.substr(cursorEnd)
+        this.textarea.nativeElement.value = patchedValue;
+        this.description = patchedValue.replace(
+
+            /(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
         );
         this.adjustTextareaHeight();
         // this.selectedAreaStart = 0;
@@ -132,7 +155,7 @@ export class DescriptionComponent implements OnInit {
         console.log(this.textarea.nativeElement.selectionStart);
         this.description = this.textarea.nativeElement.value.replace(
             // /(?!.*<h5>)(?!.*<\/h5>)(?!.*<p>)(?!.*<\/p>)(<([^>]+)>)/ig, ''
-            /(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+            /(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
         );
         this.adjustTextareaHeight();
         this.onCheckForHeaderLength()
@@ -190,7 +213,7 @@ export class DescriptionComponent implements OnInit {
         const dialogRef = this.dialog.open(ConfirmDeleteComponent, { data: { message: 'All your edits will be lost' } });
         dialogRef.afterClosed().subscribe(res => {
             if (res) {
-                this.dialogRef.close();
+                this.dialogRef.close(this.initialDescription);
             }
             return;
         })

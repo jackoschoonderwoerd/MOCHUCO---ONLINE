@@ -1,0 +1,21 @@
+<div class="page-container">
+    <form [formGroup]="form">
+        <div class="warning">Warning!</div>
+        <div class="content">By deleting this venue you will also also permannently and irreversable delete:</div>
+
+        <mat-checkbox formControlName="items">all items within this venue</mat-checkbox>
+        Including everything contained within these items such as:
+        <mat-checkbox formControlName="images">all images</mat-checkbox>
+        <mat-checkbox formControlName="audio">all audio fragments</mat-checkbox>
+        <mat-checkbox formControlName="descriptions">all descriptions</mat-checkbox>
+        Please check all boxes before deleting the venue.
+        <button mat-raised-button
+            color="warn"
+            [disabled]="buttonDisabled"
+            (click)="onDeleteVenue()">delete venue</button>
+        <button mat-raised-button
+            color="primary"
+            (click)="onCancel()">cancel</button>
+
+    </form>
+</div>

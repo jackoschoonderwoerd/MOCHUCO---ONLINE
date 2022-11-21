@@ -18,6 +18,9 @@ import { VenuesComponent } from './venues/venues.component';
 import { AddLanguageComponent } from './venues/items/add-item/languages/add-language/add-language.component';
 import { QrCodeComponent } from './venues/items/qr-code/qr-code.component';
 import { LanguageAudioComponent } from './venues/items/add-item/languages/add-language/language-audio/language-audio.component';
+import { ImageDialogComponent } from './venues/items/image-dialog/image-dialog.component';
+import { DeleteVenueDialogComponent } from './venues/delete-venue-dialog/delete-venue-dialog.component';
+
 
 
 
@@ -38,6 +41,9 @@ import { LanguageAudioComponent } from './venues/items/add-item/languages/add-la
         VenuesComponent,
         AddLanguageComponent,
         QrCodeComponent,
+        ImageDialogComponent,
+        DeleteVenueDialogComponent,
+
 
     ],
     imports: [
