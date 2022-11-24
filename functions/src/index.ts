@@ -1,21 +1,52 @@
 import * as functions from "firebase-functions";
 // import { db } from './init';
 
+import * as admin from 'firebase-admin';
+
+
+
+admin.initializeApp();
+
+// export const db = admin.firestore();
+
+// export const auth = admin.auth();
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 
-export const helloWorld = functions.https.onRequest((request, response) => {
-    functions.logger.info("Hello blogs!", { structuredData: true });
-    response.send("Hello from Jacko!");
-});
+// export const helloWorld = functions.https.onRequest((request, response) => {
+//     functions.logger.info("Hello blogs!", { structuredData: true });
+//     response.send("Hello from Jacko!");
+// });
+
+// https://github.com/angular-university/firebase-course/blob/master/functions/src/create-user.ts
+// auth.setCustomUserClaims(user.uid, {admin})
 
 export const onDeleteVenueStorage =
     functions
         .firestore.document('venues/{venueId}')
-        .onCreate(async (snap, context: any) => {
+        .onDelete(async (snap, context: any) => {
+
             functions.logger.debug(
-                `Running add course trigger for courseId ${context.params.venueId}`
+                `Deleting venue: ${context.params.venueId}`
             )
+            const bucket = admin.storage().bucket()
+            bucket.deleteFiles({
+                prefix: `venues/${context.params.venueId}/`
+            }, function (err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log(`All the Firebase Storage files in venues/${context.params.venueId} have been deleted`)
+                };
+            })
         })
-//# sourceMappingURL=index.js.map
+
+// export const addUserToDb =
+//     functions.auth.user().onCreate((user) => {
+//         admin.firestore().collection('users').doc(`${user.uid}`).set({ venuesOwned: [] })
+
+//             .then(res => console.log('user added to db', res))
+//             .catch(err => console.log(err));
+//     })
+

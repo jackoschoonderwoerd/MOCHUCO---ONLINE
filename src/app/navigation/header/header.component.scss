@@ -29,7 +29,18 @@ mat-toolbar {
             // border: 1px solid red;
         }
         .user {
-            // border: 1px solid red;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            .user-name {
+            }
+            .logout {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
         }
         .isAdmin {
         }

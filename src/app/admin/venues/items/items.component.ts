@@ -9,6 +9,7 @@ import { ItemDetailsService } from './item-details/item-details.service';
 import { QrCodeComponent } from './qr-code/qr-code.component';
 import { ItemImageComponent } from './add-item/item-image/item-image.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
+import { ItemsService } from './items.service';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class ItemsComponent implements OnInit {
         private venuesService: VenuesService,
         private router: Router,
         private dialog: MatDialog,
-        private itemDetailsService: ItemDetailsService
+        private itemDetailsService: ItemDetailsService,
+        private itemsService: ItemsService
     ) { }
 
     ngOnInit(): void {
@@ -42,7 +44,7 @@ export class ItemsComponent implements OnInit {
             this.venueName = params.venueName;
             this.venueId = params.venueId
 
-            this.items$ = this.venuesService.getItems(this.venueId);
+            this.items$ = this.itemsService.getItems(this.venueId);
             this.venue$ = this.venuesService.getVenueById(this.venueId);
 
             this.venuesService.getVenueById(this.venueId).subscribe((venue: Venue) => {
@@ -54,7 +56,7 @@ export class ItemsComponent implements OnInit {
         const dialogRef = this.dialog.open(ConfirmDeleteComponent);
         dialogRef.afterClosed().subscribe((res) => {
             if (res) {
-                this.venuesService.deleteItem(this.venueId, itemId)
+                this.itemsService.deleteItem(this.venueId, itemId)
                     .then(res => console.log('item deleted'))
                     .catch(err => console.log(err));
             }
@@ -87,7 +89,7 @@ export class ItemsComponent implements OnInit {
     }
 
     onLanguages(item) {
-        this.venuesService.setActiveItem(item)
+        // this.itemsService.setActiveItem(item)
         this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: item.id, itemName: item.name }])
     }
 
@@ -137,9 +139,11 @@ export class ItemsComponent implements OnInit {
     // onImage(imageUrl) {
     //     this.dialog.open(ItemImageComponent, { data: { imageUrl } })
     // }
-    mouseoverImage(imageUrl: string) {
+    onImage(imageUrl: string) {
         if (imageUrl) {
-            this.dialog.open(ImageDialogComponent, { data: { imageUrl } })
+            this.dialog.open(ImageDialogComponent, {
+                data: { imageUrl }
+            })
         }
     }
 

@@ -7,6 +7,7 @@ import { DescriptionComponent } from './description/description.component';
 import { VenuesService } from '../../../../venues.service';
 import { Item, ItemByLanguage, ItemLS } from '../../../../../../shared/models';
 import { LanguageAudioComponent } from './language-audio/language-audio.component';
+import { ItemsService } from '../../../items.service';
 
 @Component({
     selector: 'app-add-language',
@@ -37,7 +38,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private languageService: LanguageService,
         private dialog: MatDialog,
-        private venuesService: VenuesService) { }
+        private venuesService: VenuesService,
+        private itemsService: ItemsService) { }
 
     ngOnInit(): void {
         this.initForm()
@@ -50,11 +52,11 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
             this.venueId = params.venueId;
             this.itemId = params.itemId;
 
-            this.venuesService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
+            this.itemsService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
                 this.item = item;
             })
         })
-        this.venuesService.itemByLanguage$.subscribe((itemByLanguage: ItemByLanguage) => {
+        this.itemsService.itemByLanguage$.subscribe((itemByLanguage: ItemByLanguage) => {
             if (itemByLanguage) {
                 this.itemByLanguage = itemByLanguage;
 
@@ -152,7 +154,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
             this.item.itemsByLanguage[itemByLanguageIndex] = newItemByLanguage;
         }
 
-        this.venuesService.setItem(this.venueId, this.itemId, this.item)
+        this.itemsService.setItem(this.venueId, this.itemId, this.item)
             .then(res => {
                 console.log('venue updated')
                 this.form.reset();
@@ -177,6 +179,6 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         console.log('on destroy');
         this.editmode = false;
-        this.venuesService.editItemByLanguage(null);
+        this.itemsService.editItemByLanguage(null);
     }
 }

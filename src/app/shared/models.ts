@@ -20,6 +20,10 @@ export interface Item {
 
 export interface Venue {
     id?: string;
+    owner: string;
     name: string;
     items?: Item[] // array of items
+}
+export interface UserRoles {
+    admin: boolean;
 }

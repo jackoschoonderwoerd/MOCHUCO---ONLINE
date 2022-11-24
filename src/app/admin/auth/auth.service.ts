@@ -5,12 +5,14 @@ import {
     Auth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    user,
     User,
 } from '@angular/fire/auth';
-import { jsonEval } from '@firebase/util';
+
 import { BehaviorSubject, from, map, Observable, pipe, tap } from 'rxjs';
 import { MochucoUser } from './mochuco-user.model';
 import { Router } from '@angular/router';
+import { UserRoles } from 'src/app/shared/models';
 
 const AUTH_DATA = 'auth_data'
 @Injectable({
@@ -18,18 +20,23 @@ const AUTH_DATA = 'auth_data'
 })
 export class AuthService {
 
+    fireAuthUser;
+    $roles: Observable<UserRoles>;
+
     private mochucoUserSubject = new BehaviorSubject<MochucoUser>(null);
     mochucoUser$: Observable<MochucoUser> = this.mochucoUserSubject.asObservable();
 
     private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-    public isLoggedIn$ = this.isLoggedInSubject.asObservable();
+    // public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
     private isAdminSubject = new BehaviorSubject<boolean>(false);
     public isAdmin$ = this.isAdminSubject.asObservable();
 
     constructor(
-        private auth: Auth,
+        private afAuth: Auth,
         private router: Router) {
+
+
         const mochucoUserString = localStorage.getItem(AUTH_DATA);
         if (mochucoUserString) {
             const mochucoUser: MochucoUser = JSON.parse(mochucoUserString);
@@ -38,23 +45,30 @@ export class AuthService {
                 this.isAdminSubject.next(true);
             }
 
+
         }
+        // this.$roles =
+        // this.afAuth.currentUser.getIdTokenResult()
+        //     .then(data => console.log(data))
+        //     .catch(err => console.log(err));
     }
 
     signUp(user: MochucoUser) {
         console.log(user)
-        createUserWithEmailAndPassword(this.auth, user.email, user.password)
+        createUserWithEmailAndPassword(this.afAuth, user.email, user.password)
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }
 
     logIn(mochucoUser: MochucoUser) {
 
-        return from(signInWithEmailAndPassword(this.auth, mochucoUser.email, mochucoUser.password))
+        return from(signInWithEmailAndPassword(this.afAuth, mochucoUser.email, mochucoUser.password))
             .pipe(
                 tap((fireAuthUser: any) => {
-
+                    this.fireAuthUser = fireAuthUser
                     console.log(fireAuthUser.user);
+                    console.log(fireAuthUser.user.stsTokenManager);
+                    console.log(fireAuthUser.user.stsTokenManager.accessToken);
                     const mochucoUser: MochucoUser = {
                         email: fireAuthUser.user.email
                     }
@@ -71,9 +85,16 @@ export class AuthService {
             )
 
     }
-    logOut() {
-        this.mochucoUserSubject.next(null);
-        localStorage.removeItem(AUTH_DATA)
-        this.router.navigateByUrl('mochuco')
+    logout() {
+        console.log(this.fireAuthUser);
+        this.afAuth.signOut()
+            .then((res) => {
+                console.log('logged out')
+                this.mochucoUserSubject.next(null);
+                localStorage.removeItem(AUTH_DATA);
+                this.router.navigateByUrl('mochuco');
+            })
+            .catch(err => console.log(err));
+
     }
 }

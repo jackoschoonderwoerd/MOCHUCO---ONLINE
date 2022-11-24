@@ -23,10 +23,17 @@
 
         <div class="user"
             *ngIf="authService.mochucoUser$|async">
-            {{(authService.mochucoUser$|async)?.email.split('@')[0]}}
+            <div class="user-name">
+                {{(authService.mochucoUser$|async)?.email.split('@')[0]}}
+            </div>
+            <div class="is-admin"
+                *ngIf="authService.isAdmin$|async">*
+            </div>
+            <div class="logout"
+                (click)="onLogout()">
+                <mat-icon>exit_to_app</mat-icon>
+            </div>
         </div>
-        <div class="is-admin"
-            *ngIf="authService.isAdmin$|async"></div>
     </div>
 
 </mat-toolbar>

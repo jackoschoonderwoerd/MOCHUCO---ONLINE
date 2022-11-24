@@ -34,8 +34,7 @@ export class FooterComponent implements OnInit {
         // this.selectedLanguage$ = this.uiService.selectedLanguage$
         this.selectLanguageService.setLanguage('2lYEBd3kQ1EFZMb0JdDU')
         // this.languages$ = this.selectLanguageService.getLanguages()
-        this.languages = this.languageService.getLanguages()
-        console.log(this.languages);
+        this.languages = this.languageService.getLanguages();
     }
     onScanner() {
         this.router.navigateByUrl('scanner')

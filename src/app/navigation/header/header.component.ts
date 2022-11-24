@@ -64,4 +64,7 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/item', { mainPage: 'mainPage' }]);
         this.itemService.extractMainPage()
     }
+    onLogout() {
+        this.authService.logout()
+    }
 }

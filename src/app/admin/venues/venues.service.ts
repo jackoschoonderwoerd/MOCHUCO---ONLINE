@@ -26,11 +26,13 @@ import {
     DocumentReference,
     setDoc,
     orderBy,
-    query
+    query,
+    where
 } from '@angular/fire/firestore';
 import { Item, ItemByLanguage, Venue } from 'src/app/shared/models';
 import { getFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
     providedIn: 'root'
@@ -40,64 +42,55 @@ export class VenuesService {
     private activeVenueSubject = new BehaviorSubject<Venue>(null)
     public activeVenue$ = this.activeVenueSubject.asObservable()
 
-    private activeItemSubject = new BehaviorSubject<Item>(null)
-    public activeItem$ = this.activeItemSubject.asObservable()
-
     private loadingVenuesSubject = new BehaviorSubject<boolean>(false)
     public loadingVenuew$ = this.loadingVenuesSubject.asObservable();
 
-    private itemByLanguageSubject = new BehaviorSubject<ItemByLanguage>(null);
-    public itemByLanguage$ = this.itemByLanguageSubject.asObservable();
-
     constructor(
         private firestore: Firestore,
-        private storage: Storage) { }
+        private storage: Storage,
+        private afAuth: Auth) { }
 
     addVenue(venue: Venue) {
         const venueRef = collection(this.firestore, 'venues')
         return addDoc(venueRef, venue)
     }
+    updateUser(venueId: string) {
+        const userId = this.afAuth.currentUser.uid
 
+        console.log('updating user', userId)
+        const userRef = doc(this.firestore, `users/${userId}`);
+        const coursesOwnedRef = doc(this.firestore, `users/${userId}/venuesOwned/${venueId}`);
+        return setDoc(coursesOwnedRef, {})
+        // return setDoc(coursesOwnedRef, venueId)
+        // const subscription = docData(userRef).subscribe((data: any) => {
+        //     if (data) {
+        //         venuesOwnedArray = data.venuesOwned
+        //     }
+        //     venuesOwnedArray.push(venueId)
+        //     console.log('pushing', venuesOwnedArray)
+        //     const venuesOwnedRef = doc(this.firestore, `users/${userId}`)
+        //     subscription.unsubscribe()
+        //     updateDoc(venuesOwnedRef, { venuesOwned: venuesOwnedArray })
+        //         .then((res) => {
+        //             console.log(res);
+        //         })
+        //         .catch(err => {
+        //             console.log(err);
+        //         });
+        // });
+
+        // const userRef = doc(this.firestore, `users/${userId}`)
+        // return updateDoc(userRef, { venuesOwned: [venueId] })
+    }
     getVenues() {
-        if (localStorage.getItem('venues')) {
-            return JSON.parse(localStorage.getItem('venues')) as Observable<Venue[]>
-        } else {
-            const venuesRef = collection(this.firestore, 'venues')
-            // const myVenues = collectionData(venuesRef, { idField: 'id' });
-            return collectionData(venuesRef, { idField: 'id' }) as Observable<Venue[]>;
-        }
-    }
+        // this.afAuth.
+        console.log(this.afAuth.currentUser.uid)
+        const venuesRef = collection(this.firestore, 'venues');
+        // const orderQuery = query(venuesRef, orderBy('name'));
+        const venuesQuery = query(venuesRef, where('owner', '==', this.afAuth.currentUser.uid), orderBy('name'),);
 
-    getItems(venueId) {
-        const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
-        return collectionData(itemsRef, { idField: 'id' }) as Observable<Item[]>
+        return collectionData(venuesQuery, { idField: 'id' }) as Observable<Venue[]>;
     }
-
-    addItemToVenue(venueId: string, item: Item) {
-        // console.log(venueId, item)
-        const itemRef = collection(this.firestore, `venues/${venueId}/items`)
-        return addDoc(itemRef, item)
-    }
-
-    getItem(venueId: string, itemId: string) {
-        const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`);
-        return docData(itemRef)
-    }
-    setItem(venueId: string, itemId: string, item: Item) {
-        localStorage.setItem('activeItem', JSON.stringify(item))
-        const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
-        return setDoc(itemRef, item);
-    }
-    deleteItem(venueId: string, itemId: string) {
-        // console.log(venueId, itemId);
-        const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
-        return deleteDoc(itemRef)
-    }
-
-    editItemByLanguage(itemByLanguage: ItemByLanguage) {
-        this.itemByLanguageSubject.next(itemByLanguage)
-    }
-
     getVenueById(venueId) {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return docData(venueRef, { idField: 'id' }) as Observable<Venue>
@@ -106,112 +99,35 @@ export class VenuesService {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return updateDoc(venueRef, { name: name })
     }
-    setVenue(venue: Venue) {
-        // console.log(venue)
-        localStorage.setItem('activeVenue', JSON.stringify(venue))
-        const venueRef = doc(this.firestore, `venues/${venue.id}`)
-        return setDoc(venueRef, venue)
+    deleteVenue(venueId: string) {
+        console.log('deleting venue', venueId)
+        const venueRef = doc(this.firestore, `venues/${venueId}`)
+        return deleteDoc(venueRef)
     }
-    setActiveVenue(venue: Venue) {
-        if (!venue) {
-            if (localStorage.getItem('activeVenue')) {
-                const venue: Venue = JSON.parse(localStorage.getItem('activeVenue'))
-                this.activeVenueSubject.next(venue);
-            }
-        } else {
-            this.activeVenueSubject.next(venue);
-        }
-    }
-    setActiveItem(item: Item) {
-        console.log('setting item');
-        if (localStorage.getItem('activeItem')) {
-            console.log('LS')
-            const item: Item = JSON.parse(localStorage.getItem('activeItem'))
-            this.activeItemSubject.next(item)
-        } else {
-            console.log('DB')
-            localStorage.setItem('activeItem', JSON.stringify(item))
-            this.activeItemSubject.next(item);
-        }
-    }
+
+    // addItemToVenue(venueId: string, item: Item) {
+    //     const itemRef = collection(this.firestore, `venues/${venueId}/items`)
+    //     return addDoc(itemRef, item)
+    // }
+
     deleteVenueStorage(venueId: string) {
         const venueRef = ref(this.storage, `venues/${venueId}`)
         return getMetadata(venueRef)
     }
 
-    deleteVenue(venueId: string) {
-        const venueRef = doc(this.firestore, `venues/${venueId}`)
-        return deleteDoc(venueRef)
-    }
+    // setVenue(venue: Venue) {
+    //     const venueRef = doc(this.firestore, `venues/${venue.id}`)
+    //     return setDoc(venueRef, venue)
+    // }
 
-    // async storeAudioFile(venueId: string, itemId: string, language: string, file: File | null) {
-    //     console.log(venueId, itemId, language)
-    //     const path = `venues/audio/${venueId}/${itemId}/${language}`; {
-    //         if (file) {
-    //             try {
-    //                 const storageRef = ref(this.storage, path);
-    //                 const task = uploadBytesResumable(storageRef, file);
-    //                 await task;
-    //                 const url = await getDownloadURL(storageRef);
-    //                 return url
-    //             } catch (e: any) {
-    //                 console.error(e);
-    //             }
+    // setActiveVenue(venue: Venue) {
+    //     if (!venue) {
+    //         if (localStorage.getItem('activeVenue')) {
+    //             const venue: Venue = JSON.parse(localStorage.getItem('activeVenue'))
+    //             this.activeVenueSubject.next(venue);
     //         }
+    //     } else {
+    //         this.activeVenueSubject.next(venue);
     //     }
     // }
-    // async storeImageFile(
-    //     venueId: string,
-    //     itemId: string,
-    //     file: File | null
-
-    // ): Promise<string> {
-    //     // console.log(file.name)
-    //     // console.log(folder, filename, file);
-
-    //     // const ext = file!.name.split('.').pop();
-
-    //     const path = `venues/images/${venueId}/${itemId}`; {
-
-    //         // console.log(path);
-
-    //         if (file) {
-    //             try {
-    //                 const storageRef = ref(this.storage, path);
-    //                 const task = uploadBytesResumable(storageRef, file);
-    //                 // this.uploadPercent = percentage(task);
-    //                 await task;
-    //                 const url = await getDownloadURL(storageRef);
-    //                 const metadata = await getMetadata(storageRef);
-
-    //                 // console.log(url)
-    //                 // console.log(metadata.fullPath)
-
-    //                 // const imageUploadData: ImageUploadData = {
-    //                 //     imageUrl: url,
-    //                 //     imageStoragePath: metadata.fullPath
-    //                 // }
-    //                 // return url;
-    //                 // return imageUploadData
-    //                 return url
-    //             } catch (e: any) {
-    //                 console.error(e);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // removeImageUrlFromDB(venueId: string, itemId: string) {
-    //     const itemsRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`);
-    //     return updateDoc(itemsRef, { imageUrl: null })
-    // }
-
-    // deleteImage(venueId, itemId) {
-    //     const path = `venues/images/${venueId}/${itemId}`;
-    //     const storageRef = ref(this.storage, path)
-    //     return deleteObject(storageRef)
-    // }
-    removeItemFromDB() {
-
-    }
 }

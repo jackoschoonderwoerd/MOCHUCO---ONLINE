@@ -6,6 +6,8 @@ import { Item } from 'src/app/shared/models';
 import { VenuesService } from '../../venues.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Venue } from '../../../../shared/models';
+import { ItemsService } from '../items.service';
+import { PermissionDeniedDialogComponent } from '../../../shared/permission-denied-dialog/permission-denied-dialog.component';
 
 @Component({
     selector: 'app-add-item',
@@ -30,6 +32,7 @@ export class AddItemComponent implements OnInit {
         private fb: FormBuilder,
         private dialog: MatDialog,
         private venuesService: VenuesService,
+        private itemsService: ItemsService,
         private route: ActivatedRoute,
         private router: Router) { }
 
@@ -41,7 +44,7 @@ export class AddItemComponent implements OnInit {
             if (params.itemId) {
                 this.itemId = params.itemId
                 this.editmode = true
-                this.venuesService.getItem(this.venueId, params.itemId).subscribe((item: Item) => {
+                this.itemsService.getItem(this.venueId, params.itemId).subscribe((item: Item) => {
                     this.item = item
                     this.form.patchValue({
                         name: item.name
@@ -94,7 +97,7 @@ export class AddItemComponent implements OnInit {
         }
         if (!this.editmode) {
             console.log('ADDING ITEM: ', item)
-            this.venuesService.addItemToVenue(this.venueId, item)
+            this.itemsService.addItemToVenue(this.venueId, item)
                 .then(res => {
                     console.log('item added!')
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
@@ -107,12 +110,15 @@ export class AddItemComponent implements OnInit {
             } else {
                 item.itemsByLanguage = [];
             }
-            this.venuesService.setItem(this.venueId, this.itemId, item)
+            this.itemsService.setItem(this.venueId, this.itemId, item)
                 .then((res) => {
                     console.log('item updated')
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err)
+                    this.dialog.open(PermissionDeniedDialogComponent, { data: { err } })
+                });
         }
         this.unsaved = false;
     }

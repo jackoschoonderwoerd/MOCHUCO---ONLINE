@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDeleteComponent } from '../../../../../shared/confirm-delete/confirm-delete.component';
 import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/language.service';
+import { ItemsService } from '../../items.service';
 
 @Component({
     selector: 'app-languages',
@@ -15,7 +16,7 @@ import { LanguageService } from 'src/app/shared/language.service';
 export class LanguagesComponent implements OnInit {
 
     venue$: Observable<Venue>;
-    activeItem$: Observable<Item>
+    // activeItem$: Observable<Item>
     venueId: string;
     itemId: string;
     item: Item;
@@ -26,12 +27,13 @@ export class LanguagesComponent implements OnInit {
         private router: Router,
         private venuesService: VenuesService,
         private dialog: MatDialog,
-        private languageService: LanguageService
+        private languageService: LanguageService,
+        private itemsService: ItemsService
     ) { }
 
     ngOnInit(): void {
         this.venue$ = this.venuesService.activeVenue$;
-        this.activeItem$ = this.venuesService.activeItem$;
+        // this.activeItem$ = this.itemsService.activeItem$;
 
         console.log('onInit')
         this.route.params.subscribe((params: any) => {
@@ -39,7 +41,7 @@ export class LanguagesComponent implements OnInit {
             this.venueId = params.venueId;
             this.itemId = params.itemId;
             this.itemName = params.itemName;
-            const sub = this.venuesService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
+            const sub = this.itemsService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
                 this.item = item;
                 console.log(this.item);
                 sub.unsubscribe();
@@ -53,7 +55,7 @@ export class LanguagesComponent implements OnInit {
                 this.item.itemsByLanguage = this.item.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
                     return itemByLanguage.language !== language
                 })
-                this.venuesService.setItem(this.venueId, this.itemId, this.item)
+                this.itemsService.setItem(this.venueId, this.itemId, this.item)
                     .then((res) => { console.log('item deleted') })
                     .catch(err => console.log(err));
             }
@@ -63,7 +65,7 @@ export class LanguagesComponent implements OnInit {
 
     onEdit(itemByLanguage: ItemByLanguage) {
         console.log(itemByLanguage)
-        this.venuesService.editItemByLanguage(itemByLanguage)
+        this.itemsService.editItemByLanguage(itemByLanguage)
         this.router.navigate(['/admin/add-language', {
             venueId: this.venueId,
             itemId: this.itemId

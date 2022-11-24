@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map, filter, of } from 'rxjs';
 import { Venue } from 'src/app/shared/models';
 import { VenuesService } from './venues.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -8,6 +8,8 @@ import { ConfirmDeleteComponent } from '../../shared/confirm-delete/confirm-dele
 import { AddVenueComponent } from './add-venue/add-venue.component';
 import { Item } from '../../shared/models';
 import { DeleteVenueDialogComponent } from './delete-venue-dialog/delete-venue-dialog.component';
+import { ItemsService } from './items/items.service';
+
 
 
 @Component({
@@ -23,11 +25,19 @@ export class VenuesComponent implements OnInit {
         private router: Router,
         private venuesService: VenuesService,
         private dialog: MatDialog,
+        private itemsService: ItemsService
 
     ) { }
 
     ngOnInit(): void {
-        this.venues$ = this.venuesService.getVenues()
+        this.venues$ = this.venuesService.getVenues();
+
+
+        // this.venuesService.getVenues().pipe(
+        //     map((x) => x + 1),
+        //     filter(x => x > 2)
+        // );
+
     }
     onEditVenue(venueId: string, venueName: string) {
         this.router.navigate(['/admin/add-venue', { venueId, venueName }])
@@ -37,36 +47,37 @@ export class VenuesComponent implements OnInit {
         const dialogRef = this.dialog.open(DeleteVenueDialogComponent);
         dialogRef.afterClosed().subscribe((res) => {
             if (res) {
-                this.venuesService.deleteVenueStorage(venueId)
-                    .then(res => {
-                        console.log('venue storage deleted', res);
-                    })
-                    .catch(err => console.log(err))
+                this.itemsService.getItems(venueId).subscribe((items: Item[]) => {
+                    console.log(items);
+                    if (items.length > 0) {
+                        items.forEach((item: Item) => {
+                            this.itemsService.deleteItem(venueId, item.id)
+                                .then((res) => {
+                                    console.
+                                        log('item deleted', item.id)
+                                })
+                                .then(() => {
+                                    this.venuesService.deleteVenue(venueId)
+                                        .then((res) => console.log('venue deleted after items deleted', venueId))
+                                        .catch(err => console.log(err));
 
-                // this.venuesService.getItems(venueId).subscribe((items: Item[]) => {
-                //     console.log(items);
-                //     items.forEach((item: Item) => {
-                //         this.venuesService.deleteItem(venueId, item.id)
-                //             .then((res) => {
-                //                 console.
-                //                     log('item deleted', item.id)
-                //             })
-                //             .then(() => {
-                //                 this.venuesService.deleteVenue(venueId)
-                //                     .then((res) => console.log('venue deleted', venueId))
-                //                     .catch(err => console.log(err));
-
-                //             })
-                //             .catch(err => console.log(err));
-                //     })
-                // })
+                                })
+                                .catch(err => console.log(err));
+                        })
+                    } else {
+                        this.venuesService.deleteVenue(venueId)
+                            .then((res) => console.log('venue without items deleted', venueId))
+                            .catch(err => console.log(err));
+                    }
+                })
             }
+            return;
         })
     }
 
     onItems(venue: Venue) {
         // this.venuesService.setActiveVenue(venue);
-        localStorage.setItem('activeVenue', JSON.stringify(venue));
+        // localStorage.setItem('activeVenue', JSON.stringify(venue));
         this.router.navigate(['admin/items', { venueId: venue.id, venueName: venue.name }])
     }
 

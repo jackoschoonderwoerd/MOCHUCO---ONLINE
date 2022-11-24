@@ -14,17 +14,21 @@
             display: flex;
             gap: 1rem;
             padding: 0.3rem 0.5rem;
-            align-content: center;
+
             border: 1px solid black;
+            align-items: center;
+            justify-content: center;
             .navigation-title {
             }
         }
         .location {
             display: flex;
+
             gap: 1rem;
             padding: 0.3rem 0.5rem;
-            align-content: center;
             border: 1px solid black;
+            align-items: center;
+            justify-content: center;
             .venue-name {
             }
         }

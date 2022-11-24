@@ -20,6 +20,8 @@ import { QrCodeComponent } from './venues/items/qr-code/qr-code.component';
 import { LanguageAudioComponent } from './venues/items/add-item/languages/add-language/language-audio/language-audio.component';
 import { ImageDialogComponent } from './venues/items/image-dialog/image-dialog.component';
 import { DeleteVenueDialogComponent } from './venues/delete-venue-dialog/delete-venue-dialog.component';
+import { LoginComponent } from './auth/login/login.component';
+import { PermissionDeniedDialogComponent } from './shared/permission-denied-dialog/permission-denied-dialog.component';
 
 
 
@@ -29,20 +31,22 @@ import { DeleteVenueDialogComponent } from './venues/delete-venue-dialog/delete-
 @NgModule({
     declarations: [
 
+
         AddItemComponent,
+        AddLanguageComponent,
         AddVenueComponent,
         ConfirmDeleteComponent,
+        DeleteVenueDialogComponent,
         DescriptionComponent,
         DownloadQrComponent,
-        LanguageAudioComponent,
-        ItemImageComponent,
-
-        ItemsComponent,
-        VenuesComponent,
-        AddLanguageComponent,
-        QrCodeComponent,
         ImageDialogComponent,
-        DeleteVenueDialogComponent,
+        ItemImageComponent,
+        ItemsComponent,
+        LanguageAudioComponent,
+        LoginComponent,
+        QrCodeComponent,
+        VenuesComponent,
+        PermissionDeniedDialogComponent,
 
 
     ],

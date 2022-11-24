@@ -37,7 +37,7 @@ export class MochucoComponent implements OnInit {
 
     }
     onAdminOnly() {
-        this.router.navigateByUrl('/admin')
+        this.router.navigateByUrl('/admin/login')
     }
 
 }

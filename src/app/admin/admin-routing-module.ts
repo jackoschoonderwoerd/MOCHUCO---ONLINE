@@ -13,6 +13,7 @@ import { DescriptionComponent } from './venues/items/add-item/languages/add-lang
 import { AddItemComponent } from "./venues/items/add-item/add-item.component";
 import { LanguagesComponent } from './venues/items/add-item/languages/languages.component';
 import { AddLanguageComponent } from './venues/items/add-item/languages/add-language/add-language.component';
+import { LoginComponent } from "./auth/login/login.component";
 
 
 
@@ -27,6 +28,7 @@ const routes: Routes = [
     { path: 'add-venue', component: AddVenueComponent },
     { path: 'add-item', component: AddItemComponent },
     { path: 'languages', component: LanguagesComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'add-language', component: AddLanguageComponent }
 
 ]

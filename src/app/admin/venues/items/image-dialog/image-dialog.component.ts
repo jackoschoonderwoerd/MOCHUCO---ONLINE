@@ -17,9 +17,13 @@ export class ImageDialogComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.imageUrl = this.data.imageUrl
+        this.imageUrl = this.data.imageUrl;
+        this.dialogRef.updateSize(
+            "50vw", "auto"
+        )
+
     }
-    onMouseleave() {
+    onClose() {
         this.dialogRef.close();
     }
 }

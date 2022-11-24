@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Venue } from 'src/app/shared/models';
 import { VenuesService } from '../venues.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { PermissionDeniedDialogComponent } from '../../shared/permission-denied-dialog/permission-denied-dialog.component';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
     selector: 'app-add-venue',
@@ -20,8 +22,10 @@ export class AddVenueComponent implements OnInit {
         // @Inject(MAT_DIALOG_DATA) private data: any,
         private route: ActivatedRoute,
         private fb: FormBuilder,
+        private dialog: MatDialog,
         private venuesService: VenuesService,
-        private router: Router) { }
+        private router: Router,
+        private auth: Auth) { }
 
     ngOnInit(): void {
         // console.log(this.data);
@@ -48,18 +52,27 @@ export class AddVenueComponent implements OnInit {
         const venueName = this.form.value.name
         if (this.editmode) {
             this.venuesService.updateVenue(this.venueId, venueName)
+
                 .then(res => {
                     console.log('venue updated')
                     this.router.navigateByUrl('/admin/venues');
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err)
+                    this.dialog.open(PermissionDeniedDialogComponent, { data: { err } })
+                })
         } else {
             const venue: Venue = {
-                name: venueName
+                name: venueName,
+                owner: this.auth.currentUser.uid
+
             }
             this.venuesService.addVenue(venue)
-                .then(res => {
-                    console.log('venue added')
+                .then(docRef => {
+                    console.log('venue added', docRef.id)
+                    this.venuesService.updateUser(docRef.id)
+                    // .then((res) => console.log('user updated', res))
+                    // .catch(err => console.log(err));
                     this.router.navigateByUrl('/admin/venues');
                 })
                 .catch(err => console.log(err));

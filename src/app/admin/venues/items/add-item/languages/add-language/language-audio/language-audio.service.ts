@@ -31,6 +31,7 @@ import {
     orderBy,
     query
 } from '@angular/fire/firestore';
+import { ItemsService } from '../../../../items.service';
 
 @Injectable({
     providedIn: 'root'
@@ -40,7 +41,8 @@ export class LanguageAudioService {
     constructor(
         private storage: Storage,
         private venuesService: VenuesService,
-        private firestore: Firestore) { }
+        private firestore: Firestore,
+        private itemsService: ItemsService) { }
 
     async storeAudio(venueId: string, itemId: string, language: string, file: File): Promise<string> {
         const path = `venues/${venueId}/items/${itemId}/audio/${language}`
@@ -66,13 +68,13 @@ export class LanguageAudioService {
     removeAudioFromDb(venueId, itemId, language) {
         console.log(venueId, itemId, language)
 
-        const sub = this.venuesService.getItem(venueId, itemId).subscribe((item: Item) => {
+        const sub = this.itemsService.getItem(venueId, itemId).subscribe((item: Item) => {
             const itemByLanguageIndex = item.itemsByLanguage.findIndex((itemByLanguage: ItemByLanguage) => {
                 return itemByLanguage.language === language;
             })
             item.itemsByLanguage[itemByLanguageIndex].itemLS.audioUrl = null;
 
-            this.venuesService.setItem(venueId, itemId, item)
+            this.itemsService.setItem(venueId, itemId, item)
                 .then(res => {
                     console.log('venue updated')
                     sub.unsubscribe();

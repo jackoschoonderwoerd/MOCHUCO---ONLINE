@@ -21,7 +21,6 @@ export class DeleteVenueDialogComponent implements OnInit {
     ngOnInit(): void {
         this.initForm();
         this.form.valueChanges.subscribe((formData) => {
-            console.log(formData)
             if (formData.items && formData.images && formData.audio && formData.descriptions) {
                 this.buttonDisabled = false;
             } else {
@@ -39,7 +38,6 @@ export class DeleteVenueDialogComponent implements OnInit {
     }
 
     onDeleteVenue() {
-        console.log(this.form.value);
         this.dialogRef.close(true)
     }
     onCancel() {
