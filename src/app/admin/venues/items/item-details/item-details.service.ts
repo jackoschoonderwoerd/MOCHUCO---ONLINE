@@ -99,11 +99,11 @@ export class ItemDetailsService {
         return deleteObject(storagRef);
     }
 
-    deleteAllDataFromStorage(venueId) {
-        const path = `venues/${venueId}`
-        const storageRef = ref(this.storage, path)
-        return deleteObject(storageRef)
-    }
+    // deleteAllDataFromStorage(venueId) {
+    //     const path = `venues/${venueId}`
+    //     const storageRef = ref(this.storage, path)
+    //     return deleteObject(storageRef)
+    // }
 
     checkForAlvailableLanguages(itemId) {
         const languages: string[] = this.languageService.getLanguages()

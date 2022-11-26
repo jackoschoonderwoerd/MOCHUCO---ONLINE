@@ -49,6 +49,7 @@ export class AddVenueComponent implements OnInit {
     }
     onSubmit() {
         console.log(this.form.value);
+        console.log('USER ID:', this.auth.currentUser.uid);
         const venueName = this.form.value.name
         if (this.editmode) {
             this.venuesService.updateVenue(this.venueId, venueName)
@@ -71,6 +72,17 @@ export class AddVenueComponent implements OnInit {
                 .then(docRef => {
                     console.log('venue added', docRef.id)
                     this.venuesService.updateUser(docRef.id)
+                        .then((res) => {
+                            console.log('user updated');
+                        })
+                    // .then(() => {
+                    //     this.venuesService.updateAdmin(docRef.id)
+                    //         .then(() => {
+                    //             console.log('admin updated')
+                    //         })
+                    //         .catch(err => console.log(err));
+                    // })
+
                     // .then((res) => console.log('user updated', res))
                     // .catch(err => console.log(err));
                     this.router.navigateByUrl('/admin/venues');

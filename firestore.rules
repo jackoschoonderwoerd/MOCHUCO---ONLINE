@@ -25,10 +25,14 @@ service cloud.firestore {
         // }
         function userOwnsVenue(userId, venueId) {
             return exists(/databases/$(database)/documents/users/$(userId)/venuesOwned/$(venueId))
-            // return true;
         }
-        function userOwnesItem(userId, venueId) {
-            return exists(/databases/$(database)/documents/users/$(userId)/venuesOwned/$(venueId))
+
+        // function userOwnesItem(userId, venueId) {
+        //     return exists(/databases/$(database)/documents/users/$(userId)/venuesOwned/$(venueId))
+        // }
+        function userCanCreateVenue(userId) {
+            // return exists(/databases/$(database)/documents/users/$(userId))
+            return true;
         }
 
         // function isValidVenue() {
@@ -49,7 +53,10 @@ service cloud.firestore {
         match /venues/{venueId} {
             // allow read: if userOwnsItem(request.auth.uid, venueId)
             allow read: if true;
-            allow write:  if userOwnesItem(request.auth.uid, venueId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
+
+            allow create:  if userCanCreateVenue(request.auth.uid) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
+            allow update: if userOwnesVenue(request.auth.uid, venueId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
+            allow delete: if userOwnesVenue(request.auth.uid, venueId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
             // allow read: if isAuthenticated() && ownsVenue();
             // allow create, update: if isValidVenue() && isAdmin();
             // allow delete: if isAdmin();

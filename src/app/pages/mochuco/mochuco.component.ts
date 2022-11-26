@@ -25,7 +25,7 @@ export class MochucoComponent implements OnInit {
 
     ngOnInit(): void {
         this.languageService.language$.subscribe((language: string) => {
-            console.log(language)
+            // console.log(language)
         })
         // this.isLoading$ = this.uiService.isLoading$
         // this.uiService.isLoading$.subscribe((status: boolean) => {

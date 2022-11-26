@@ -39,6 +39,8 @@ export class AuthService {
 
         const mochucoUserString = localStorage.getItem(AUTH_DATA);
         if (mochucoUserString) {
+
+            console.log(mochucoUserString);
             const mochucoUser: MochucoUser = JSON.parse(mochucoUserString);
             this.mochucoUserSubject.next(mochucoUser)
             if (mochucoUser.email === 'jackoboes@gmail.com') {
@@ -66,19 +68,19 @@ export class AuthService {
             .pipe(
                 tap((fireAuthUser: any) => {
                     this.fireAuthUser = fireAuthUser
-                    console.log(fireAuthUser.user);
-                    console.log(fireAuthUser.user.stsTokenManager);
-                    console.log(fireAuthUser.user.stsTokenManager.accessToken);
+                    // console.log(fireAuthUser.user);
+                    // console.log(fireAuthUser.user.stsTokenManager);
+                    // console.log(fireAuthUser.user.stsTokenManager.accessToken);
                     const mochucoUser: MochucoUser = {
                         email: fireAuthUser.user.email
                     }
                     this.mochucoUserSubject.next(mochucoUser);
                     this.isLoggedInSubject.next(true);
                     if (fireAuthUser.user.email === 'jackoboes@gmail.com') {
-                        console.log('admin!')
+                        // console.log('admin!')
                         this.isAdminSubject.next(true);
                     } else {
-                        console.log('not admin')
+                        // console.log('not admin')
                     }
                     localStorage.setItem(AUTH_DATA, JSON.stringify(mochucoUser));
                 })
@@ -86,10 +88,10 @@ export class AuthService {
 
     }
     logout() {
-        console.log(this.fireAuthUser);
+        // console.log(this.fireAuthUser);
         this.afAuth.signOut()
             .then((res) => {
-                console.log('logged out')
+                // console.log('logged out')
                 this.mochucoUserSubject.next(null);
                 localStorage.removeItem(AUTH_DATA);
                 this.router.navigateByUrl('mochuco');

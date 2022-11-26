@@ -10,6 +10,7 @@ import { QrCodeComponent } from './qr-code/qr-code.component';
 import { ItemImageComponent } from './add-item/item-image/item-image.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { ItemsService } from './items.service';
+import { DeleteItemDialogComponent } from './delete-item-dialog/delete-item-dialog.component';
 
 
 @Component({
@@ -53,11 +54,14 @@ export class ItemsComponent implements OnInit {
         });
     }
     onDelete(itemId: string) {
-        const dialogRef = this.dialog.open(ConfirmDeleteComponent);
+        const dialogRef = this.dialog.open(DeleteItemDialogComponent);
         dialogRef.afterClosed().subscribe((res) => {
             if (res) {
                 this.itemsService.deleteItem(this.venueId, itemId)
-                    .then(res => console.log('item deleted'))
+                    .then(res => {
+                        console.log('item deleted')
+
+                    })
                     .catch(err => console.log(err));
             }
         })
@@ -93,11 +97,11 @@ export class ItemsComponent implements OnInit {
         this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: item.id, itemName: item.name }])
     }
 
-    deleteAllDataInStorage() {
-        this.itemDetailsService.deleteAllDataFromStorage(this.venue.id)
-            .then(res => console.log('all venuedata removed from storage'))
-            .catch(err => console.error(err));
-    }
+    // deleteAllDataInStorage() {
+    //     this.itemDetailsService.deleteAllDataFromStorage(this.venue.id)
+    //         .then(res => console.log('all venuedata removed from storage'))
+    //         .catch(err => console.error(err));
+    // }
 
     checkForAudioStorage(itemIndex: number, languageIndex: number, language: string) {
         const itemId = this.venue.items[itemIndex].id

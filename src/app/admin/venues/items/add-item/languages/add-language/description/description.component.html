@@ -10,8 +10,12 @@
                 (click)="addHeader()">add header
             </button>
             <button mat-raised-button
-                matTooltip="Any text with surrounded by <p></p> tags will start  on a new line"
+                matTooltip="Any text with surrounded by <p></p> tags will start on a new line. At the top and bottom of the paragraph there will be a white line."
                 (click)="addParagraph()">add paragraph
+            </button>
+            <button mat-raised-button
+                matTooltip="Any text followed by <br> will start on a new line. Instead of using this button you can also use the return key on your keyboard."
+                (click)="addLineBreak()">linebreak
             </button>
             <!-- <button (click)="onCheckForHeaderLength()">check header</button> -->
         </div>
@@ -22,7 +26,7 @@
                 type="text"
                 placeholder="enter your description here"
                 [ngStyle]="{'height': textAreaHeight}"
-                (keyup)="textareaKeyUp()"
+                (keyup)="textareaKeyUp($event)"
                 class="content"
                 formControlName="description"
                 matInput>{{description}}

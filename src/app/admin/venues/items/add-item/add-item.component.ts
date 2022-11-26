@@ -41,7 +41,7 @@ export class AddItemComponent implements OnInit {
         this.route.params.subscribe((params: any) => {
             this.venueId = params.venueId;
             this.venueName = params.venueName;
-            if (params.itemId) {
+            if (params && params.itemId) {
                 this.itemId = params.itemId
                 this.editmode = true
                 this.itemsService.getItem(this.venueId, params.itemId).subscribe((item: Item) => {

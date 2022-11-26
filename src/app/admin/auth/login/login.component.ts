@@ -35,23 +35,22 @@ export class LoginComponent implements OnInit {
         })
     }
     onLogIn() {
-        console.group(this.form.value)
         const user: MochucoUser = {
             email: this.form.value.email,
             password: this.form.value.password
         }
         this.authService.logIn(user).subscribe(
             userData => {
-                console.log(userData);
-                console.log(userData.user);
-                console.log(userData.user.stsTokenManager)
-                console.log(userData.user.stsTokenManager.accessToken)
+                // console.log(userData);
+                // console.log(userData.user);
+                // console.log(userData.user.stsTokenManager)
+                // console.log(userData.user.stsTokenManager.accessToken)
                 this.router.navigateByUrl('admin')
                 this.afAuth.currentUser.getIdTokenResult()
                     .then((data: any) => {
-                        console.log(data);
-                        console.log(data.user)
-                        console.log(data.claims)
+                        // console.log(data);
+                        // console.log(data.user)
+                        // console.log(data.claims)
                     })
 
             });

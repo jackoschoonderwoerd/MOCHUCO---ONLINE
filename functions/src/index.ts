@@ -5,6 +5,7 @@ import * as admin from 'firebase-admin';
 
 
 
+
 admin.initializeApp();
 
 // export const db = admin.firestore();
@@ -25,10 +26,10 @@ admin.initializeApp();
 export const onDeleteVenueStorage =
     functions
         .firestore.document('venues/{venueId}')
-        .onDelete(async (snap, context: any) => {
 
+        .onDelete(async (snap, context: any) => {
             functions.logger.debug(
-                `Deleting venue: ${context.params.venueId}`
+                `Deleting venue storage: ${context.params.venueId}`
             )
             const bucket = admin.storage().bucket()
             bucket.deleteFiles({
@@ -41,6 +42,25 @@ export const onDeleteVenueStorage =
                 };
             })
         })
+export const onDeleteItemStorage =
+    functions
+        .firestore.document('venues/{venueId}/items/{itemId}')
+        .onDelete(async (snap, context: any) => {
+            functions.logger.debug(
+                'Deleting item storage'
+            )
+            const bucket = admin.storage().bucket()
+            bucket.deleteFiles({
+                prefix: `venues/${context.params.venueId}/items/${context.params.itemId}/`
+            }, function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(`All the Firebase Storage files in venues/${context.params.venueId} - ${context.params.itemId} have been deleted`)
+                }
+            })
+        })
+
 
 // export const addUserToDb =
 //     functions.auth.user().onCreate((user) => {

@@ -32,12 +32,6 @@ export class VenuesComponent implements OnInit {
     ngOnInit(): void {
         this.venues$ = this.venuesService.getVenues();
 
-
-        // this.venuesService.getVenues().pipe(
-        //     map((x) => x + 1),
-        //     filter(x => x > 2)
-        // );
-
     }
     onEditVenue(venueId: string, venueName: string) {
         this.router.navigate(['/admin/add-venue', { venueId, venueName }])
@@ -66,7 +60,13 @@ export class VenuesComponent implements OnInit {
                         })
                     } else {
                         this.venuesService.deleteVenue(venueId)
-                            .then((res) => console.log('venue without items deleted', venueId))
+                            .then((res) => {
+                                console.log('venue without items deleted', venueId)
+                                // TODO remove venueid from users/coursesowned
+                                this.venuesService.removeVenueIdFromCoursesOwned(venueId)
+                                    .then((res) => { console.log('venueId removed from venuesOwned') })
+                                    .catch(err => console.log(err))
+                            })
                             .catch(err => console.log(err));
                     }
                 })

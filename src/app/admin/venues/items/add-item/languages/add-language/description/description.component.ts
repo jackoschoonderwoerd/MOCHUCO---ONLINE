@@ -101,14 +101,14 @@ export class DescriptionComponent implements OnInit {
         this.textarea.nativeElement.value = patchedValue;
         this.description = patchedValue.replace(
 
-            /(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+            /(?!.*<br>)(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
         );
         this.adjustTextareaHeight();
         // this.selectedAreaStart = 0;
         // this.selectedAreaEnd = 0;
 
         currentValue = null;
-        this.setCaretPosition(cursorEnd)
+        this.setCaretPosition(cursorEnd, 21)
     }
     addParagraph() {
         const cursorStart = this.textarea.nativeElement.selectionStart;
@@ -122,22 +122,60 @@ export class DescriptionComponent implements OnInit {
         this.textarea.nativeElement.value = patchedValue;
         this.description = patchedValue.replace(
 
-            /(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+            /(?!.*<br>)(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
         );
         this.adjustTextareaHeight();
         // this.selectedAreaStart = 0;
         // this.selectedAreaEnd = 0;
 
         currentValue = null;
-        this.setCaretPosition(cursorEnd)
+        this.setCaretPosition(cursorEnd, 22)
+    }
+    addLineBreak() {
+        console.log('adding linebreak')
+        const cursorStart = this.textarea.nativeElement.selectionStart;
+        console.log(cursorStart)
+        const cursorEnd = this.textarea.nativeElement.selectionEnd;
+        console.log(cursorEnd)
+        let currentValue = this.textarea.nativeElement.value;
+        let patchedValue = currentValue.substr(
+            0, cursorStart) +
+            '<br>\n' +
+            currentValue.substr(cursorEnd)
+        this.textarea.nativeElement.value = patchedValue;
+        this.description = patchedValue.replace(
+            /(?!.*<br>)(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+        );
+        this.setCaretPosition(cursorEnd, 4)
+        // this.textarea.nativeElement.setSelectionRange()
+
+    }
+    textareaKeyUp(event) {
+        // console.log(event);
+        // console.log(event.location);
+        // console.log(event.code);
+        // console.log(this.textarea.nativeElement.selectionEnd)
+        if (event.code === 'Enter') {
+            console.log('ENTER')
+            console.log(event.location)
+            this.addLineBreak()
+        }
+        // console.log(this.textarea.nativeElement.selectionStart);
+        this.description = this.textarea.nativeElement.value.replace(
+            // /(?!.*<h5>)(?!.*<\/h5>)(?!.*<p>)(?!.*<\/p>)(<([^>]+)>)/ig, ''
+            /(?!.*<br>)(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+        );
+        this.adjustTextareaHeight();
+        this.onCheckForHeaderLength()
     }
 
-    setCaretPosition(cursorEnd) {
+
+    setCaretPosition(cursorEnd, addedPositions) {
         console.log(cursorEnd);
         // IE >= 9 and other browsers
         if (this.textarea.nativeElement.setSelectionRange) {
             this.textarea.nativeElement.focus();
-            this.textarea.nativeElement.setSelectionRange(cursorEnd + 22, cursorEnd + 22);
+            this.textarea.nativeElement.setSelectionRange(cursorEnd + addedPositions, cursorEnd + addedPositions);
         }
         // IE < 9
         // else if (ctrl.createTextRange) {
@@ -151,15 +189,6 @@ export class DescriptionComponent implements OnInit {
     }
 
 
-    textareaKeyUp() {
-        console.log(this.textarea.nativeElement.selectionStart);
-        this.description = this.textarea.nativeElement.value.replace(
-            // /(?!.*<h5>)(?!.*<\/h5>)(?!.*<p>)(?!.*<\/p>)(<([^>]+)>)/ig, ''
-            /(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
-        );
-        this.adjustTextareaHeight();
-        this.onCheckForHeaderLength()
-    }
 
     adjustTextareaHeight() {
         this.form.valueChanges.subscribe(value => {
