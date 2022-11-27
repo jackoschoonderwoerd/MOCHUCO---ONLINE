@@ -19,7 +19,8 @@ export class FooterComponent implements OnInit {
 
     // selectedLanguage$: Observable<LanguageData>
     // languages$: Observable<LanguageData[]>
-    languages: string[]
+    languages: string[];
+    translatedLanguages: string[];
 
     constructor(
         private router: Router,
@@ -39,10 +40,10 @@ export class FooterComponent implements OnInit {
     onScanner() {
         this.router.navigateByUrl('scanner')
     }
-    onSelectLanguage(language: string) {
-        // this.uiService.setLanguage(language)
-        this.selectLanguageService.setLanguage(language)
-    }
+    // onSelectLanguage(language: string) {
+    //     // this.uiService.setLanguage(language)
+    //     this.selectLanguageService.setLanguage(language)
+    // }
     onLanguageSelector() {
         const dialogRef = this.dialog.open(SelectLanguageComponent)
     }

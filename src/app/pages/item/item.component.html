@@ -1,10 +1,13 @@
 <div class="page-container">
     <h4 class="name">{{itemName}}</h4>
-    <img [src]="imageUrl"
+    <img *ngIf="imageUrl"
+        [src]="imageUrl"
         alt="">
     <div class="description"
+        *ngIf="description"
         [innerHTML]="description"></div>
-    <audio [src]="audioUrl"
+    <audio *ngIf="audioUrl"
+        [src]="audioUrl"
         [autoplay]="audioAutoplay"
         controls></audio>
     <!-- {{itemName}}{{description}}

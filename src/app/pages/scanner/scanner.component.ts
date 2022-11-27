@@ -46,7 +46,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
 
 
     onError(e: any): void {
-        alert(e);
+        // alert(e);
     }
     onData(event: string) {
         if (navigator.geolocation) {
@@ -56,7 +56,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
         }
         if (event) {
             // this.router.navigateByUrl('mochuco')
-            alert(event)
+            // alert(event)
             const start = event.split('?')[1];
             console.log('start: ', start);
             const myArray = start.split('&')
@@ -96,7 +96,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
             // })
             // this.scannerService.setIsScanning(false);
         } else {
-            alert('no data')
+            // alert('no data')
         }
     }
 

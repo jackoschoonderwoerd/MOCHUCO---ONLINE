@@ -16,8 +16,8 @@
         <button class="language"
             mat-raised-button
             color="primary"
-            (click)="onLanguage(language)"
-            *ngFor="let language of languages">{{language}}</button>
+            (click)="onLanguage(translatedLanguageObject.name)"
+            *ngFor="let translatedLanguageObject of translatedLanguageObjects">{{translatedLanguageObject.translation}}</button>
         <!-- <button class="language"
             mat-raised-button
             (click)="onLanguage(language)"
