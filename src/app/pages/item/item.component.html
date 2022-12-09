@@ -1,34 +1,21 @@
 <div class="page-container">
-    <h4 class="name">{{itemName}}</h4>
-    <img *ngIf="imageUrl"
-        [src]="imageUrl"
-        alt="">
-    <div class="description"
-        *ngIf="description"
-        [innerHTML]="description"></div>
-    <audio *ngIf="audioUrl"
-        [src]="audioUrl"
-        [autoplay]="audioAutoplay"
-        controls></audio>
-    <!-- {{itemName}}{{description}}
-    <div class="content-container"
-        *ngFor="let itemByLanguage of (itemService.item$|async)?.itemsByLanguage">
-        <div class="item"
-            *ngIf="(languageService.language$|async) === itemByLanguage.language">
+    <div class="content">
+        <h4 class="name">{{itemName}}</h4>
+        <img *ngIf="imageUrl"
+            [src]="imageUrl"
+            alt="">
+        <app-audio *ngIf="audioUrl"
+            class="app-audio"
+            [ngClass]="[isAudioPanelOpen ? 'audioPanelOpen': 'audioPanelClosed']"
+            (audioPanelOpen)="audioPanelOpen($event)"></app-audio>
+        <div class="description"
+            *ngIf="description"
+            [innerHTML]="description"></div>
+        <!-- <div class="audioUrl">{{audioUrl}}</div> -->
+        <!-- <audio *ngIf="audioUrl"
+            [src]="audioUrl"
+            [autoplay]="audioAutoplay"
+            controls></audio> -->
+    </div>
 
-            <h4 class="name">{{(itemByLanguage.itemLS).name}}</h4>
-            <div class="image-container">
-                <img [src]="(itemService.item$|async).imageUrl"
-                    alt="">
-            </div>
-            <div class="description"
-                [innerHTML]="(itemByLanguage.itemLS).description"></div>
-            <div class="audio-container">
-                <audio *ngIf="(itemByLanguage.itemLS).audioUrl"
-                    [src]="(itemByLanguage.itemLS).audioUrl"
-                    [autoplay]="(itemByLanguage.itemLS).audioAutoplay"
-                    controls></audio>
-            </div>
-        </div>
-    </div> -->
 </div>

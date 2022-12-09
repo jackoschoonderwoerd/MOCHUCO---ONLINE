@@ -13,7 +13,8 @@ export class QrCodeComponent implements OnInit {
     itemId: string;
     venueId: string;
     itemName: string;
-    local: boolean = false
+    local: boolean = false;
+    localLink: string;
     @ViewChild('printarea') private printarea: ElementRef
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any) { }
@@ -23,6 +24,7 @@ export class QrCodeComponent implements OnInit {
         this.itemId = this.data.itemId;
         this.itemName = this.data.itemName
         this.local = this.data.local
+        this.localLink = `http://localhost:4200/item?venueId=${this.venueId}&itemId=${this.itemId}`
     }
     onDownloadQrCode() {
         console.log(this.printarea.nativeElement)

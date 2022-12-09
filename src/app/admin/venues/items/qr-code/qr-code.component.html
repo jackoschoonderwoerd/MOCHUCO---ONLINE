@@ -27,6 +27,7 @@
     <div class="print-area"
         #printarea>
         <div class="item-name">{{itemName}}</div>
+        <div class="link"><a [href]="localLink">local link</a></div>
         <ngx-qrcode-styling #qrcode
             [type]="'canvas'"
             [shape]="'square'"

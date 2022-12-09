@@ -34,6 +34,9 @@ export class ItemService {
     public mainPage$ = this.mainPageSubject.asObservable()
     private availableLanguagesSubject = new BehaviorSubject<string[]>([])
     public availableLanguages$ = this.availableLanguagesSubject.asObservable()
+    private audioUrlSubject = new BehaviorSubject<string>(null)
+    public audioUrl$ = this.audioUrlSubject.asObservable()
+
 
     constructor(
         private firestore: Firestore,
@@ -43,6 +46,9 @@ export class ItemService {
         console.log('GETTING ITEM: ', venueId, itemId);
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return docData(itemRef)
+    }
+    updateAudioUrl(audioUrl: string) {
+        this.audioUrlSubject.next(audioUrl);
     }
 
     extractRequestedItem(itemId) {

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Item } from 'src/app/shared/models';
 import { ItemService } from './item.service';
 import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/language.service';
 import { ItemByLanguage, ItemLS } from '../../shared/models';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
     selector: 'app-item',
@@ -24,11 +26,16 @@ export class ItemComponent implements OnInit {
     audioUrl: string;
     audioAutoplay: boolean;
 
+    isAudioPanelOpen: boolean = false;
+
+    @Output() audioUrlChanged: EventEmitter<string> = new EventEmitter()
+
 
     constructor(
         private route: ActivatedRoute,
         public languageService: LanguageService,
-        public itemService: ItemService) { }
+        public itemService: ItemService,
+        private dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe((queryParams: any) => {
@@ -45,10 +52,13 @@ export class ItemComponent implements OnInit {
                             return itemByLanguage.language === language
                         })
                         const itemByLanguage: ItemByLanguage = itemByLanguageArray[0]
+
                         this.itemName = itemByLanguage.itemLS.name;
                         this.description = itemByLanguage.itemLS.description;
                         this.audioUrl = itemByLanguage.itemLS.audioUrl;
-                        this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay
+                        this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay;
+
+                        this.itemService.updateAudioUrl(this.audioUrl);
 
                     })
                 } else {
@@ -57,6 +67,11 @@ export class ItemComponent implements OnInit {
             })
         })
     }
+    audioPanelOpen(status: boolean) {
+        console.log(status);
+        this.isAudioPanelOpen = status;
+    }
+
     getAvailableLanguages(item: Item) {
         console.log(item);
         const languages: string[] = [];
@@ -65,4 +80,5 @@ export class ItemComponent implements OnInit {
             this.languageService.setAvailableLanguages(languages)
         })
     }
+
 }

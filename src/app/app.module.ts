@@ -35,6 +35,7 @@ import { StageComponent } from './pages/stage/stage.component';
 import { ItemComponent } from './pages/item/item.component';
 import { LanguagesComponent } from './admin/venues/items/add-item/languages/languages.component';
 import { WarningComponent } from './shared/warning/warning.component';
+import { AudioComponent } from './pages/item/audio/audio.component';
 
 
 
@@ -60,6 +61,7 @@ import { WarningComponent } from './shared/warning/warning.component';
         ItemComponent,
         LanguagesComponent,
         WarningComponent,
+        AudioComponent,
 
 
     ],

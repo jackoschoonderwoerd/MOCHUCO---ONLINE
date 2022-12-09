@@ -1,0 +1,45 @@
+<div class="page-container">
+    <div class="music-container">
+        <div class="navigation"
+            [ngStyle]="{'border': isPlaying ? '1px solid black': ''}">
+            <div class="play-pause-button"
+                (click)="onPlayPause()">
+                <mat-icon *ngIf="!isPlaying">play_circle_filled</mat-icon>
+                <mat-icon *ngIf="isPlaying">pause_circle_filled</mat-icon>
+            </div>
+            <div *ngIf="isPlaying"
+                class="filler"></div>
+            <div class="replay-button"
+                *ngIf="percentage > 0 && isPlaying"
+                (click)="onReplay()">
+                <mat-icon>replay</mat-icon>
+            </div>
+        </div>
+        <div class="volume">
+            <div class="volume-down-button"
+                (click)="adjustVolume('decrease')">
+                <mat-icon>remove_circle</mat-icon>
+            </div>
+            <div class="volume-indicator">
+                <div class="volume-indicator-filler"
+                    [ngStyle]="{'height': audioPlayer.volume * 100 + '%'}">
+
+                </div>
+            </div>
+            <div class="volume-up-button"
+                (click)="adjustVolume('increase')">
+                <mat-icon>add_circle</mat-icon>
+            </div>
+        </div>
+        <div class="progress-container">
+            <div #progressBar
+                class="progress-bar">
+                <div class="progress-bar-filler"
+                    [ngStyle]="{'width': percentage + '%'}">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

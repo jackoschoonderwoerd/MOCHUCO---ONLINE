@@ -1,18 +1,38 @@
 .page-container {
-    padding: 1rem 0;
-    max-width: 30rem;
-    min-width: 100vw;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    // min-width: 100vw;
     align-items: center;
-    .name {
-        text-transform: uppercase;
+    justify-content: center;
+    display: flex;
+
+    .content {
+        padding: 1rem 0;
+        max-width: 25rem;
+        border: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        .name {
+            margin: auto;
+            text-transform: uppercase;
+        }
+        img {
+            width: 100%;
+        }
+        app-audio {
+            // border: 3px solid red;
+        }
+        .description {
+            padding: 0 1rem;
+        }
     }
-    img {
-        width: 100vw;
-    }
-    .description {
-        padding: 0 1rem;
-    }
+}
+.audioPanelOpen {
+    height: 14.5rem;
+    transition: 1s;
+    overflow: hidden;
+}
+.audioPanelClosed {
+    height: 4.5rem;
+    transition: 1s;
+    overflow: hidden;
 }
