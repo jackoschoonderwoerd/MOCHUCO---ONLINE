@@ -30,6 +30,18 @@
         <button mat-raised-button
             *ngIf="item"
             (click)="onImage()">image</button>
+        <mat-form-field>
+            <input type="number"
+                placeholder="latitude"
+                matInput
+                formControlName="latitude">
+        </mat-form-field>
+        <mat-form-field>
+            <input type="number"
+                placeholder="longitude"
+                matInput
+                formControlName="longitude">
+        </mat-form-field>
         <button mat-raised-button
             [ngClass]="{'unsaved': unsaved}"
             [disabled]="form.invalid"

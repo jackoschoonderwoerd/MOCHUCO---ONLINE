@@ -15,7 +15,8 @@
                 <mat-icon>replay</mat-icon>
             </div>
         </div>
-        <div class="volume">
+        <div class="volume"
+            *ngIf="isPlaying">
             <div class="volume-down-button"
                 (click)="adjustVolume('decrease')">
                 <mat-icon>remove_circle</mat-icon>
@@ -31,7 +32,8 @@
                 <mat-icon>add_circle</mat-icon>
             </div>
         </div>
-        <div class="progress-container">
+        <div *ngIf="isPlaying"
+            class="progress-container">
             <div #progressBar
                 class="progress-bar">
                 <div class="progress-bar-filler"

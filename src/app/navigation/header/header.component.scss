@@ -5,7 +5,8 @@ mat-toolbar {
         // border: 2px solid pink;
         // padding: 0 1rem;
         // width: 100%;
-        max-width: 500px;
+        // padding: 0 1rem;
+        max-width: 30rem;
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -21,6 +22,12 @@ mat-toolbar {
                 img {
                     width: 100%;
                 }
+            }
+        }
+        .venue-logo {
+            width: 2rem;
+            img {
+                width: 100%;
             }
         }
         .main-page-name {

@@ -37,6 +37,7 @@ export class ItemImageComponent implements OnInit {
         private dialogRef: MatDialogRef<ItemImageComponent>,
         private itemImageService: ItemImageService,
         @Inject(MAT_DIALOG_DATA) private data: any) { }
+
     ngOnInit(): void {
         console.log(this.data)
         this.venueId = this.data.venueId;
@@ -57,8 +58,8 @@ export class ItemImageComponent implements OnInit {
         }
         const filename = e.target.files[0].name;
         const ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
-        if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg') {
-            this.dialog.open(WarningComponent, { data: { message: 'wrong filetype, only files ending on \'jpg\' or \'png\' are allowed' } })
+        if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg' && ext !== 'webp') {
+            this.dialog.open(WarningComponent, { data: { message: 'wrong filetype, only files ending on \'jpg\' or \'png\' or \'webp\' are allowed' } })
             this.dialogRef.close()
         } else {
             var fileReader = new FileReader();

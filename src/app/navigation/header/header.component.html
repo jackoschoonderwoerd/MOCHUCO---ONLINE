@@ -8,6 +8,12 @@
             </a>
         </div>
 
+        <div (click)="onVenueLogo()"
+            class="venue-logo">
+            <img [src]="(venuesService.activeVenue$|async)?.logoUrl"
+                alt="">
+        </div>
+
         <!-- <div class="main-pages"
             *ngFor="let itemByLanguage of (itemService.mainPage$|async)?.itemsByLanguage">
             <div class="main-page"
@@ -17,8 +23,8 @@
             </div>
         </div> -->
 
-        <div class="main-page-name"
-            (click)="onMainPageSelected()">{{mainPageName}}</div>
+        <!-- <div class="main-page-name"
+            (click)="onMainPageSelected()">{{mainPageName}}</div> -->
 
 
         <div class="user"

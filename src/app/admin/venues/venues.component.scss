@@ -5,7 +5,7 @@
     // grid-template-columns: 1fr;
     // gap: 1rem;
     .venues {
-        max-width: 50rem;
+        max-width: 70rem;
         min-width: 30rem;
         // border: 3px solid black;
         display: flex;
@@ -23,13 +23,26 @@
             display: flex;
             justify-content: space-between;
             gap: 1rem;
-            align-items: center;
-            .name_id {
+            .logo_name_id {
+                align-items: center;
                 display: flex;
                 gap: 1rem;
-                .name {
-                    border: 1px solid red;
-                    text-transform: uppercase;
+                .logo {
+                    width: 2.5rem;
+                    img {
+                        width: 100%;
+                    }
+                }
+                .name_id {
+                    // border: 1px solid red;
+                    display: flex;
+                    justify-content: space-evenly;
+
+                    gap: 1rem;
+                    .name {
+                        // border: 1px solid red;
+                        text-transform: uppercase;
+                    }
                 }
             }
             .buttons {

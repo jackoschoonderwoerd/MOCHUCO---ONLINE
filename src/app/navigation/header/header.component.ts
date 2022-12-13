@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { ScannerService } from '../../pages/scanner/scanner.service';
@@ -10,7 +10,8 @@ import { MochucoComponent } from '../../pages/mochuco/mochuco.component';
 import { AuthService } from '../../admin/auth/auth.service';
 import { ItemService } from '../../pages/item/item.service';
 import { LanguageService } from '../../shared/language.service';
-import { Item, ItemByLanguage } from '../../shared/models';
+import { Item, ItemByLanguage, Venue } from '../../shared/models';
+import { VenuesService } from '../../admin/venues/venues.service';
 
 
 
@@ -22,7 +23,8 @@ import { Item, ItemByLanguage } from '../../shared/models';
 export class HeaderComponent implements OnInit {
 
 
-    mainPageName: string
+    mainPageName: string;
+    activeVenue$: Observable<Venue>
 
 
 
@@ -33,11 +35,16 @@ export class HeaderComponent implements OnInit {
         public authService: AuthService,
         public itemService: ItemService,
         public languageService: LanguageService,
+        public venuesService: VenuesService
 
 
     ) { }
 
     ngOnInit(): void {
+        this.venuesService.activeVenue$.subscribe((venue: Venue) => {
+            console.log(venue);
+        })
+
         this.itemService.mainPage$.subscribe((mainPage: Item) => {
             console.log(mainPage)
             if (mainPage) {
@@ -59,11 +66,19 @@ export class HeaderComponent implements OnInit {
             maxHeight: '80vh'
         })
     }
-    onMainPageSelected() {
-
-        this.router.navigate(['/item', { mainPage: 'mainPage' }]);
-        this.itemService.extractMainPage()
+    onVenueLogo() {
+        this.venuesService.activeVenue$.subscribe((venue: Venue) => {
+            this.itemService.getMainPageItem(venue.id).subscribe((itemArray: Item[]) => {
+                const itemId = itemArray[0].id;
+                console.log(venue.id, itemId)
+                this.router.navigate(['item'], { queryParams: { venueId: venue.id, itemId } });
+            })
+        })
     }
+    // onMainPageSelected() {
+    //     this.router.navigate(['/item', { mainPage: 'mainPage' }]);
+    //     this.itemService.extractMainPage()
+    // }
     onLogout() {
         this.authService.logout()
     }

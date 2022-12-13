@@ -37,13 +37,13 @@ export class SelectLanguageComponent implements OnInit {
 
     ngOnInit(): void {
         this.languages = this.languageService.getLanguages();
-        this.translateLanguages();
         console.log(this.languages)
+        this.translateLanguages();
         // this.languages = this.selectLanguageService.getLanguages()
         // this.languages$ = this.selectLanguageService.getLanguages()
     }
     onLanguage(languageName: string) {
-        console.log(languageName)
+        // console.log(languageName)
         this.languageService.setLanguage(languageName);
         this.dialogRef.close();
     }

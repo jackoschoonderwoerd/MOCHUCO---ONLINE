@@ -1,0 +1,22 @@
+<p>venue-qr-code works!</p>
+<div class="page-container">
+    <div class="remote-link">
+        <a [href]="remoteLink">preview</a>
+    </div>
+    <div class="print-area"
+        #printarea>
+        <div class="venue-name">{{venueName}}</div>
+        <ngx-qrcode-styling #qrcode
+            [type]="'canvas'"
+            [shape]="'square'"
+            [width]="500"
+            [height]="500"
+            [margin]="50"
+            [data]="'https://mochuco-online-3995f.web.app/item?venueId=' +
+                                        venueId"
+            image="./../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png">
+        </ngx-qrcode-styling>
+    </div>
+    <button mat-raised-button
+        (click)="onDownloadQrCode()">download qr-code</button>
+</div>

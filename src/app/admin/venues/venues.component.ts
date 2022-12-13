@@ -9,6 +9,8 @@ import { AddVenueComponent } from './add-venue/add-venue.component';
 import { Item } from '../../shared/models';
 import { DeleteVenueDialogComponent } from './delete-venue-dialog/delete-venue-dialog.component';
 import { ItemsService } from './items/items.service';
+import { VenueQrCodeComponent } from './venue-qr-code/venue-qr-code.component';
+import { AuthService } from '../auth/auth.service';
 
 
 
@@ -25,13 +27,15 @@ export class VenuesComponent implements OnInit {
         private router: Router,
         private venuesService: VenuesService,
         private dialog: MatDialog,
-        private itemsService: ItemsService
-
+        private itemsService: ItemsService,
+        public authService: AuthService
     ) { }
 
     ngOnInit(): void {
         this.venues$ = this.venuesService.getVenues();
-
+    }
+    onQrCode(venueId: string, venueName: string) {
+        this.dialog.open(VenueQrCodeComponent, { data: { venueId, venueName } })
     }
     onEditVenue(venueId: string, venueName: string) {
         this.router.navigate(['/admin/add-venue', { venueId, venueName }])

@@ -12,8 +12,11 @@ import {
     DocumentReference,
     setDoc,
     orderBy,
-    query
+    query,
+    where,
+    getDocs
 } from '@angular/fire/firestore';
+
 import { Console } from 'console';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ItemByLanguage, Venue } from 'src/app/shared/models';
@@ -47,31 +50,40 @@ export class ItemService {
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return docData(itemRef)
     }
+
     updateAudioUrl(audioUrl: string) {
         this.audioUrlSubject.next(audioUrl);
     }
-
-    extractRequestedItem(itemId) {
-        console.log('EXTRACTION REQUESTED ITEM')
-        const soughtItems = this.venue.items.filter((item: Item) => {
-            return item.id === itemId
-        })
-        console.log(soughtItems);
-        this.itemSubject.next(soughtItems[0])
-        this.collectAvailableLanguages(soughtItems[0])
+    getLocations(venueId) {
+        console.log(venueId)
+        const locationsRef = collection(this.firestore, `venues/${venueId}/locations`);
+        return collectionData(locationsRef, { idField: 'id' })
     }
+
+    // extractRequestedItem(itemId) {
+    //     console.log('EXTRACTION REQUESTED ITEM')
+    //     const soughtItems = this.venue.items.filter((item: Item) => {
+    //         return item.id === itemId
+    //     })
+    //     console.log(soughtItems);
+    //     this.itemSubject.next(soughtItems[0])
+    //     this.collectAvailableLanguages(soughtItems[0])
+    // }
+
     extractMainPage() {
-        // console.log(this.venue);
-        // const mainPageItems = this.venue.items.filter((item: Item) => {
-        //     return item.isMainPage === true;
-        // })
-        // this.mainPageSubject.next(mainPageItems[0]);
+        console.log(this.venue);
+        const mainPageItems = this.venue.items.filter((item: Item) => {
+            return item.isMainPage === true;
+        })
+        console.log(mainPageItems)
+        this.mainPageSubject.next(mainPageItems[0]);
     }
     setMainPage() {
-        // const mainPageItems = this.venue.items.filter((item: Item) => {
-        //     return item.isMainPage === true;
-        // })
-        // this.itemSubject.next(mainPageItems[0])
+        const mainPageItems = this.venue.items.filter((item: Item) => {
+            return item.isMainPage === true;
+        })
+        console.log(mainPageItems)
+        this.itemSubject.next(mainPageItems[0])
     }
 
     collectAvailableLanguages(item: Item) {
@@ -81,6 +93,13 @@ export class ItemService {
         })
         this.availableLanguagesSubject.next(availableLanguages)
     }
+    getMainPageItem(venueId) {
+        const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
+        const q = query(itemsRef, where('isMainPage', '==', true));
+        // collectionData(q, { idField: 'id' }).subscribe(data => console.log(data))
+        return collectionData(q, { idField: 'id' })
+    }
+
     updateItemVisits(venueId: string, itemId: string) {
         // console.log(this.visitCounted)
         // const itemIndex: number = this.venue.items.findIndex((item: Item) => {

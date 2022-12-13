@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 // import { LanguageData } from './models';
 
 import { SelectLanguageService } from '../navigation/footer/select-language/select-language.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Venue } from './models';
+import { VenuesService } from '../admin/venues/venues.service';
 
 
 @Injectable({
@@ -12,17 +14,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UiService {
 
-    isLoadingSubject = new BehaviorSubject<boolean>(false);
-    isLoading$ = this.isLoadingSubject.asObservable();
+    private isLoadingSubject = new BehaviorSubject<boolean>(false);
+    public isLoading$ = this.isLoadingSubject.asObservable();
 
     private isLoadingImageSubject = new BehaviorSubject<boolean>(false);
-    public isLoadingImage$ = this.isLoadingImageSubject.asObservable()
+    public isLoadingImage$ = this.isLoadingImageSubject.asObservable();
+
+    private isSearchingNearestItemSubject = new BehaviorSubject<boolean>(false);
+    public isSearchingNearestItem$ = this.isSearchingNearestItemSubject.asObservable();
+
+    private isFetchingItemDataSubject = new BehaviorSubject<boolean>(false)
+    public isFetchingItemData$ = this.isFetchingItemDataSubject.asObservable();
+
+    // private activeVenueSubject = new BehaviorSubject<Venue>(null);
+    // public activeVenue$ = this.activeVenueSubject.asObservable();
 
 
 
     constructor(
 
         private selectLanguageService: SelectLanguageService,
+        private venuesService: VenuesService
 
     ) { }
 
@@ -35,4 +47,16 @@ export class UiService {
         console.log(status);
         this.isLoadingImageSubject.next(status);
     }
+    setIsSearchingNearestItem(status: boolean) {
+        this.isSearchingNearestItemSubject.next(status)
+    }
+    setIsFetchingItemData(status: boolean) {
+        this.isFetchingItemDataSubject.next(status)
+    }
+    // setActiveVenue(venueId: string): void {
+    //     console.log('setting venue')
+    //     this.venuesService.getVenueById(venueId).subscribe((venue: Venue) => {
+    //         this.activeVenueSubject.next(venue)
+    //     })
+    // }
 }

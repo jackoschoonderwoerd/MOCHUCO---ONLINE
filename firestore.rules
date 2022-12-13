@@ -27,6 +27,10 @@ service cloud.firestore {
                 // allow write: if userOwnesItem(request.auth.uid, venueId, itemId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
                 allow write: if userOwnesVenue(request.auth.uid, venueId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
             }
+            match /locations/{locationId} {
+                allow read: if true;
+                allow write: if true;
+            }
         }
         match /users/{userId} {
             allow read: if true;

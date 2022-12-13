@@ -26,7 +26,7 @@ export class AudioComponent implements OnInit {
     ngOnInit(): void {
         this.itemService.audioUrl$.subscribe((audioUrl: string) => {
             this.audioUrl = audioUrl;
-            console.log(this.audioUrl)
+            // console.log(this.audioUrl)
             this.initAudio();
             this.isPlaying = false;
         })
@@ -48,7 +48,7 @@ export class AudioComponent implements OnInit {
         if (this.audioPlayer.volume === 1) {
             this.maximumVolumeReached = true;
         }
-        console.log(this.audioPlayer.volume);
+        // console.log(this.audioPlayer.volume);
     }
     onPlayPause() {
 
@@ -79,7 +79,7 @@ export class AudioComponent implements OnInit {
                 this.audioPlayer.volume -= 0.1;
             }
         }
-        // console.log(this.audioPlayer.volume);
+        // // console.log(this.audioPlayer.volume);
     }
 
 }

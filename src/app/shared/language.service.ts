@@ -22,8 +22,9 @@ export class LanguageService {
     setLanguage(language) {
         this.languageSubject.next(language);
     }
-    setAvailableLanguages(languages: string[]) {
-        this.languages = languages;
+    setAvailableLanguages(availableLanguages: string[]) {
+        console.log('setting available languages', availableLanguages)
+        this.languages = availableLanguages;
     }
 
 }

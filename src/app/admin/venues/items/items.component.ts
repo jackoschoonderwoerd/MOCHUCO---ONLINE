@@ -59,7 +59,10 @@ export class ItemsComponent implements OnInit {
             if (res) {
                 this.itemsService.deleteItem(this.venueId, itemId)
                     .then(res => {
-                        console.log('item deleted')
+                        console.log('item deleted');
+                        this.itemsService.deleteLocation(this.venueId, itemId)
+                            .then(res => console.log('location deleted'))
+                            .catch(err => console.error(err));
 
                     })
                     .catch(err => console.log(err));

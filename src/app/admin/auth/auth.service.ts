@@ -37,18 +37,18 @@ export class AuthService {
         private router: Router) {
 
 
-        const mochucoUserString = localStorage.getItem(AUTH_DATA);
-        if (mochucoUserString) {
+        // const mochucoUserString = localStorage.getItem(AUTH_DATA);
+        // if (mochucoUserString) {
 
-            console.log(mochucoUserString);
-            const mochucoUser: MochucoUser = JSON.parse(mochucoUserString);
-            this.mochucoUserSubject.next(mochucoUser)
-            if (mochucoUser.email === 'jackoboes@gmail.com') {
-                this.isAdminSubject.next(true);
-            }
-
-
-        }
+        //     console.log(mochucoUserString);
+        //     const mochucoUser: MochucoUser = JSON.parse(mochucoUserString);
+        //     this.mochucoUserSubject.next(mochucoUser)
+        //     if (mochucoUser.email === 'jackoboes@gmail.com') {
+        //         this.isAdminSubject.next(true);
+        //     } else {
+        //         this.isAdminSubject.next(false)
+        //     }
+        // }
         // this.$roles =
         // this.afAuth.currentUser.getIdTokenResult()
         //     .then(data => console.log(data))
@@ -77,12 +77,13 @@ export class AuthService {
                     this.mochucoUserSubject.next(mochucoUser);
                     this.isLoggedInSubject.next(true);
                     if (fireAuthUser.user.email === 'jackoboes@gmail.com') {
-                        // console.log('admin!')
+                        console.log('admin!')
                         this.isAdminSubject.next(true);
                     } else {
+                        this.isAdminSubject.next(false);
                         // console.log('not admin')
                     }
-                    localStorage.setItem(AUTH_DATA, JSON.stringify(mochucoUser));
+                    // localStorage.setItem(AUTH_DATA, JSON.stringify(mochucoUser));
                 })
             )
 

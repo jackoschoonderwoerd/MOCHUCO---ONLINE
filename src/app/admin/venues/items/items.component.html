@@ -21,7 +21,9 @@
         <div class="items-title">items list:</div>
         <div class="items"
             *ngFor="let item of items$|async">
-            <div class="item">
+            <div class="item"
+                [ngClass]="[item.isMainPage ? 'main-page' : '']">
+
                 <div class="name_id">
                     <div class="name">{{item.name}}</div>
                     <div class="id">{{item.id}}</div>

@@ -23,6 +23,7 @@ import { DeleteVenueDialogComponent } from './venues/delete-venue-dialog/delete-
 import { LoginComponent } from './auth/login/login.component';
 import { PermissionDeniedDialogComponent } from './shared/permission-denied-dialog/permission-denied-dialog.component';
 import { DeleteItemDialogComponent } from './venues/items/delete-item-dialog/delete-item-dialog.component';
+import { VenueQrCodeComponent } from './venues/venue-qr-code/venue-qr-code.component';
 
 
 
@@ -49,6 +50,7 @@ import { DeleteItemDialogComponent } from './venues/items/delete-item-dialog/del
         VenuesComponent,
         PermissionDeniedDialogComponent,
         DeleteItemDialogComponent,
+        VenueQrCodeComponent,
 
 
     ],

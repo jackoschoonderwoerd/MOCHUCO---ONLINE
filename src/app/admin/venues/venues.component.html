@@ -5,11 +5,24 @@
         <!-- <mat-spinner *ngIf="!venues$|async"></mat-spinner> -->
         <div class="venue"
             *ngFor="let venue of (venues$|async)">
-            <div class="name_id">
-                <div class="name">{{venue.name}}</div>
-                <div class="id">{{venue.id}}</div>
+            <div class="logo_name_id">
+                <div class="logo">
+                    <img [src]="venue.logoUrl"
+                        alt="">
+                </div>
+                <div class="name_id">
+                    <div class="name">{{venue.name}}</div>
+                    <div *ngIf="authService.isAdmin$|async"
+                        class="id">{{venue.id}}</div>
+
+                </div>
             </div>
             <div class="buttons">
+                <button mat-raised-button
+                    color="primary"
+                    (click)="onQrCode(venue.id, venue.name)">
+                    <mat-icon>qr_code</mat-icon>
+                </button>
                 <button class="delete"
                     mat-raised-button
                     color="warn"

@@ -48,7 +48,9 @@ export class ItemsService {
 
     getItems(venueId) {
         const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
-        return collectionData(itemsRef, { idField: 'id' }) as Observable<Item[]>
+
+        const q = query(itemsRef, orderBy("name"));
+        return collectionData(q, { idField: 'id' }) as Observable<Item[]>
     }
 
     getItem(venueId: string, itemId: string) {
@@ -59,6 +61,15 @@ export class ItemsService {
         // localStorage.setItem('activeItem', JSON.stringify(item))
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return setDoc(itemRef, item);
+    }
+    setLocationAndIdToVenues(venueId: string, itemId: string, itemName: string, latitude: number, longitude: number) {
+        const locationAndName = { latitude, longitude, itemName }
+        const locationAndNameRef = doc(this.firestore, `venues/${venueId}/locations/${itemId}`);
+        return setDoc(locationAndNameRef, locationAndName)
+    }
+    deleteLocation(venueId, itemId) {
+        const locationRef = doc(this.firestore, `venues/${venueId}/locations/${itemId}`)
+        return deleteDoc(locationRef);
     }
 
     addItemToVenue(venueId: string, item: Item) {

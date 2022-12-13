@@ -47,7 +47,10 @@ export class AddItemComponent implements OnInit {
                 this.itemsService.getItem(this.venueId, params.itemId).subscribe((item: Item) => {
                     this.item = item
                     this.form.patchValue({
-                        name: item.name
+                        name: item.name,
+                        latitude: item.latitude,
+                        longitude: item.longitude,
+                        isMainPage: item.isMainPage
                     })
                     this.imageUrl = item.imageUrl
                 })
@@ -58,7 +61,9 @@ export class AddItemComponent implements OnInit {
     initForm() {
         this.form = this.fb.group({
             name: new FormControl(null, [Validators.required]),
-            isMainPage: new FormControl(null, [Validators.required])
+            isMainPage: new FormControl(null, [Validators.required]),
+            latitude: new FormControl(null),
+            longitude: new FormControl(null)
         })
     }
 
@@ -93,13 +98,30 @@ export class AddItemComponent implements OnInit {
             name: this.form.value.name,
             imageUrl: this.imageUrl,
             isMainPage: this.form.value.isMainPage,
-
+            latitude: this.form.value.latitude,
+            longitude: this.form.value.longitude
         }
+        console.log(item);
+        // return;
         if (!this.editmode) {
             console.log('ADDING ITEM: ', item)
+
             this.itemsService.addItemToVenue(this.venueId, item)
-                .then(res => {
-                    console.log('item added!')
+                .then(docRef => {
+                    console.log('item added!', docRef.id)
+                    if (item.latitude !== null && item.longitude !== null) {
+                        this.itemsService.setLocationAndIdToVenues(
+                            this.venueId,
+                            docRef.id,
+                            this.form.value.name,
+                            item.latitude,
+                            item.longitude
+                        ).then((docRef) => {
+                            console.log(docRef => {
+                                console.log('location added')
+                            })
+                        });
+                    }
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
                 })
                 .catch(err => console.log(err));
@@ -111,8 +133,19 @@ export class AddItemComponent implements OnInit {
                 item.itemsByLanguage = [];
             }
             this.itemsService.setItem(this.venueId, this.itemId, item)
-                .then((res) => {
+                .then((docRef) => {
                     console.log('item updated')
+                    if (item.latitude !== null && item.longitude !== null) {
+                        this.itemsService.setLocationAndIdToVenues(
+                            this.venueId,
+                            this.itemId,
+                            item.name,
+                            item.latitude,
+                            item.longitude)
+                            .then((docRef) => {
+                                console.log(docRef, 'location updated')
+                            });
+                    }
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
                 })
                 .catch(err => {
@@ -129,3 +162,4 @@ export class AddItemComponent implements OnInit {
         this.router.navigate(['/admin/items', { venueId: this.venueId, itenId: this.itemId }])
     }
 }
+// ,52.36726536641987 4.889799268167798

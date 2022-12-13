@@ -101,9 +101,9 @@ export class VenuesService {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return docData(venueRef, { idField: 'id' }) as Observable<Venue>
     }
-    updateVenue(venueId: string, name: string) {
+    updateVenue(venueId: string, name: string, logoUrl) {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
-        return updateDoc(venueRef, { name: name })
+        return updateDoc(venueRef, { name: name, logoUrl: logoUrl })
     }
     deleteVenue(venueId: string) {
         console.log('deleting venue', venueId)
@@ -118,6 +118,30 @@ export class VenuesService {
     //     const itemRef = collection(this.firestore, `venues/${venueId}/items`)
     //     return addDoc(itemRef, item)
     // }
+    async storeLogo(venueId: string, file: File) {
+        if (file) {
+            try {
+                const path = `venues/${venueId}/logo`
+                const storageRef = ref(this.storage, path);
+                const task = uploadBytesResumable(storageRef, file);
+                await task;
+                const url = await getDownloadURL(storageRef)
+                return url;
+            } catch (e: any) {
+                console.log(e);
+            }
+        }
+    }
+    removeLogoFromStorage(venueId: string) {
+        console.log(venueId)
+        const logoRef = ref(this.storage, `venues/${venueId}/logo`);
+        return deleteObject(logoRef)
+    }
+
+    removeLogoUrlFromDb(venueId) {
+        const logoUrlRef = doc(this.firestore, `venues/${venueId}/`)
+        return updateDoc(logoUrlRef, { logoUrl: null })
+    }
 
     deleteVenueStorage(venueId: string) {
         const venueRef = ref(this.storage, `venues/${venueId}`)
@@ -129,14 +153,9 @@ export class VenuesService {
     //     return setDoc(venueRef, venue)
     // }
 
-    // setActiveVenue(venue: Venue) {
-    //     if (!venue) {
-    //         if (localStorage.getItem('activeVenue')) {
-    //             const venue: Venue = JSON.parse(localStorage.getItem('activeVenue'))
-    //             this.activeVenueSubject.next(venue);
-    //         }
-    //     } else {
-    //         this.activeVenueSubject.next(venue);
-    //     }
-    // }
+    setActiveVenue(venueId: string) {
+        this.getVenueById(venueId).subscribe((venue: Venue) => {
+            this.activeVenueSubject.next(venue);
+        })
+    }
 }

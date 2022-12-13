@@ -5,12 +5,41 @@
         </div>
         <mat-form-field>
             <input type="text"
+                (keyup)="onFormChanged()"
+                (mouseup)="onFormChanged()"
                 matInput
                 formControlName="name"
                 placeholder="venue name">
         </mat-form-field>
+        <div class="spinner-container"
+            *ngIf="isStoringLogo">
+            <mat-spinner></mat-spinner>
+            <span>Storing logo</span>
+        </div>
+        <input type="file"
+            (change)="onFileInputChange($event)"
+            style="display: none;"
+            #fileInput>
+        <img *ngIf="logoSrc"
+            [src]="logoSrc"
+            alt="">
+        <img *ngIf="logoUrl"
+            [src]="logoUrl"
+            alt="">
+        <button mat-raised-button
+            *ngIf="logoSrc || logoUrl"
+            (click)="onDeleteLogo(logoSrc, logoUrl)">delete logo</button>
+        <button mat-raised-button
+            (click)="fileInput.click()">select logo</button>
+        <button mat-raised-button
+            *ngIf="logoChanged"
+            [ngClass]="logoChanged ? 'add-red-border': ''"
+            (click)="onConfirmLogo()">confirm logo</button>
+
+
         <button mat-raised-button
             [disabled]="form.invalid"
+            [ngClass]="formChanged  ? 'add-red-border' : ''"
             (click)='onSubmit()'>submit</button>
         <button mat-raised-button
             (click)='onCancel()'>cancel</button>
