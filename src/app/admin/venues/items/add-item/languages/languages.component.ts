@@ -7,6 +7,7 @@ import { ConfirmDeleteComponent } from '../../../../../shared/confirm-delete/con
 import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/language.service';
 import { ItemsService } from '../../items.service';
+import { WarningComponent } from 'src/app/shared/warning/warning.component';
 
 @Component({
     selector: 'app-languages',
@@ -21,6 +22,7 @@ export class LanguagesComponent implements OnInit {
     itemId: string;
     item: Item;
     itemName: string;
+    isLoadingData: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -37,13 +39,24 @@ export class LanguagesComponent implements OnInit {
 
         console.log('onInit')
         this.route.params.subscribe((params: any) => {
+            this.isLoadingData = true;
             console.log(params);
             this.venueId = params.venueId;
             this.itemId = params.itemId;
             this.itemName = params.itemName;
             const sub = this.itemsService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
+                item.itemsByLanguage.sort((a, b) => {
+                    if (a.language < b.language) {
+                        return -1
+                    }
+                    if (a.language > b.language) {
+                        return 1
+                    }
+                    return 0
+                })
                 this.item = item;
-                console.log(this.item);
+                // console.log(this.item);
+                this.isLoadingData = false;
                 sub.unsubscribe();
             })
         })
@@ -73,7 +86,10 @@ export class LanguagesComponent implements OnInit {
 
     }
     onAddLanguage() {
-        this.getAvailableLanguages()
+        if (this.getAvailableLanguages().length === 0) {
+            this.dialog.open(WarningComponent, { data: { message: 'No more languages available' } })
+            return
+        }
         this.router.navigate(['/admin/add-language', {
             venueId: this.venueId,
             itemId: this.itemId,

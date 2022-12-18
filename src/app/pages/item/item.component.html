@@ -1,24 +1,27 @@
 <div class="page-container">
     <div class="content"
         *ngIf="!(uiService.isSearchingNearestItem$|async)">
-        <h4 class="name">{{itemName}}</h4>
+        <h6 class="name">{{itemName}}</h6>
         <div class="img_audio_description">
             <img *ngIf="imageUrl"
                 [src]="imageUrl"
                 alt="">
-            <app-audio *ngIf="audioUrl"
-                class="app-audio"
-                [ngClass]="[isAudioPanelOpen ? 'audioPanelOpen': 'audioPanelClosed']"
-                (audioPanelOpen)="audioPanelOpen($event)"></app-audio>
+            <!-- <div class="app-audio-container">
+                <app-audio *ngIf="audioUrl"
+                    class="app-audio"
+                    [ngClass]="[isAudioPanelOpen ? 'audioPanelOpen': 'audioPanelClosed']"
+                    (audioPanelOpen)="audioPanelOpen($event)"></app-audio>
+            </div> -->
             <div class="description"
                 *ngIf="description"
-                [innerHTML]="description"></div>
-        </div>
-        <!-- <div class="audioUrl">{{audioUrl}}</div> -->
-        <!-- <audio *ngIf="audioUrl"
+                [innerHTML]="description">
+            </div>
+            <audio *ngIf="audioUrl"
                 [src]="audioUrl"
                 [autoplay]="audioAutoplay"
-                controls></audio> -->
+                controls></audio>
+        </div>
+        <!-- <div class="audioUrl">{{audioUrl}}</div> -->
     </div>
     <div class="data-info">
         <div *ngIf="uiService.isSearchingNearestItem$|async"
@@ -29,7 +32,7 @@
 
         <div *ngIf="uiService.isFetchingItemData$|async"
             class="is-fetching-data">
-            <span>Fetching data</span>
+            <span>Loading data</span>
             <mat-spinner color="primary"></mat-spinner>
         </div>
     </div>

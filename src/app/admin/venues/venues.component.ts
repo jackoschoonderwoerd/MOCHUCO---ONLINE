@@ -80,7 +80,7 @@ export class VenuesComponent implements OnInit {
     }
 
     onItems(venue: Venue) {
-        // this.venuesService.setActiveVenue(venue);
+        this.venuesService.setActiveVenue(venue.id);
         // localStorage.setItem('activeVenue', JSON.stringify(venue));
         this.router.navigate(['admin/items', { venueId: venue.id, venueName: venue.name }])
     }

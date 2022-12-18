@@ -1,127 +1,149 @@
 .page-container {
     padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    .navigation_location {
+    background-color: #ccc;
+    height: 100%;
+    main {
         display: flex;
+        flex-direction: column;
         gap: 1rem;
-        background-color: wheat;
-        padding: 0.3rem 0.5rem;
-        align-content: center;
-        .navigation {
+        // border: 1px solid red;
+        max-width: 80rem;
+        margin: auto;
+        .navigation_location {
             display: flex;
             gap: 1rem;
+            background-color: wheat;
             padding: 0.3rem 0.5rem;
+            align-content: center;
+            .navigation {
+                display: flex;
+                gap: 1rem;
+                padding: 0.3rem 0.5rem;
 
-            border: 1px solid black;
-            align-items: center;
-            justify-content: center;
-            .navigation-title {
+                // border: 1px solid black;
+                align-items: center;
+                justify-content: center;
+                // .navigation-title {
+                // }
             }
-        }
-        .location {
-            display: flex;
+            // .location {
+            //     display: flex;
 
-            gap: 1rem;
-            padding: 0.3rem 0.5rem;
-            border: 1px solid black;
-            align-items: center;
-            justify-content: center;
-            .venue-name {
-            }
+            //     gap: 1rem;
+            //     padding: 0.3rem 0.5rem;
+            //     border: 1px solid black;
+            //     align-items: center;
+            //     justify-content: center;
+            //     .venue-name {
+            //     }
+            // }
         }
-    }
-
-    .items-list {
-        padding: 1rem;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        .items {
-            border: 1px solid #ccc;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .header {
+            background-color: white;
             // border: 3px solid red;
+            padding: 0.2rem 0.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
 
+        .items-list {
+            // padding: 1rem;
             display: grid;
             grid-template-columns: 1fr;
-            // gap: 0.5rem;
-            // border: 3px solid black;
-            .item {
-                background-color: wheat;
-                padding: 0.3rem 1rem;
-                // border: 1px solid white;
-                align-items: center;
-                display: flex;
-                justify-content: space-between;
-                gap: 0.3rem;
-
-                .name_id {
-                }
-
-                .img_languages {
-                    display: flex;
-                    gap: 1rem;
-                    img {
-                        width: 3rem;
-                    }
-                }
-                .is-main-page {
-                    text-transform: uppercase;
-                    font-weight: bold;
-                }
-                .info {
-                }
-                .item-image-container:hover {
-                }
-                .item-image-container {
-                    width: 3rem;
-                    // border: 3px solid black;
-                    .item-image {
-                        width: 100%;
-                        height: auto;
-                    }
-                }
+            gap: 1rem;
+            .items-title {
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: white;
+                padding: 0.2rem 0.5rem;
             }
-            .items-by-language-container {
-                // border: 3px solid orange;
-                .items-by-language {
-                    .item-by-language {
-                        background-color: wheat;
-                        margin: 0.2rem 0;
-                        padding: 0.2rem 1rem;
-                        display: grid;
-                        grid-template-columns: 6rem 15rem auto 2.5rem 10rem;
-                        gap: 1rem;
-                        align-items: center;
-                        .language {
-                            text-transform: capitalize;
-                        }
+            .items {
+                border: 1px solid #ccc;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                // border: 3px solid red;
+
+                display: grid;
+                grid-template-columns: 1fr;
+                // gap: 0.5rem;
+                // border: 3px solid black;
+                .item {
+                    background-color: wheat;
+                    padding: 0.3rem 1rem;
+                    // border: 1px solid white;
+                    align-items: center;
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 0.3rem;
+
+                    .name_id {
                         .name {
-                            // border: 1px solid black;
                             text-transform: capitalize;
-                            // max-width: 5rem;
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
                         }
-                        .audio {
-                            // border: 1px solid black;
-                            button {
-                            }
+                    }
+
+                    .img_languages {
+                        display: flex;
+                        gap: 1rem;
+                        img {
+                            width: 3rem;
                         }
-                        .description {
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
+                    }
+                    .is-main-page {
+                        text-transform: uppercase;
+                        font-weight: bold;
+                    }
+                    .info {
+                    }
+                    .item-image-container:hover {
+                    }
+                    .item-image-container {
+                        width: 3rem;
+                        // border: 3px solid black;
+                        .item-image {
+                            width: 100%;
+                            height: auto;
                         }
-                        .edit-delete-buttons {
+                    }
+                }
+                .items-by-language-container {
+                    // border: 3px solid orange;
+                    .items-by-language {
+                        .item-by-language {
+                            background-color: wheat;
+                            margin: 0.2rem 0;
+                            padding: 0.2rem 1rem;
                             display: grid;
-                            grid-template-columns: 1fr 1fr;
+                            grid-template-columns: 6rem 15rem auto 2.5rem 10rem;
                             gap: 1rem;
+                            align-items: center;
+                            .language {
+                                text-transform: capitalize;
+                            }
+                            .name {
+                                // border: 1px solid black;
+                                text-transform: capitalize;
+                                // max-width: 5rem;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+                            .audio {
+                                // border: 1px solid black;
+                                button {
+                                }
+                            }
+                            .description {
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+                            .edit-delete-buttons {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                gap: 1rem;
+                            }
                         }
                     }
                 }
@@ -130,5 +152,5 @@
     }
 }
 .main-page {
-    border: 3px solid red;
+    border: 5px solid red;
 }

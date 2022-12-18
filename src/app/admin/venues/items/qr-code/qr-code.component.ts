@@ -15,6 +15,7 @@ export class QrCodeComponent implements OnInit {
     itemName: string;
     local: boolean = false;
     localLink: string;
+    remoteLink: string;
     @ViewChild('printarea') private printarea: ElementRef
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any) { }

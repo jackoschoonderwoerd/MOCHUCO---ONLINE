@@ -29,6 +29,7 @@
         }
     }
     .image-container {
+        max-width: 40rem;
         grid-column-start: 2;
         grid-column-end: 3;
         padding: 1rem;

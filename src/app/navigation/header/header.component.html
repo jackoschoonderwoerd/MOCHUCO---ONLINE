@@ -14,19 +14,6 @@
                 alt="">
         </div>
 
-        <!-- <div class="main-pages"
-            *ngFor="let itemByLanguage of (itemService.mainPage$|async)?.itemsByLanguage">
-            <div class="main-page"
-                (click)="onMainPageSelected(item)"
-                *ngIf="(languageService.language$|async) === itemByLanguage.language">
-                <div class="name">{{(itemByLanguage.itemLS).name}}</div>
-            </div>
-        </div> -->
-
-        <!-- <div class="main-page-name"
-            (click)="onMainPageSelected()">{{mainPageName}}</div> -->
-
-
         <div class="user"
             *ngIf="authService.mochucoUser$|async">
             <div class="user-name">

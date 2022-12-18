@@ -13,6 +13,10 @@
         <div class="venue-id">VENUEID: {{venueId}}</div> -->
         <div class="item-id">ITEMID: {{itemId}}</div>
     </div>
+    <div class="header">
+        <!-- <div class="venue-name">venue: {{(venue$|async)?.name}}</div> -->
+        <div class="current-section">current section: language</div>
+    </div>
     <form [formGroup]="form">
         <div *ngIf="editmode"
             class="header">editing language
@@ -39,7 +43,8 @@
             <input type="text"
                 matInput
                 formControlName="name"
-                placeholder="name">
+                placeholder="name"
+                (keyup)="onFormChanged()">
         </mat-form-field>
 
         <audio *ngIf="audioUrl"
@@ -66,6 +71,8 @@
             [disabled]="form.invalid"
             color="primary">{{editmode ? 'save edits' : 'publish language'}}
         </button>
+        <button mat-raised-button
+            (click)="onCancel()">cancel</button>
     </form>
     <div class="description">
         <button mat-raised-button

@@ -51,4 +51,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.scannerService.setIsScanning(false);
     }
+    onCancel() {
+        window.history.back();
+    }
 }

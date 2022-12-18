@@ -1,77 +1,82 @@
 <div class="page-container"
     *ngIf="items$|async">
-    <div class="navigation_location">
-        <div class="navigation">
-            <div class="navigation-title">navigation</div>
-            <button class="back-to-all-venues"
-                mat-raised-button
-                (click)="onVenues()">venues</button>
-        </div>
-        <div class="location">
-            <div class="location-title">location</div>
-            <div class="venue-name"><span>venue:&nbsp;</span>{{(venue$|async)?.name}}</div>
-        </div>
-    </div>
+    <main>
 
-    <div class="items-list">
-        <div class="venue-data">
-            <!-- <div class="id">{{venueId}}</div> -->
+        <div class="navigation_location">
+            <div class="navigation">
+                <!-- <div class="navigation-title">navigation</div> -->
+                <button class="back-to-all-venues"
+                    mat-raised-button
+                    (click)="onVenues()">venues</button>
+            </div>
+            <!-- <div class="location">
+                <div class="location-title">location</div>
+                <div class="venue-name"><span>venue:&nbsp;</span>{{(venue$|async)?.name}}</div>
+            </div> -->
         </div>
-        <!-- <div class="venue-id">vene id: {{(venue$|async)?.id}}</div> -->
-        <div class="items-title">items list:</div>
-        <div class="items"
-            *ngFor="let item of items$|async">
-            <div class="item"
-                [ngClass]="[item.isMainPage ? 'main-page' : '']">
+        <div class="header">
+            <!-- <div class="venue-id">vene id: {{(venue$|async)?.id}}</div> -->
+            <div class="venue-name">venue: {{(venue$|async)?.name}}</div>
+            <div class="current-section">current section: items</div>
 
-                <div class="name_id">
-                    <div class="name">{{item.name}}</div>
-                    <div class="id">{{item.id}}</div>
-                    <!-- <div class="id">{{item.id}}</div> -->
-                </div>
-                <div class="img_languages">
-                    <button mat-raised-button
-                        color="warn"
-                        (click)="onDelete(item.id)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                    <button mat-raised-button
-                        color="primary"
-                        (click)="onQrCodeLocal(item.id, item.name)">
-                        QRL
-                    </button>
-                    <button mat-raised-button
-                        color="primary"
-                        (click)="onQrCode(item.id, item.name)">
-                        <mat-icon>qr_code</mat-icon>
-                    </button>
-                    <button mat-raised-button
-                        color="primary"
-                        (click)="onEdit(item.id)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <img [src]="item.imageUrl"
-                        alt=""
-                        (click)="onImage(item.imageUrl)">
-                    <button mat-raised-button
-                        (click)="onLanguages(item)">languages
-                    </button>
+        </div>
+
+        <div class="items-list">
+
+            <div class="items"
+                *ngFor="let item of items$|async">
+                <div class="item"
+                    [ngClass]="[item.isMainPage ? 'main-page' : '']">
+
+                    <div class="name_id">
+                        <div class="name">{{item.name}}</div>
+                        <div class="id">{{item.id}}</div>
+                        <!-- <div class="id">{{item.id}}</div> -->
+                    </div>
+                    <div class="img_languages">
+                        <button mat-raised-button
+                            color="warn"
+                            (click)="onDelete(item.id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button mat-raised-button
+                            color="primary"
+                            (click)="onQrCodeLocal(item.id, item.name)">
+                            QRL
+                        </button>
+                        <button mat-raised-button
+                            color="primary"
+                            (click)="onQrCode(item.id, item.name)">
+                            <mat-icon>qr_code</mat-icon>
+                        </button>
+                        <button mat-raised-button
+                            color="primary"
+                            (click)="onEdit(item.id)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <img [src]="item.imageUrl"
+                            alt=""
+                            (click)="onImage(item.imageUrl)">
+                        <button mat-raised-button
+                            (click)="onLanguages(item)">languages
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            <div class="items"
+                *ngFor="let item of (venue$|async)?.items"
+                [ngClass]="[item.isMainPage ? 'main-page' : '']">
+
+
+            </div>
+            <button class="add-item"
+                mat-raised-button
+                color="primary"
+                (click)="onAddItem()">
+                add item
+            </button>
+
         </div>
-
-        <div class="items"
-            *ngFor="let item of (venue$|async)?.items"
-            [ngClass]="[item.isMainPage ? 'main-page' : '']">
-
-
-        </div>
-        <button class="add-item"
-            mat-raised-button
-            color="primary"
-            (click)="onAddItem()">
-            add item
-        </button>
-
-    </div>
+    </main>
 </div>

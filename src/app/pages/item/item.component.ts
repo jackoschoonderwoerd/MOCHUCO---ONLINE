@@ -64,6 +64,7 @@ export class ItemComponent implements OnInit {
             })
         })
     }
+
     audioPanelOpen(status: boolean) {
         // console.log(status);
         this.isAudioPanelOpen = status;
@@ -104,7 +105,6 @@ export class ItemComponent implements OnInit {
                         }
                     )
                     itemIdsAndDistances = itemIdsAndDistances.sort((a, b) => {
-
                         return a.distance - b.distance
                     })
                     console.log(itemIdsAndDistances)
@@ -113,8 +113,40 @@ export class ItemComponent implements OnInit {
                 })
             })
         })
-
     }
+    // getSortedItems(venueId) {
+    //     if (!navigator) {
+    //         return;
+    //     }
+    //     this.uiService.setIsSearchingNearestItem(true)
+    //     navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+    //         console.log('navigator present')
+    //         const visitorLat = position.coords.latitude;
+    //         const visitorLon = position.coords.longitude;
+    //         const distanceVisitorToItems = []
+    //         this.itemService.getLocations(this.venueId).subscribe((itemLocations: ItemLocation[]) => {
+    //             let itemIdsAndDistances = []
+    //             itemLocations.forEach((itemLocation: ItemLocation) => {
+    //                 const distance = Math.round(this.distanceFromObject(
+    //                     visitorLat,
+    //                     visitorLon,
+    //                     itemLocation.latitude,
+    //                     itemLocation.longitude
+    //                 ))
+    //                 itemIdsAndDistances.push(
+    //                     {
+    //                         id: itemLocation.id,
+    //                         distance: distance
+    //                     }
+    //                 )
+    //                 itemIdsAndDistances = itemIdsAndDistances.sort((a, b) => {
+    //                     return a.distance - b.distance
+    //                 })
+    //                 console.log(itemIdsAndDistances)
+    //             })
+    //         })
+    //     })
+    // }
 
     getItem(venueId: string, itemId: string, language: string) {
         this.uiService.setIsFetchingItemData(true)
@@ -126,14 +158,16 @@ export class ItemComponent implements OnInit {
                 return itemByLanguage.language === language
             })
             console.log(itemByLanguageArray)
-            const itemByLanguage: ItemByLanguage = itemByLanguageArray[0]
+            if (itemByLanguageArray.length > 0) {
+                const itemByLanguage: ItemByLanguage = itemByLanguageArray[0]
 
-            this.itemName = itemByLanguage.itemLS.name;
-            this.description = itemByLanguage.itemLS.description;
-            this.audioUrl = itemByLanguage.itemLS.audioUrl;
-            this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay;
+                this.itemName = itemByLanguage.itemLS.name;
+                this.description = itemByLanguage.itemLS.description;
+                this.audioUrl = itemByLanguage.itemLS.audioUrl;
+                this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay;
 
-            this.itemService.updateAudioUrl(this.audioUrl);
+                this.itemService.updateAudioUrl(this.audioUrl);
+            }
         })
     }
 

@@ -1,0 +1,52 @@
+.component-container {
+    display: flex;
+    justify-content: center;
+    main {
+        max-width: 30rem;
+        overflow: scroll;
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            h1 {
+                text-transform: capitalize;
+            }
+        }
+        .image-container {
+            width: 100%;
+            img {
+                width: 100%;
+            }
+        }
+        .description {
+        }
+        .items {
+            list-style: none;
+            padding: 1rem 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            .item {
+                border: 1px solid #ccc;
+                display: flex;
+                gap: 2rem;
+                justify-content: space-between;
+                padding: 0.5rem;
+
+                .info_name {
+                    // border: 1px solid red;
+                    display: flex;
+                    gap: 0.5rem;
+                    align-items: center;
+                }
+                .distance_location {
+                    // border: 1px solid red;
+                    display: flex;
+                    gap: 0.2rem;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}

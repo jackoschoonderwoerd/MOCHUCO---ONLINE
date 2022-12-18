@@ -1,0 +1,36 @@
+<div class="component-container">
+    <main>
+        <header>
+            <h1>{{item?.name}}</h1>
+            <div class="close-window"
+                (click)="onCloseWindow()">
+                <mat-icon>close</mat-icon>
+            </div>
+        </header>
+        <div class="image-container"
+            *ngIf="item?.imageUrl">
+            <img [src]="item.imageUrl"
+                alt="">
+        </div>
+        <div class="description"
+            [innerHTML]="description">
+
+        </div>
+        <ul class="items">
+            <li class="item"
+                *ngFor="let item of itemIdsAndDistances">
+                <!-- {{item|json}} -->
+                <div class="info_name">
+                    <mat-icon (click)="onInfo(item.id)">info</mat-icon>
+                    <div class="name">{{item.name}}</div>
+                </div>
+                <div class="distance_location"
+                    *ngIf="item.distance < 5000">
+                    <div class="distance">{{item.distance}}&nbsp;m</div>
+                    <!-- <mat-icon (click)="onLocation(item.latitude, item. longitude)">location_on</mat-icon> -->
+                </div>
+
+            </li>
+        </ul>
+    </main>
+</div>

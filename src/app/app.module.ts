@@ -36,6 +36,8 @@ import { ItemComponent } from './pages/item/item.component';
 import { LanguagesComponent } from './admin/venues/items/add-item/languages/languages.component';
 import { WarningComponent } from './shared/warning/warning.component';
 import { AudioComponent } from './pages/item/audio/audio.component';
+import { MainPageComponent } from './navigation/header/main-page/main-page.component';
+import { MapComponent } from './navigation/header/main-page/map/map.component';
 
 
 
@@ -62,6 +64,8 @@ import { AudioComponent } from './pages/item/audio/audio.component';
         LanguagesComponent,
         WarningComponent,
         AudioComponent,
+        MainPageComponent,
+        MapComponent,
 
 
     ],

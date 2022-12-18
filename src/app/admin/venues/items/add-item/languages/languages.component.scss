@@ -1,71 +1,91 @@
 .page-container {
     padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    .navigation {
-        padding: 1rem;
-        background-color: wheat;
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        .current-venue {
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        .current-item {
-            text-transform: uppercase;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-    }
-    .header {
-        background-color: wheat;
-        border: 3px solid red;
-        padding: 0.2rem 0.5rem;
-        .item-name {
-            text-transform: uppercase;
-            font-weight: bolder;
-        }
-    }
-    .items-by-language {
+    background-color: #ccc;
+    height: 100%;
+
+    .main {
         display: flex;
         flex-direction: column;
-        .item-by-language {
-            display: flex;
-            align-items: center;
-            // justify-content: center;
-            padding: 0.3rem 1rem;
-            background-color: wheat;
-            .language {
-                flex: 1;
-                // border: 1px solid red;
-                text-transform: capitalize;
-            }
-            .name {
-                // border: 1px solid red;
-                flex: 2;
+        gap: 1rem;
+        max-width: 80rem;
+        margin: auto;
 
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
+        .navigation {
+            padding: 1rem;
+            background-color: wheat;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            .current-venue {
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 1rem;
             }
-            .description {
-                // border: 1px solid red;
-                flex: 5;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
+            .current-item {
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 1rem;
             }
-            .buttons {
-                justify-content: end;
-                // border: 1px solid green;
-                min-width: 26rem;
-                display: flex;
-                gap: 1rem;
-                align-items: center;
-                .audio {
+        }
+        .header {
+            background-color: white;
+            // border: 3px solid red;
+            padding: 0.2rem 0.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+            .item-name {
+            }
+        }
+        .loading-languages {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: auto;
+            align-items: center;
+        }
+        mat-spinner {
+        }
+        .items-by-language {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            .items-by-language-list {
+                .item-by-language {
+                    display: flex;
+                    align-items: center;
+                    // justify-content: center;
+                    padding: 0.3rem 1rem;
+                    background-color: wheat;
+                    .language {
+                        flex: 1;
+                        // border: 1px solid red;
+                        text-transform: capitalize;
+                    }
+                    .name {
+                        // border: 1px solid red;
+                        flex: 2;
+
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                    .description {
+                        // border: 1px solid red;
+                        flex: 5;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                    .buttons {
+                        justify-content: end;
+                        // border: 1px solid green;
+                        min-width: 26rem;
+                        display: flex;
+                        gap: 1rem;
+                        align-items: center;
+                        .audio {
+                        }
+                    }
                 }
             }
         }

@@ -75,8 +75,8 @@ export class AddVenueComponent implements OnInit {
         console.log(e.target.files[0]);
         const filename = e.target.files[0].name;
         const ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
-        if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg' && ext !== 'webp') {
-            this.dialog.open(WarningComponent, { data: { message: 'wrong filetype, only files with a name ending on \'jpg\' or \'png\' or \'webp\' are allowed' } })
+        if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg' && ext !== 'webp' && ext !== 'svg') {
+            this.dialog.open(WarningComponent, { data: { message: 'wrong filetype, only files with a name ending on \'jpg\' or \'png\' or \'webp\' of \'svg\' are allowed' } })
             // this.dialogRef.close()
         } else {
             console.log

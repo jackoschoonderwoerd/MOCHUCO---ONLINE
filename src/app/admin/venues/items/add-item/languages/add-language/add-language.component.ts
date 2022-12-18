@@ -8,6 +8,8 @@ import { VenuesService } from '../../../../venues.service';
 import { Item, ItemByLanguage, ItemLS } from '../../../../../../shared/models';
 import { LanguageAudioComponent } from './language-audio/language-audio.component';
 import { ItemsService } from '../../../items.service';
+import { WarningComponent } from '../../../../../../shared/warning/warning.component';
+import { ConfirmDeleteComponent } from '../../../../../../shared/confirm-delete/confirm-delete.component';
 
 @Component({
     selector: 'app-add-language',
@@ -180,5 +182,25 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         console.log('on destroy');
         this.editmode = false;
         this.itemsService.editItemByLanguage(null);
+    }
+    onFormChanged() {
+        this.unsaved = true;
+    }
+    onCancel() {
+        if (!this.unsaved) {
+            window.history.back();
+        } else {
+            const dialogRef = this.dialog.open(ConfirmDeleteComponent,
+                {
+                    data:
+                        { message: 'all your edits will be lost' }
+                })
+            dialogRef.afterClosed().subscribe((res) => {
+                if (res) {
+                    window.history.back();
+                }
+                return;
+            })
+        }
     }
 }

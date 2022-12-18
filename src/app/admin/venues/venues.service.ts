@@ -98,6 +98,7 @@ export class VenuesService {
 
     }
     getVenueById(venueId) {
+        console.log
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return docData(venueRef, { idField: 'id' }) as Observable<Venue>
     }
@@ -154,6 +155,7 @@ export class VenuesService {
     // }
 
     setActiveVenue(venueId: string) {
+        console.log('setting active venue')
         this.getVenueById(venueId).subscribe((venue: Venue) => {
             this.activeVenueSubject.next(venue);
         })

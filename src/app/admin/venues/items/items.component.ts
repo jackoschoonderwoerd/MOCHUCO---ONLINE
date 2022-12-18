@@ -42,13 +42,29 @@ export class ItemsComponent implements OnInit {
     ngOnInit(): void {
         console.log('onInit')
         this.route.params.subscribe((params: any) => {
+            console.log(params);
             this.venueName = params.venueName;
             this.venueId = params.venueId
 
-            this.items$ = this.itemsService.getItems(this.venueId);
+            this.items$ = this.itemsService.getItems(this.venueId)
+                .pipe(
+                    map((items: Item[]) => {
+                        const isMainPageIndex = items.findIndex((item: Item) => {
+                            return item.isMainPage
+                        })
+
+                        items.unshift(items[isMainPageIndex])
+                        items.splice(isMainPageIndex + 1, 1)
+
+
+                        return items
+                    })
+                )
             this.venue$ = this.venuesService.getVenueById(this.venueId);
+            this.venuesService.setActiveVenue(this.venueId);
 
             this.venuesService.getVenueById(this.venueId).subscribe((venue: Venue) => {
+                console.log(venue)
                 this.venue = venue
             })
         });

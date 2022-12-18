@@ -49,8 +49,8 @@ export class ItemsService {
     getItems(venueId) {
         const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
 
-        const q = query(itemsRef, orderBy("name"));
-        return collectionData(q, { idField: 'id' }) as Observable<Item[]>
+        const alphabeticalQuery = query(itemsRef, orderBy("name"));
+        return collectionData(alphabeticalQuery, { idField: 'id' }) as Observable<Item[]>
     }
 
     getItem(venueId: string, itemId: string) {

@@ -94,12 +94,20 @@ export class AddItemComponent implements OnInit {
     }
 
     onSubmit() {
+        let latitude = null;
+        if (this.form.value.latitude) {
+            latitude = this.form.value.latitude;
+        }
+        let longitude = null;
+        if (this.form.value.longitude) {
+            longitude = this.form.value.longitude;
+        }
         const item: Item = {
-            name: this.form.value.name,
+            name: this.form.value.name.toLowerCase(),
             imageUrl: this.imageUrl,
             isMainPage: this.form.value.isMainPage,
-            latitude: this.form.value.latitude,
-            longitude: this.form.value.longitude
+            latitude: latitude,
+            longitude: longitude
         }
         console.log(item);
         // return;
@@ -109,19 +117,19 @@ export class AddItemComponent implements OnInit {
             this.itemsService.addItemToVenue(this.venueId, item)
                 .then(docRef => {
                     console.log('item added!', docRef.id)
-                    if (item.latitude !== null && item.longitude !== null) {
-                        this.itemsService.setLocationAndIdToVenues(
-                            this.venueId,
-                            docRef.id,
-                            this.form.value.name,
-                            item.latitude,
-                            item.longitude
-                        ).then((docRef) => {
-                            console.log(docRef => {
-                                console.log('location added')
-                            })
-                        });
-                    }
+                    // if (item.latitude !== null && item.longitude !== null) {
+                    this.itemsService.setLocationAndIdToVenues(
+                        this.venueId,
+                        docRef.id,
+                        this.form.value.name,
+                        item.latitude,
+                        item.longitude
+                    ).then((docRef) => {
+                        console.log(docRef => {
+                            console.log('location added')
+                        })
+                    });
+                    // }
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
                 })
                 .catch(err => console.log(err));
@@ -135,17 +143,17 @@ export class AddItemComponent implements OnInit {
             this.itemsService.setItem(this.venueId, this.itemId, item)
                 .then((docRef) => {
                     console.log('item updated')
-                    if (item.latitude !== null && item.longitude !== null) {
-                        this.itemsService.setLocationAndIdToVenues(
-                            this.venueId,
-                            this.itemId,
-                            item.name,
-                            item.latitude,
-                            item.longitude)
-                            .then((docRef) => {
-                                console.log(docRef, 'location updated')
-                            });
-                    }
+                    // if (item.latitude !== null && item.longitude !== null) {
+                    this.itemsService.setLocationAndIdToVenues(
+                        this.venueId,
+                        this.itemId,
+                        item.name,
+                        item.latitude,
+                        item.longitude)
+                        .then((docRef) => {
+                            console.log(docRef, 'location updated')
+                        });
+                    // }
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
                 })
                 .catch(err => {

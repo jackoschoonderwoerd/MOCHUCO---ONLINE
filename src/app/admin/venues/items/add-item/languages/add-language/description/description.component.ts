@@ -56,7 +56,7 @@ export class DescriptionComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-
+        this.textAreaHeight = '100vh'
         this.initForm()
         console.log(this.data)
         this.initialDescription = this.data.description;

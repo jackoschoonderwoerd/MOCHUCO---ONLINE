@@ -1,45 +1,62 @@
 <div class="page-container">
-    <div class="navigation">
-        <button mat-raised-button
-            (click)="onVenues()">venues</button>
-        <button mat-raised-button
-            (click)="onItems()">items</button>
-        <div class="current-venue">current venue:&nbsp;<span>{{(venue$|async)?.name}}</span></div>
-        <!-- <div class="current-item">current item:&nbsp;<span>{{itemName}}</span></div> -->
-    </div>
-    <!-- <div class="venue-id">VENUEID: {{venueId}}</div>
-    <div class="item-id">ITEMID: {{itemId}}</div> -->
-    <div class="header">overview of active languages in item: <span class="item-name">{{itemName}}</span></div>
-    <div class="items-by-language"
-        *ngFor="let itemByLanguage of item?.itemsByLanguage">
-        <div class="item-by-language">
-            <div class="language">{{itemByLanguage.language}}</div>
-            <div *ngIf="itemByLanguage.itemLS.name"
-                class="name">{{itemByLanguage.itemLS.name}}</div>
-            <div *ngIf="itemByLanguage.itemLS.description"
-                [matTooltip]="itemByLanguage.itemLS.description"
-                matTooltipClass="my-custom-tooltip"
-                class="description">{{itemByLanguage.itemLS.description}}</div>
-            <div class="buttons">
-                <audio *ngIf="itemByLanguage.itemLS.audioUrl"
-                    [ngClass]="{'audio-selected': itemByLanguage.itemLS.audioAutoplay}"
-                    [src]="itemByLanguage.itemLS.audioUrl"
-                    controls></audio>
-                <button mat-mini-fab
-                    color="warn"
-                    (click)="onDelete(itemByLanguage.language)">
-                    <mat-icon>delete</mat-icon>
-                </button>
-                <button mat-mini-fab
-                    color="primary"
-                    (click)="onEdit(itemByLanguage)">
-                    <mat-icon>edit</mat-icon>
-                </button>
+    <div class="main">
+
+        <div class="navigation">
+            <button mat-raised-button
+                (click)="onVenues()">venues</button>
+            <button mat-raised-button
+                (click)="onItems()">items</button>
+            <!-- <div class="current-venue">current venue:&nbsp;<span>{{(venue$|async)?.name}}</span></div> -->
+            <!-- <div class="current-item">current item:&nbsp;<span>{{itemName}}</span></div> -->
+        </div>
+        <!-- <div class="venue-id">VENUEID: {{venueId}}</div>
+        <div class="item-id">ITEMID: {{itemId}}</div> -->
+        <div class="header">
+            <div class="venue-name">venue: {{(venue$|async)?.name}}</div>
+            <div class="item-name">item: {{itemName}}</div>
+            <div class="current-section">current section: languages</div>
+            <span></span>
+        </div>
+        <div class="loading-languages"
+            *ngIf="isLoadingData">
+            <mat-spinner></mat-spinner>
+            <div class="loading">Loading languages</div>
+        </div>
+        <div class="items-by-language"
+            *ngIf="!isLoadingData">
+            <div class="items-by-language-list"
+                *ngFor="let itemByLanguage of item?.itemsByLanguage">
+                <div class="item-by-language">
+                    <div class="language">{{itemByLanguage.language}}</div>
+                    <div *ngIf="itemByLanguage.itemLS.name"
+                        class="name">{{itemByLanguage.itemLS.name}}</div>
+                    <div *ngIf="itemByLanguage.itemLS.description"
+                        [matTooltip]="itemByLanguage.itemLS.description"
+                        matTooltipClass="my-custom-tooltip"
+                        class="description">{{itemByLanguage.itemLS.description}}</div>
+                    <div class="buttons">
+                        <audio *ngIf="itemByLanguage.itemLS.audioUrl"
+                            [ngClass]="{'audio-selected': itemByLanguage.itemLS.audioAutoplay}"
+                            [src]="itemByLanguage.itemLS.audioUrl"
+                            controls></audio>
+                        <button mat-mini-fab
+                            color="warn"
+                            (click)="onDelete(itemByLanguage.language)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                        <button mat-mini-fab
+                            color="primary"
+                            (click)="onEdit(itemByLanguage)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
+        <ng-template #noItemsByLanguage>no langages</ng-template>
+        <button mat-raised-button
+            color="primary"
+            (click)="onAddLanguage()">add language
+        </button>
     </div>
-    <button mat-raised-button
-        color="primary"
-        (click)="onAddLanguage()">add language
-    </button>
 </div>

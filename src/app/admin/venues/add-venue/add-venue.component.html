@@ -1,5 +1,6 @@
 <div class="page-container">
     <form [formGroup]="form">
+        <h4>add logo</h4>
         <div class="info">
             Choose a unique, easy to remember name. This name is for your personal reference and will not be shown to the user.
         </div>
@@ -20,27 +21,33 @@
             (change)="onFileInputChange($event)"
             style="display: none;"
             #fileInput>
-        <img *ngIf="logoSrc"
-            [src]="logoSrc"
-            alt="">
-        <img *ngIf="logoUrl"
-            [src]="logoUrl"
-            alt="">
+        <div class="image-container">
+            <img *ngIf="logoSrc"
+                [src]="logoSrc"
+                alt="">
+            <img *ngIf="logoUrl"
+                [src]="logoUrl"
+                alt="">
+        </div>
         <button mat-raised-button
-            *ngIf="logoSrc || logoUrl"
-            (click)="onDeleteLogo(logoSrc, logoUrl)">delete logo</button>
-        <button mat-raised-button
-            (click)="fileInput.click()">select logo</button>
+            (click)="fileInput.click()"
+            color="primary">select logo</button>
         <button mat-raised-button
             *ngIf="logoChanged"
             [ngClass]="logoChanged ? 'add-red-border': ''"
-            (click)="onConfirmLogo()">confirm logo</button>
+            (click)="onConfirmLogo()"
+            color="primary">confirm logo</button>
 
 
         <button mat-raised-button
+            color="primary"
             [disabled]="form.invalid"
             [ngClass]="formChanged  ? 'add-red-border' : ''"
             (click)='onSubmit()'>submit</button>
+        <button mat-raised-button
+            *ngIf="logoSrc || logoUrl"
+            (click)="onDeleteLogo(logoSrc, logoUrl)"
+            color="warn">delete logo</button>
         <button mat-raised-button
             (click)='onCancel()'>cancel</button>
     </form>

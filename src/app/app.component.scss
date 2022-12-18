@@ -14,7 +14,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    background-color: #fff;
+    background-color: #ccc;
     .header {
         position: fixed;
         height: 60px;
@@ -26,6 +26,9 @@
     .router-outlet {
         // border: 3px solid red;
         height: calc(100% - 120px);
+        @media (max-width: 600px) {
+            height: calc(100% - 112px);
+        }
         width: 100vw;
         margin-top: 64px;
         margin-bottom: 54px;
@@ -34,6 +37,9 @@
         @media (max-width: 600px) {
             margin-top: 56px;
         }
+        // @media (max-width: 600px) {
+        //     margin-bottom: 48px;
+        // }
     }
 
     .footer {

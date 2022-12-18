@@ -1,10 +1,12 @@
 .page-container {
-    background-color: white;
+    background-color: #ccc;
     margin: auto;
     width: 100%;
     max-width: 500px;
     padding: 1rem;
     min-height: 100%;
+    display: flex;
+    flex-direction: column;
     .scanner {
         // border: 1px solid blue;
         padding-top: 3rem;
@@ -21,10 +23,10 @@
         }
         .text-light {
         }
-        .text-center {
-            // display: none;
-            .btn {
-            }
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
     }
 }

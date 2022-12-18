@@ -95,7 +95,7 @@ export class ItemService {
     }
     getMainPageItem(venueId) {
         const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
-        const q = query(itemsRef, where('isMainPage', '==', true));
+        const q = query(itemsRef, where('isMainPage', '==', true,));
         // collectionData(q, { idField: 'id' }).subscribe(data => console.log(data))
         return collectionData(q, { idField: 'id' })
     }
