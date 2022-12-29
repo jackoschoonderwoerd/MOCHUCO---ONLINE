@@ -2,24 +2,19 @@
     *ngIf="items$|async">
     <main>
 
-        <div class="navigation_location">
+        <!-- <div class="navigation_location">
             <div class="navigation">
-                <!-- <div class="navigation-title">navigation</div> -->
                 <button class="back-to-all-venues"
                     mat-raised-button
                     (click)="onVenues()">venues</button>
             </div>
-            <!-- <div class="location">
-                <div class="location-title">location</div>
-                <div class="venue-name"><span>venue:&nbsp;</span>{{(venue$|async)?.name}}</div>
-            </div> -->
+
         </div>
         <div class="header">
-            <!-- <div class="venue-id">vene id: {{(venue$|async)?.id}}</div> -->
             <div class="venue-name">venue: {{(venue$|async)?.name}}</div>
             <div class="current-section">current section: items</div>
 
-        </div>
+        </div> -->
 
         <div class="items-list">
 
@@ -30,10 +25,16 @@
 
                     <div class="name_id">
                         <div class="name">{{item.name}}</div>
-                        <div class="id">{{item.id}}</div>
+                        <div *ngIf="authService.isAdmin$|async"
+                            class="id">{{item.id}}</div>
                         <!-- <div class="id">{{item.id}}</div> -->
                     </div>
                     <div class="img_languages">
+                        <button mat-raised-button
+                            color="primary"
+                            (click)="onRemoteLink(item.id)">
+                            <mat-icon>link</mat-icon>
+                        </button>
                         <button mat-raised-button
                             color="warn"
                             (click)="onDelete(item.id)">
@@ -51,7 +52,7 @@
                         </button>
                         <button mat-raised-button
                             color="primary"
-                            (click)="onEdit(item.id)">
+                            (click)="onEdit(item)">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <img [src]="item.imageUrl"

@@ -14,7 +14,6 @@ service cloud.firestore {
         }
 
         match /venues/{venueId} {
-            // allow read: if userOwnsItem(request.auth.uid, venueId)
             allow read: if true;
 
             allow create: if userCanCreateVenue(request.auth.uid) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
@@ -24,12 +23,20 @@ service cloud.firestore {
 
             match /items/{itemId} {
                 allow read: if true;
-                // allow write: if userOwnesItem(request.auth.uid, venueId, itemId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
+
                 allow write: if userOwnesVenue(request.auth.uid, venueId) || request.auth.uid == '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93';
             }
             match /locations/{locationId} {
                 allow read: if true;
                 allow write: if true;
+            }
+            match /visitsLog/{visitsLogId} {
+                allow read: if true;
+                allow write: if true;
+                match /visits/{visitId} {
+                    allow read: if true;
+                    allow write: if true;
+                }
             }
         }
         match /users/{userId} {

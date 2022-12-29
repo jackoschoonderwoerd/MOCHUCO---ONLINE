@@ -1,22 +1,20 @@
 <div class="page-container">
     <div class="main">
 
-        <div class="navigation">
+        <!-- <div class="navigation">
             <button mat-raised-button
                 (click)="onVenues()">venues</button>
             <button mat-raised-button
                 (click)="onItems()">items</button>
-            <!-- <div class="current-venue">current venue:&nbsp;<span>{{(venue$|async)?.name}}</span></div> -->
-            <!-- <div class="current-item">current item:&nbsp;<span>{{itemName}}</span></div> -->
+
         </div>
-        <!-- <div class="venue-id">VENUEID: {{venueId}}</div>
-        <div class="item-id">ITEMID: {{itemId}}</div> -->
+
         <div class="header">
             <div class="venue-name">venue: {{(venue$|async)?.name}}</div>
-            <div class="item-name">item: {{itemName}}</div>
+
             <div class="current-section">current section: languages</div>
             <span></span>
-        </div>
+        </div> -->
         <div class="loading-languages"
             *ngIf="isLoadingData">
             <mat-spinner></mat-spinner>
@@ -34,6 +32,8 @@
                         [matTooltip]="itemByLanguage.itemLS.description"
                         matTooltipClass="my-custom-tooltip"
                         class="description">{{itemByLanguage.itemLS.description}}</div>
+                    <div *ngIf="!itemByLanguage.itemLS.description"
+                        class="description-placeholder">description placeholder</div>
                     <div class="buttons">
                         <audio *ngIf="itemByLanguage.itemLS.audioUrl"
                             [ngClass]="{'audio-selected': itemByLanguage.itemLS.audioAutoplay}"

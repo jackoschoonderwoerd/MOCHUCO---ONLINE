@@ -1,0 +1,80 @@
+.module-container {
+    padding: 3rem;
+    .header {
+        display: flex;
+        .venue-name {
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            border: 1px solid black;
+        }
+        mat-form-field {
+            display: flex;
+            mat-label {
+            }
+            mat-date-range-input {
+            }
+        }
+    }
+    mat-accordion {
+        mat-expansion-panel-header {
+            background-color: wheat;
+            mat-panel-title {
+                text-transform: capitalize;
+            }
+        }
+        .header {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            .header-dates {
+                text-transform: uppercase;
+                font-weight: bold;
+                flex: 1.5;
+            }
+            .header-liked {
+                text-transform: uppercase;
+                font-weight: bold;
+                flex: 1.5;
+                display: flex;
+                justify-content: center;
+            }
+            .header-id {
+                text-transform: uppercase;
+                font-weight: bold;
+                flex: 8;
+            }
+        }
+        .item-visit {
+            display: flex;
+            .date {
+                flex: 1.5;
+            }
+            .liked {
+                justify-content: center;
+                flex: 1.5;
+                color: green;
+                display: flex;
+                justify-content: center;
+            }
+            .not-liked {
+                justify-content: center;
+                flex: 1.5;
+                color: red;
+                display: flex;
+                justify-content: center;
+            }
+            .id {
+                flex: 8;
+            }
+        }
+    }
+}
+.mat-form-field-wrapper {
+    padding: 0;
+}
+
+// .all-items {
+//     .item-visit {
+//         display: flex;
+//         gap: 1rem;
+//     }
+// }

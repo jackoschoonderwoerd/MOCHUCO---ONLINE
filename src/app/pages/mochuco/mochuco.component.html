@@ -60,9 +60,10 @@
         close
     </button> -->
     <button mat-raised-button
+        *ngIf="!(authService.isLoggedIn$|async)"
         class="admin-btn"
         color=""
-        (click)="onAdminOnly()">
-        admin only
+        (click)="onLogin()">
+        log in
     </button>
 </div>

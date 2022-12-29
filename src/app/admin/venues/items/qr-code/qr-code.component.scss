@@ -12,7 +12,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        .item-name {
+        .item-name,
+        .venue-name {
             text-transform: uppercase;
             font-size: 1.5rem;
         }

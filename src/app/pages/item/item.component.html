@@ -1,7 +1,17 @@
 <div class="page-container">
     <div class="content"
         *ngIf="!(uiService.isSearchingNearestItem$|async)">
-        <h6 class="name">{{itemName}}</h6>
+        <div class="filler">
+
+        </div>
+        <div class="header">
+            <h6 class="name">{{itemName}}</h6>
+            <button class="like-button"
+                (click)="onLike()"
+                mat-raised-button
+                *ngIf="!isLiked"
+                color="primary">like</button>
+        </div>
         <div class="img_audio_description">
             <img *ngIf="imageUrl"
                 [src]="imageUrl"

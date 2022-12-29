@@ -27,6 +27,8 @@
                 placeholder="enter your description here"
                 [ngStyle]="{'height': textAreaHeight}"
                 (keyup)="textareaKeyUp($event)"
+                (change)="textAreaChanged()"
+                (mouseup)="textAreaChanged()"
                 class="input"
                 formControlName="description"
                 matInput>{{description}}

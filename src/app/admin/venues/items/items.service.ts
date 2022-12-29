@@ -39,8 +39,8 @@ export class ItemsService {
     private itemByLanguageSubject = new BehaviorSubject<ItemByLanguage>(null);
     public itemByLanguage$ = this.itemByLanguageSubject.asObservable();
 
-    private activeItemSubject = new BehaviorSubject<Item>(null)
-    public activeItem$ = this.activeItemSubject.asObservable()
+    // private activeItemSubject = new BehaviorSubject<Item>(null)
+    // public activeItem$ = this.activeItemSubject.asObservable()
 
     constructor(
         private firestore: Firestore
@@ -55,8 +55,9 @@ export class ItemsService {
 
     getItem(venueId: string, itemId: string) {
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`);
-        return docData(itemRef)
+        return docData(itemRef, { idField: 'id' })
     }
+
     setItem(venueId: string, itemId: string, item: Item) {
         // localStorage.setItem('activeItem', JSON.stringify(item))
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
@@ -85,16 +86,13 @@ export class ItemsService {
     editItemByLanguage(itemByLanguage: ItemByLanguage) {
         this.itemByLanguageSubject.next(itemByLanguage)
     }
+    setItemByLanguage(itemByLanguage: ItemByLanguage) {
+        console.log('setting IBL');
+        this.itemByLanguageSubject.next(itemByLanguage);
+    }
     // setActiveItem(item: Item) {
-    //     console.log('setting item');
-    //     if (localStorage.getItem('activeItem')) {
-    //         console.log('LS')
-    //         const item: Item = JSON.parse(localStorage.getItem('activeItem'))
-    //         this.activeItemSubject.next(item)
-    //     } else {
-    //         console.log('DB')
-    //         localStorage.setItem('activeItem', JSON.stringify(item))
-    //         this.activeItemSubject.next(item);
-    //     }
+    //     console.log(item);
+    //     this.activeItemSubject.next(item);
     // }
+
 }

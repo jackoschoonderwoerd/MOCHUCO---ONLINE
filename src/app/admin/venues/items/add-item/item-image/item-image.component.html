@@ -25,6 +25,9 @@
         color="primary"
         (click)="fileInput.click()">{{editmode ? 'change selection' : 'select image'}}
     </button>
+    <button (click)="onCancel()"
+        mat-raised-button
+        color="warn">cancel</button>
     <button mat-raised-button
         class="confirm"
         *ngIf="imageSrc"

@@ -10,6 +10,20 @@ export interface ItemByLanguage {
     itemLS: ItemLS // language specific data
 }
 
+export interface ItemVisit {
+    timestamp: number,
+    liked: boolean;
+    id?: string
+}
+export interface ItemNameAndVisitsPerItem {
+    itemName: string
+    itemVisits: ItemVisit[]
+}
+export interface AllVisits {
+    itemNameAndVisitsPerItem: ItemNameAndVisitsPerItem[]
+}
+
+
 export interface Item {
     name: string;
     id?: string;
@@ -18,14 +32,16 @@ export interface Item {
     latitude?: number;
     longitude?: number;
     itemsByLanguage?: ItemByLanguage[] // array of items sorted by language
+
 }
 
 export interface Venue {
+    organization: string;
     id?: string;
     owner: string;
     name: string;
     logoUrl?: string;
-    items?: Item[] // array of items
+    items?: Item[]; // array of items
 }
 export interface UserRoles {
     admin: boolean;

@@ -36,13 +36,11 @@ import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 
+
 @Injectable({
     providedIn: 'root'
 })
 export class VenuesService {
-
-    private activeVenueSubject = new BehaviorSubject<Venue>(null)
-    public activeVenue$ = this.activeVenueSubject.asObservable()
 
     private loadingVenuesSubject = new BehaviorSubject<boolean>(false)
     public loadingVenuew$ = this.loadingVenuesSubject.asObservable();
@@ -51,8 +49,7 @@ export class VenuesService {
         private firestore: Firestore,
         private storage: Storage,
         private afAuth: Auth,
-        private authService: AuthService,
-        private router: Router) { }
+    ) { }
 
     addVenue(venue: Venue) {
         console.log(this.afAuth.currentUser.uid);
@@ -63,48 +60,31 @@ export class VenuesService {
         const userId = this.afAuth.currentUser.uid
 
         console.log('updating user', userId)
-        // const userRef = doc(this.firestore, `users/${userId}`);
         const coursesOwnedRef = doc(this.firestore, `users/${userId}/venuesOwned/${venueId}`);
         return setDoc(coursesOwnedRef, {})
     }
 
-    // updateAdmin(venueId) {
-    //     const userId = this.afAuth.currentUser.uid
-
-    //     console.log('updating admin', userId)
-    //     // const userRef = doc(this.firestore, `users/${userId}`);
-    //     const coursesOwnedRef = doc(this.firestore, `users/8Yb9nGiE8Wf7B7jRjlfrFt0NNq93/venuesOwned/${venueId}`);
-    //     return setDoc(coursesOwnedRef, {})
-    // }
     getVenues() {
-        // this.authService.
-        // console.log(this.afAuth.currentUser.uid);
-        if (!this.afAuth.currentUser) {
-            alert('please log in')
-            this.router.navigateByUrl('/admin/login');
-            this.authService.logout()
+        const venuesRef = collection(this.firestore, 'venues');
+        if (this.afAuth.currentUser.uid !== '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93') {
+            const venuesQuery = query(venuesRef, where('owner', '==', this.afAuth.currentUser.uid), orderBy('name'),);
+            return collectionData(venuesQuery, { idField: 'id' }) as Observable<Venue[]>;
+
         } else {
-            const venuesRef = collection(this.firestore, 'venues');
-            if (this.afAuth.currentUser.uid !== '8Yb9nGiE8Wf7B7jRjlfrFt0NNq93') {
-                const venuesQuery = query(venuesRef, where('owner', '==', this.afAuth.currentUser.uid), orderBy('name'),);
-                return collectionData(venuesQuery, { idField: 'id' }) as Observable<Venue[]>;
-
-            } else {
-                const venuesQuery = query(venuesRef, orderBy('name'),);
-                return collectionData(venuesQuery, { idField: 'id' }) as Observable<Venue[]>;
-            }
+            const venuesQuery = query(venuesRef, orderBy('name'),);
+            return collectionData(venuesQuery, { idField: 'id' }) as Observable<Venue[]>;
+            // }
         }
-
-
     }
+
     getVenueById(venueId) {
         console.log
         const venueRef = doc(this.firestore, `venues/${venueId}`)
         return docData(venueRef, { idField: 'id' }) as Observable<Venue>
     }
-    updateVenue(venueId: string, name: string, logoUrl) {
+    updateVenue(venueId: string, organization: string, name: string, logoUrl) {
         const venueRef = doc(this.firestore, `venues/${venueId}`)
-        return updateDoc(venueRef, { name: name, logoUrl: logoUrl })
+        return updateDoc(venueRef, { organization: organization, name: name, logoUrl: logoUrl })
     }
     deleteVenue(venueId: string) {
         console.log('deleting venue', venueId)
@@ -115,10 +95,7 @@ export class VenuesService {
         const coursesOwnedVenueIdRef = doc(this.firestore, `users/${this.afAuth.currentUser.uid}/venuesOwned/${venueId}`)
         return deleteDoc(coursesOwnedVenueIdRef)
     }
-    // addItemToVenue(venueId: string, item: Item) {
-    //     const itemRef = collection(this.firestore, `venues/${venueId}/items`)
-    //     return addDoc(itemRef, item)
-    // }
+
     async storeLogo(venueId: string, file: File) {
         if (file) {
             try {
@@ -148,16 +125,9 @@ export class VenuesService {
         const venueRef = ref(this.storage, `venues/${venueId}`)
         return getMetadata(venueRef)
     }
-
-    // setVenue(venue: Venue) {
-    //     const venueRef = doc(this.firestore, `venues/${venue.id}`)
-    //     return setDoc(venueRef, venue)
-    // }
-
-    setActiveVenue(venueId: string) {
-        console.log('setting active venue')
-        this.getVenueById(venueId).subscribe((venue: Venue) => {
-            this.activeVenueSubject.next(venue);
-        })
+    getVisits(venueId: string, itemId: string) {
+        const visitsRef = collection(this.firestore, `venues/${venueId}/visitsLog/${itemId}/visits`);
+        // const query = query(visitsRef,  orderBy('name'))
+        return collectionData(visitsRef, { idField: 'id' })
     }
 }

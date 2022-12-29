@@ -20,7 +20,7 @@ import {
 import { Console } from 'console';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ItemByLanguage, Venue } from 'src/app/shared/models';
-import { Item } from '../../shared/models';
+import { Item, ItemVisit } from '../../shared/models';
 import { UiService } from '../../shared/ui.service';
 
 @Injectable({
@@ -39,6 +39,8 @@ export class ItemService {
     public availableLanguages$ = this.availableLanguagesSubject.asObservable()
     private audioUrlSubject = new BehaviorSubject<string>(null)
     public audioUrl$ = this.audioUrlSubject.asObservable()
+    private activeVisitIdSubject = new BehaviorSubject<string>(null)
+    public activeVisitId$ = this.activeVisitIdSubject.asObservable()
 
 
     constructor(
@@ -49,6 +51,16 @@ export class ItemService {
         console.log('GETTING ITEM: ', venueId, itemId);
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return docData(itemRef)
+    }
+    addVisit(venueId: string, itemId: string) {
+        const itemVisit: ItemVisit = {
+            timestamp: new Date().getTime(),
+            liked: false
+        }
+        console.log(itemVisit)
+        const visitRef = collection(this.firestore, `venues/${venueId}/visitsLog/${itemId}/visits`)
+        return addDoc(visitRef, itemVisit)
+
     }
 
     updateAudioUrl(audioUrl: string) {
@@ -98,6 +110,21 @@ export class ItemService {
         const q = query(itemsRef, where('isMainPage', '==', true,));
         // collectionData(q, { idField: 'id' }).subscribe(data => console.log(data))
         return collectionData(q, { idField: 'id' })
+    }
+    setActiveVisitId(id: string) {
+        this.activeVisitIdSubject.next(id);
+    }
+
+    like(venueId: string, itemId: string) {
+        this.activeVisitId$.subscribe((visitId: string) => {
+            console.log(venueId);
+            console.log(itemId);
+            console.log(visitId);
+            const visitRef = doc(this.firestore, `venues/${venueId}/visitsLog/${itemId}/visits/${visitId}`);
+            updateDoc(visitRef, { liked: true })
+                .then((res: any) => console.log('item liked'))
+                .catch(err => console.error(err));
+        })
     }
 
     updateItemVisits(venueId: string, itemId: string) {

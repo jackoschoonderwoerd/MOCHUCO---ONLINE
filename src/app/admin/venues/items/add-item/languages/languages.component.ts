@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/shared/language.service';
 import { ItemsService } from '../../items.service';
 import { WarningComponent } from 'src/app/shared/warning/warning.component';
+import { GeneralStoreService } from 'src/app/shared/general-store.service';
 
 @Component({
     selector: 'app-languages',
@@ -30,11 +31,12 @@ export class LanguagesComponent implements OnInit {
         private venuesService: VenuesService,
         private dialog: MatDialog,
         private languageService: LanguageService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        public generalStore: GeneralStoreService
     ) { }
 
     ngOnInit(): void {
-        this.venue$ = this.venuesService.activeVenue$;
+        this.venue$ = this.generalStore.activeVenue$;
         // this.activeItem$ = this.itemsService.activeItem$;
 
         console.log('onInit')
@@ -45,15 +47,17 @@ export class LanguagesComponent implements OnInit {
             this.itemId = params.itemId;
             this.itemName = params.itemName;
             const sub = this.itemsService.getItem(this.venueId, this.itemId).subscribe((item: Item) => {
-                item.itemsByLanguage.sort((a, b) => {
-                    if (a.language < b.language) {
-                        return -1
-                    }
-                    if (a.language > b.language) {
-                        return 1
-                    }
-                    return 0
-                })
+                if (item.itemsByLanguage && item.itemsByLanguage.length > 0) {
+                    item.itemsByLanguage.sort((a, b) => {
+                        if (a.language < b.language) {
+                            return -1
+                        }
+                        if (a.language > b.language) {
+                            return 1
+                        }
+                        return 0
+                    })
+                }
                 this.item = item;
                 // console.log(this.item);
                 this.isLoadingData = false;
@@ -78,7 +82,10 @@ export class LanguagesComponent implements OnInit {
 
     onEdit(itemByLanguage: ItemByLanguage) {
         console.log(itemByLanguage)
-        this.itemsService.editItemByLanguage(itemByLanguage)
+        this.generalStore.setActiveLanguage(itemByLanguage.language);
+        this.itemsService.editItemByLanguage(itemByLanguage);
+        this.itemsService.setItemByLanguage(itemByLanguage);
+        this.generalStore.setAction('editing language')
         this.router.navigate(['/admin/add-language', {
             venueId: this.venueId,
             itemId: this.itemId
@@ -97,6 +104,8 @@ export class LanguagesComponent implements OnInit {
             // availableLanguages: this.getAvailableLanguages()
 
         }])
+        this.generalStore.setAction('adding language');
+        this.generalStore.setActiveLanguage('select language');
     }
     onItems() {
         this.getAvailableLanguages()

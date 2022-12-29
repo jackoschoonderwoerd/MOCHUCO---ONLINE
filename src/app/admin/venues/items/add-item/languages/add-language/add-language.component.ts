@@ -10,6 +10,9 @@ import { LanguageAudioComponent } from './language-audio/language-audio.componen
 import { ItemsService } from '../../../items.service';
 import { WarningComponent } from '../../../../../../shared/warning/warning.component';
 import { ConfirmDeleteComponent } from '../../../../../../shared/confirm-delete/confirm-delete.component';
+import { UiService } from '../../../../../../shared/ui.service';
+import { AuthService } from 'src/app/admin/auth/auth.service';
+import { GeneralStoreService } from '../../../../../../shared/general-store.service';
 
 @Component({
     selector: 'app-add-language',
@@ -40,8 +43,11 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private languageService: LanguageService,
         private dialog: MatDialog,
-        private venuesService: VenuesService,
-        private itemsService: ItemsService) { }
+        public venuesService: VenuesService,
+        public itemsService: ItemsService,
+        public authService: AuthService,
+        public generalStore: GeneralStoreService
+    ) { }
 
     ngOnInit(): void {
         this.initForm()
@@ -60,6 +66,7 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         })
         this.itemsService.itemByLanguage$.subscribe((itemByLanguage: ItemByLanguage) => {
             if (itemByLanguage) {
+                console.log(itemByLanguage)
                 this.itemByLanguage = itemByLanguage;
 
                 console.log(this.itemByLanguage);
@@ -73,6 +80,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
                 })
                 this.description = this.itemByLanguage.itemLS.description;
                 this.audioUrl = this.itemByLanguage.itemLS.audioUrl
+            } else {
+                console.log('no itembylanguage')
             }
         })
     }
@@ -89,6 +98,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
     onLanguageSelectionChange(e) {
         this.selectedLanguage = e.value;
         this.isLanguageSelected = true;
+        this.unsaved = true;
+        this.generalStore.setActiveLanguage(e.value);
     }
     onDescription() {
         const dialogRef = this.dialog.open(DescriptionComponent, {
@@ -147,6 +158,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
         if (!this.editmode) {
             // ADDING NEW LANGUAGE
             this.item.itemsByLanguage.push(newItemByLanguage)
+            this.generalStore.setActiveLanguage(null)
+            this.generalStore.setAction('overview langages')
         } else {
             // EDITING EXISTING LANGUAGE
             const itemByLanguageIndex = this.item.itemsByLanguage.findIndex((itemByLanguage: ItemByLanguage) => {
@@ -165,6 +178,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
                 this.audioUrl = null;
                 this.unsaved = false;
                 this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: this.itemId }])
+                this.generalStore.setActiveLanguage(null)
+                this.generalStore.setAction('overview langages')
             })
             .catch(err => console.log(err));
 
@@ -189,6 +204,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
     onCancel() {
         if (!this.unsaved) {
             window.history.back();
+            this.generalStore.setAction('overview languages');
+            this.generalStore.setActiveLanguage(null);
         } else {
             const dialogRef = this.dialog.open(ConfirmDeleteComponent,
                 {
@@ -198,6 +215,8 @@ export class AddLanguageComponent implements OnInit, OnDestroy {
             dialogRef.afterClosed().subscribe((res) => {
                 if (res) {
                     window.history.back();
+                    this.generalStore.setActiveLanguage(null);
+                    this.generalStore.setAction('overview languages')
                 }
                 return;
             })

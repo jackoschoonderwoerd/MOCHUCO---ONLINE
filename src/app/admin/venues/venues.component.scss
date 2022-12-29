@@ -3,9 +3,18 @@
     display: grid;
     justify-items: center;
     background-color: #cccc;
-    height: 100%;
+    min-height: calc(100vh - 64px - 4rem);
+    padding-bottom: 4rem;
+
     // grid-template-columns: 1fr;
     // gap: 1rem;
+    .loading-venues {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        padding: 3rem;
+        margin: auto;
+    }
     .venues {
         max-width: 70rem;
         min-width: 30rem;

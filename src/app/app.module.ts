@@ -31,13 +31,14 @@ import { SelectLanguageComponent } from './navigation/footer/select-language/sel
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin/admin.component';
-import { StageComponent } from './pages/stage/stage.component';
+
 import { ItemComponent } from './pages/item/item.component';
 import { LanguagesComponent } from './admin/venues/items/add-item/languages/languages.component';
 import { WarningComponent } from './shared/warning/warning.component';
 import { AudioComponent } from './pages/item/audio/audio.component';
 import { MainPageComponent } from './navigation/header/main-page/main-page.component';
 import { MapComponent } from './navigation/header/main-page/map/map.component';
+import { StatusComponent } from './navigation/header/status/status.component';
 
 
 
@@ -59,13 +60,14 @@ import { MapComponent } from './navigation/header/main-page/map/map.component';
         SelectLanguageComponent,
         TestComponent,
         UiDialogComponent,
-        StageComponent,
+
         ItemComponent,
         LanguagesComponent,
         WarningComponent,
         AudioComponent,
         MainPageComponent,
         MapComponent,
+        StatusComponent
 
 
     ],

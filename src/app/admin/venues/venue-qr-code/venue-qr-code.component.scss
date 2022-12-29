@@ -1,0 +1,15 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    .print-area {
+        .venue-name {
+            text-transform: uppercase;
+            // border: 1px solid red;
+            display: flex;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+    }
+}

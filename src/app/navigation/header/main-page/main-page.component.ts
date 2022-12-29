@@ -7,6 +7,7 @@ import { LanguageService } from '../../../shared/language.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MapComponent } from './map/map.component';
+import { GeneralStoreService } from 'src/app/shared/general-store.service';
 
 @Component({
     selector: 'app-main-page',
@@ -31,14 +32,15 @@ export class MainPageComponent implements OnInit {
         private dialogRef: MatDialogRef<MainPageComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private router: Router,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private generalStore: GeneralStoreService
 
     ) { }
 
     ngOnInit(): void {
 
         this.languageService.language$.subscribe((language: string) => {
-            this.venuesService.activeVenue$.subscribe((venue: Venue) => {
+            this.generalStore.activeVenue$.subscribe((venue: Venue) => {
                 console.log(venue)
                 this.itemService.getMainPageItem(venue.id).subscribe((itemArray: Item[]) => {
                     console.log(itemArray)
@@ -76,9 +78,7 @@ export class MainPageComponent implements OnInit {
         this.dialog.open(MapComponent, { data: { latitude, longitude } })
     }
     getLocationRef(latitude: number, longitude: number) {
-
         return `https://maps.google.com/?q=${latitude},${longitude}`
-
     }
 
     getSortedItems() {

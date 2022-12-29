@@ -1,88 +1,112 @@
 <div class="page-container">
-    <div class="navigation">
-        <button mat-raised-button
-            (click)="onVenues()">venues
-        </button>
-        <button mat-raised-button
-            (click)="onItems()">items
-        </button>
-        <button mat-raised-button
-            (click)="onLanguages()">languages
-        </button>
-        <!-- <div class="editmode">EDITMODE: {{editmode}}</div>
-        <div class="venue-id">VENUEID: {{venueId}}</div> -->
-        <div class="item-id">ITEMID: {{itemId}}</div>
-    </div>
-    <div class="header">
-        <!-- <div class="venue-name">venue: {{(venue$|async)?.name}}</div> -->
-        <div class="current-section">current section: language</div>
-    </div>
-    <form [formGroup]="form">
-        <div *ngIf="editmode"
-            class="header">editing language
-            <span class="active-language">{{itemByLanguage.language}}</span>&nbsp;in&nbsp;
-            <span class="header-name">{{item?.name}}</span></div>
-        <div *ngIf="!editmode"
-            class="header">add language to <span class="header-name">{{item?.name}}</span></div>
+    <main>
 
-        <mat-form-field *ngIf="!editmode">
-            <mat-select (selectionChange)="onLanguageSelectionChange($event)"
-                [disabled]="editmode"
-                formControlName="language"
-                placeholder="select language">
-                <mat-option *ngFor="let language of languages"
-                    [value]="language">
-                    {{language}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <!-- <div class="navigation">
+            <button mat-raised-button
+                (click)="onVenues()">venues
+            </button>
+            <button mat-raised-button
+                (click)="onItems()">items
+            </button>
+            <button mat-raised-button
+                (click)="onLanguages()">languages
+            </button>
+
+            <div class="item-id"
+                *ngIf="authService.isAdmin$|async">ITEMID: {{itemId}}</div>
+        </div> -->
+        <!-- <div class="header">
+            <div class="venue header-item">
+                <div class="header-item-title">venue:</div>
+                <div class="venue-name"> {{(generalStore.activeVenue$|async).name}}</div>
+            </div>
+            <div class="item header-item">
+                <div class="header-item-title">item:</div>
+                <div class="item-name"> {{item?.name}}</div>
+            </div>
+            <div class="section header-item">
+                <div class="header-item-title">current section:</div>
+                <div class="current-section"> {{editmode ? 'edit' : 'add'}} language</div>
+            </div>
+            <div class="language header-item">
+                <div class="header-item-title">language:</div>
+                <div *ngIf="editmode"
+                    class="active-language">{{itemByLanguage.language}}
+                </div>
+                <div *ngIf="!editmode"
+                    class="active-language"
+                    style="color: red;">{{selectedLanguage}}
+                </div>
+            </div>
+        </div> -->
+        <form [formGroup]="form">
+            <!-- <div *ngIf="editmode"
+                class="header">editing language
+                <span class="header-name">{{item?.name}}</span>
+            </div> -->
+            <!-- <div *ngIf="!editmode"
+                class="header">add language to <span class="header-name">{{item?.name}}</span>
+            </div> -->
+
+            <mat-form-field *ngIf="!editmode">
+                <mat-select (selectionChange)="onLanguageSelectionChange($event)"
+                    [disabled]="editmode"
+                    formControlName="language"
+                    placeholder="select language">
+                    <mat-option *ngFor="let language of languages"
+                        [value]="language">
+                        {{language}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
 
 
-        <mat-form-field>
-            <input type="text"
-                matInput
-                formControlName="name"
-                placeholder="name"
-                (keyup)="onFormChanged()">
-        </mat-form-field>
+            <mat-form-field>
+                <input type="text"
+                    matInput
+                    formControlName="name"
+                    placeholder="name"
+                    (keyup)="onFormChanged()">
+            </mat-form-field>
 
-        <audio *ngIf="audioUrl"
-            [src]="audioUrl"
-            controls></audio>
-        <button mat-raised-button
-            class="audio-button"
-            [disabled]="!isLanguageSelected"
-            (click)="onAudio()">
-            audio<mat-icon>edit</mat-icon>
-        </button>
+            <audio *ngIf="audioUrl"
+                [src]="audioUrl"
+                controls></audio>
+            <button mat-raised-button
+                class="audio-button"
+                [disabled]="!isLanguageSelected"
+                (click)="onAudio()">
+                audio<mat-icon>edit</mat-icon>
+            </button>
 
-        <mat-radio-group [(ngModel)]="audioAutoplay"
-            formControlName="audioAutoplay">
-            <div class="label">audio autoplay</div>
-            <mat-radio-button [value]="true">on</mat-radio-button>
-            <mat-radio-button class="example-margin"
-                [value]="false">off</mat-radio-button>
-        </mat-radio-group>
+            <mat-radio-group [(ngModel)]="audioAutoplay"
+                formControlName="audioAutoplay">
+                <div class="label">audio autoplay</div>
+                <mat-radio-button [value]="true">on</mat-radio-button>
+                <mat-radio-button class="example-margin"
+                    [value]="false">off</mat-radio-button>
+            </mat-radio-group>
 
-        <button mat-raised-button
-            [ngClass]="{'unsaved': unsaved}"
-            (click)="onSubmit()"
-            [disabled]="form.invalid"
-            color="primary">{{editmode ? 'save edits' : 'publish language'}}
-        </button>
-        <button mat-raised-button
-            (click)="onCancel()">cancel</button>
-    </form>
-    <div class="description">
-        <button mat-raised-button
-            (click)="onDescription()">
-            description
-            <mat-icon>edit</mat-icon>
-        </button>
-        <div class="content"
-            [innerHTML]="description">
+            <button mat-raised-button
+                [ngClass]="{'unsaved': unsaved}"
+                (click)="onSubmit()"
+                [disabled]="form.invalid"
+                color="primary">{{editmode ? 'save edits' : 'publish language'}}
+            </button>
+            <button mat-raised-button
+                (click)="onCancel()">cancel</button>
+        </form>
+        <div class="description">
+            <button mat-raised-button
+                (click)="onDescription()">
+                description
+                <mat-icon>edit</mat-icon>
+            </button>
+            <div class="content"
+                [innerHTML]="description">
 
+            </div>
         </div>
-    </div>
+    </main>
 </div>

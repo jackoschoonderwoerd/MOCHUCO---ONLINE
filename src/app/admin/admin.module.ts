@@ -24,6 +24,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { PermissionDeniedDialogComponent } from './shared/permission-denied-dialog/permission-denied-dialog.component';
 import { DeleteItemDialogComponent } from './venues/items/delete-item-dialog/delete-item-dialog.component';
 import { VenueQrCodeComponent } from './venues/venue-qr-code/venue-qr-code.component';
+import { StatusComponent } from '../navigation/header/status/status.component';
+import { AppAuthGuard } from '../app-auth-guard.service';
+import { StatisticsComponent } from './venues/statistics/statistics.component';
 
 
 
@@ -51,6 +54,8 @@ import { VenueQrCodeComponent } from './venues/venue-qr-code/venue-qr-code.compo
         PermissionDeniedDialogComponent,
         DeleteItemDialogComponent,
         VenueQrCodeComponent,
+        StatisticsComponent,
+        // StatusComponent,
 
 
     ],
@@ -60,6 +65,9 @@ import { VenueQrCodeComponent } from './venues/venue-qr-code/venue-qr-code.compo
         AdminMaterialModule,
         ReactiveFormsModule,
         NgxQrcodeStylingModule
+    ],
+    providers: [
+        AppAuthGuard
     ]
 })
 export class AdminModule { }

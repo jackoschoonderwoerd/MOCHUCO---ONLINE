@@ -60,6 +60,7 @@
                         flex: 1;
                         // border: 1px solid red;
                         text-transform: capitalize;
+                        padding: 0 0.3rem;
                     }
                     .name {
                         // border: 1px solid red;
@@ -68,6 +69,7 @@
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
+                        padding: 0 0.3rem;
                     }
                     .description {
                         // border: 1px solid red;
@@ -75,11 +77,22 @@
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
+                        padding: 0 0.3rem;
+                    }
+                    .description-placeholder {
+                        // border: 1px solid red;
+                        flex: 5;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        font-style: italic;
+                        padding: 0 0.3rem;
+                        opacity: 0.7;
                     }
                     .buttons {
                         justify-content: end;
                         // border: 1px solid green;
-                        min-width: 26rem;
+                        min-width: 8rem;
                         display: flex;
                         gap: 1rem;
                         align-items: center;

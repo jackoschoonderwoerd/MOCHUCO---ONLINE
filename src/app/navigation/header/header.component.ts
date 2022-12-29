@@ -13,6 +13,7 @@ import { LanguageService } from '../../shared/language.service';
 import { Item, ItemByLanguage, Venue } from '../../shared/models';
 import { VenuesService } from '../../admin/venues/venues.service';
 import { MainPageComponent } from './main-page/main-page.component';
+import { GeneralStoreService } from 'src/app/shared/general-store.service';
 
 
 
@@ -36,15 +37,20 @@ export class HeaderComponent implements OnInit {
         public authService: AuthService,
         public itemService: ItemService,
         public languageService: LanguageService,
-        public venuesService: VenuesService
+        public venuesService: VenuesService,
+        public generalStore: GeneralStoreService
 
 
     ) { }
 
     ngOnInit(): void {
-        this.venuesService.activeVenue$.subscribe((venue: Venue) => {
-            console.log(venue);
-            this.venue = venue
+        this.generalStore.activeVenue$.subscribe((venue: Venue) => {
+            if (venue) {
+                console.log(venue);
+                this.venue = venue
+                return;
+            }
+            console.log('no venue selected')
         })
 
         // this.itemService.mainPage$.subscribe((mainPage: Item) => {
@@ -92,6 +98,9 @@ export class HeaderComponent implements OnInit {
     //     this.itemService.extractMainPage()
     // }
     onLogout() {
-        this.authService.logout()
+        this.generalStore.setAllToNull();
+        setTimeout(() => {
+            this.authService.logout()
+        }, 1000);
     }
 }

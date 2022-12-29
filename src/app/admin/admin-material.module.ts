@@ -13,7 +13,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NgModule } from '@angular/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -30,7 +33,11 @@ import { NgModule } from '@angular/core';
         MatProgressSpinnerModule,
         MatRadioModule,
         MatCheckboxModule,
-        MatDialogModule
+        MatDialogModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+
 
 
 
@@ -46,7 +53,10 @@ import { NgModule } from '@angular/core';
         MatProgressSpinnerModule,
         MatRadioModule,
         MatCheckboxModule,
-        MatDialogModule
+        MatDialogModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ]
 })
 

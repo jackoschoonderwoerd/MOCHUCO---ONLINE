@@ -11,6 +11,7 @@ import { DeleteVenueDialogComponent } from './delete-venue-dialog/delete-venue-d
 import { ItemsService } from './items/items.service';
 import { VenueQrCodeComponent } from './venue-qr-code/venue-qr-code.component';
 import { AuthService } from '../auth/auth.service';
+import { GeneralStoreService } from 'src/app/shared/general-store.service';
 
 
 
@@ -21,24 +22,41 @@ import { AuthService } from '../auth/auth.service';
 })
 export class VenuesComponent implements OnInit {
 
-    venues$: Observable<Venue[]>
+    venues$: Observable<Venue[]>;
+    isLoadingVenues: boolean = false;
 
     constructor(
         private router: Router,
         private venuesService: VenuesService,
         private dialog: MatDialog,
         private itemsService: ItemsService,
-        public authService: AuthService
+        public authService: AuthService,
+        private generalStore: GeneralStoreService
     ) { }
 
     ngOnInit(): void {
-        this.venues$ = this.venuesService.getVenues();
+        this.isLoadingVenues = true
+        setTimeout(() => {
+            this.venues$ = this.venuesService.getVenues().pipe(
+                map((venues: Venue[]) => {
+
+                    this.isLoadingVenues = false;
+                    return venues
+                })
+            );
+        }, 2000);
+
+    }
+    onStatistics(venueId) {
+        this.router.navigate(['/admin/statistics', { venueId }]);
     }
     onQrCode(venueId: string, venueName: string) {
         this.dialog.open(VenueQrCodeComponent, { data: { venueId, venueName } })
     }
     onEditVenue(venueId: string, venueName: string) {
         this.router.navigate(['/admin/add-venue', { venueId, venueName }])
+        this.generalStore.setActiveVenue(venueId);
+        this.generalStore.setAction('editing venue');
     }
 
     onDelete(venueId) {
@@ -80,13 +98,15 @@ export class VenuesComponent implements OnInit {
     }
 
     onItems(venue: Venue) {
-        this.venuesService.setActiveVenue(venue.id);
+        this.generalStore.setActiveVenue(venue.id);
+        this.generalStore.setAction('overview items')
         // localStorage.setItem('activeVenue', JSON.stringify(venue));
         this.router.navigate(['admin/items', { venueId: venue.id, venueName: venue.name }])
     }
 
 
     onAddVenue() {
-        this.router.navigateByUrl('/admin/add-venue')
+        this.router.navigateByUrl('/admin/add-venue');
+        this.generalStore.setAction('adding venue');
     }
 }

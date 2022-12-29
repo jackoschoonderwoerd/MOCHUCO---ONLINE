@@ -99,4 +99,7 @@ export class ItemImageComponent implements OnInit {
             return;
         })
     }
+    onCancel() {
+        this.dialogRef.close()
+    }
 }

@@ -7,13 +7,10 @@
                     alt="">
             </a>
         </div>
-
-        <div (click)="onVenueLogo()"
-            class="venue-logo">
-            <img [src]="(venuesService.activeVenue$|async)?.logoUrl"
-                alt="">
+        <div class="organization"
+            *ngIf="venue && venue.organization">
+            {{venue.organization}}
         </div>
-
         <div class="user"
             *ngIf="authService.mochucoUser$|async">
             <div class="user-name">
@@ -27,6 +24,12 @@
                 <mat-icon>exit_to_app</mat-icon>
             </div>
         </div>
+        <div (click)="onVenueLogo()"
+            class="venue-logo">
+            <img [src]="(generalStore.activeVenue$|async)?.logoUrl"
+                alt="">
+        </div>
+
     </div>
 
 </mat-toolbar>

@@ -2,7 +2,8 @@
     *ngIf="!local">
     <div class="print-area"
         #printarea>
-        <div class="item-name">{{itemName}}</div>
+
+        <div class="venue-name">{{(venue?.name)}}</div>
         <ngx-qrcode-styling #qrcode
             [type]="'canvas'"
             [shape]="'square'"
@@ -15,6 +16,8 @@
                                         itemId"
             image="./../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png">
         </ngx-qrcode-styling>
+
+        <div class="item-name">{{itemName}}</div>
     </div>
     <button mat-raised-button
         (click)="onDownloadQrCode()">download qr-code</button>

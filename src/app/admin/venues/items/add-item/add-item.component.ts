@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Venue } from '../../../../shared/models';
 import { ItemsService } from '../items.service';
 import { PermissionDeniedDialogComponent } from '../../../shared/permission-denied-dialog/permission-denied-dialog.component';
+import { GeneralStoreService } from 'src/app/shared/general-store.service';
+import { ConfirmDeleteComponent } from '../../../../shared/confirm-delete/confirm-delete.component';
 
 @Component({
     selector: 'app-add-item',
@@ -34,7 +36,8 @@ export class AddItemComponent implements OnInit {
         private venuesService: VenuesService,
         private itemsService: ItemsService,
         private route: ActivatedRoute,
-        private router: Router) { }
+        private router: Router,
+        public generalStore: GeneralStoreService) { }
 
     ngOnInit(): void {
         this.initForm()
@@ -130,7 +133,9 @@ export class AddItemComponent implements OnInit {
                         })
                     });
                     // }
-                    this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
+                    this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }]);
+                    this.generalStore.setAction('overview items');
+                    this.generalStore.setActiveItem(null, null);
                 })
                 .catch(err => console.log(err));
         } else {
@@ -151,10 +156,12 @@ export class AddItemComponent implements OnInit {
                         item.latitude,
                         item.longitude)
                         .then((docRef) => {
-                            console.log(docRef, 'location updated')
+                            console.log('location updated')
                         });
                     // }
                     this.router.navigate(['/admin/items', { venueId: this.venueId, venueName: this.venueName }])
+                    this.generalStore.setAction('overview items');
+                    this.generalStore.setActiveItem(null, null);
                 })
                 .catch(err => {
                     console.log(err)
@@ -168,6 +175,18 @@ export class AddItemComponent implements OnInit {
     }
     onItems() {
         this.router.navigate(['/admin/items', { venueId: this.venueId, itenId: this.itemId }])
+    }
+
+    onCancel() {
+        const dialogRef = this.dialog.open(ConfirmDeleteComponent, { data: { message: 'all your edits will be lost' } });
+        dialogRef.afterClosed().subscribe((res) => {
+            if (res) {
+                this.router.navigate(['/admin/items', { venueId: this.venueId }])
+                this.generalStore.setActiveItem(null, null);
+                this.generalStore.setAction('overview items')
+            }
+            return;
+        })
     }
 }
 // ,52.36726536641987 4.889799268167798

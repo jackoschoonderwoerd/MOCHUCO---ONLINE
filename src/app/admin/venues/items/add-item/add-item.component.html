@@ -1,55 +1,77 @@
 <div class="page-container">
-    <div class="navigation">
-        <button mat-raised-button
-            (click)="onVenues()">venues</button>
-        <button mat-raised-button
-            (click)="onItems()">items</button>
+    <div class="main">
 
-    </div>
-    <form [formGroup]="form">
-        <div class="venue-data">
-            <div class="name">{{venueName}}</div>
-            <div class="venue-id">{{venueId}}</div>
-            <div class="item-id">{{itemId}}</div>
-
+        <!-- <div class="navigation">
+            <button mat-raised-button
+                (click)="onVenues()">venues</button>
+            <button mat-raised-button
+                (click)="onItems()">items</button>
         </div>
+        <div class="status">
+            <div class="venue">
+                <div class="">venue:</div>
+                <div class="venue-name">{{(generalStore.activeVenue$|async)?.name}}</div>
+            </div>
+            <div class="item">
+                <div class="">item:</div>
+                <div class="item-name">{{(generalStore.activeItem$|async)?.name}}</div>
+            </div>
+            <div class="current">{{editmode ? 'edit item' : 'add item'}}</div>
+        </div> -->
+        <form [formGroup]="form">
+            <div class="venue-data">
+                <div class="name">{{venueName}}</div>
+                <div class="venue-id">{{venueId}}</div>
+                <div class="item-id">{{itemId}}</div>
 
-        <mat-form-field>
-            <input type="text"
-                matInput
-                formControlName="name"
-                placeholder="item name"
-                (keyup)="onNameChanged()">
-        </mat-form-field>
-        <mat-radio-group [(ngModel)]="mainPage"
-            formControlName="isMainPage">
-            <mat-radio-button [value]="true">main page</mat-radio-button>
-            <mat-radio-button class="example-margin"
-                [value]="false">secondary page</mat-radio-button>
-        </mat-radio-group>
-        <button mat-raised-button
-            *ngIf="item"
-            (click)="onImage()">image</button>
-        <mat-form-field>
-            <input type="number"
-                placeholder="latitude"
-                matInput
-                formControlName="latitude">
-        </mat-form-field>
-        <mat-form-field>
-            <input type="number"
-                placeholder="longitude"
-                matInput
-                formControlName="longitude">
-        </mat-form-field>
-        <button mat-raised-button
-            [ngClass]="{'unsaved': unsaved}"
-            [disabled]="form.invalid"
-            (click)="onSubmit()">{{editmode ? 'update item': 'add item'}}
-        </button>
-    </form>
-    <div class="image-container">
-        <img [src]="imageUrl"
-            alt="">
+            </div>
+
+            <mat-form-field>
+                <input type="text"
+                    matInput
+                    formControlName="name"
+                    placeholder="item name"
+                    (keyup)="onNameChanged()">
+            </mat-form-field>
+            <mat-radio-group [(ngModel)]="mainPage"
+                formControlName="isMainPage">
+                <mat-radio-button [value]="true">main page</mat-radio-button>
+                <mat-radio-button class="example-margin"
+                    [value]="false">secondary page</mat-radio-button>
+            </mat-radio-group>
+            <button mat-raised-button
+                *ngIf="item"
+                (click)="onImage()">image</button>
+            <mat-form-field>
+                <input type="number"
+                    placeholder="latitude"
+                    matInput
+                    formControlName="latitude">
+            </mat-form-field>
+            <mat-form-field>
+                <input type="number"
+                    placeholder="longitude"
+                    matInput
+                    formControlName="longitude">
+            </mat-form-field>
+            <button mat-raised-button
+                [ngClass]="{'unsaved': unsaved}"
+                [disabled]="form.invalid"
+                (click)="onSubmit()">{{editmode ? 'update item': 'add item'}}
+            </button>
+            <button mat-raised-button
+                (click)="onCancel()">cancel</button>
+        </form>
+        <div class="image-container">
+            <div class="image"
+                *ngIf="imageUrl">
+
+                <img [src]="imageUrl">
+            </div>
+            <div class="image-placeholder"
+                *ngIf="!imageUrl">
+                image placeholder
+            </div>
+        </div>
     </div>
 </div>

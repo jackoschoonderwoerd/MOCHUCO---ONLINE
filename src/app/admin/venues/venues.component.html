@@ -1,7 +1,11 @@
 <div class="page-container">
-
+    <div class="loading-venues"
+        *ngIf="isLoadingVenues">
+        <mat-spinner></mat-spinner>
+        <div class="loading">Loading venues</div>
+    </div>
     <div class="venues">
-        <div class="header">venues</div>
+        <!-- <div class="header">current section: venues</div> -->
         <!-- <mat-spinner *ngIf="!venues$|async"></mat-spinner> -->
         <div class="venue"
             *ngFor="let venue of (venues$|async)">
@@ -18,6 +22,11 @@
                 </div>
             </div>
             <div class="buttons">
+                <button mat-raised-button
+                    color="primary"
+                    (click)="onStatistics(venue.id)">
+                    stats
+                </button>
                 <button mat-raised-button
                     color="primary"
                     (click)="onQrCode(venue.id, venue.name)">

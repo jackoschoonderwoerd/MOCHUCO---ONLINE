@@ -1,41 +1,53 @@
 .page-container {
     padding: 3rem;
-    display: grid;
-    flex-direction: column;
-    gap: 1rem;
     justify-content: center;
-    .navigation {
-        min-width: 60rem;
-        grid-column-start: 1;
-        grid-column-end: 3;
-        background-color: wheat;
-        display: flex;
+    background-color: #ccc;
+    height: 100%;
+    .main {
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 1rem;
-        padding: 1rem;
-    }
-    form {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        background-color: wheat;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        max-width: 30rem;
-        min-width: 20rem;
-        mat-radio-group {
+        max-width: 80rem;
+        .navigation {
+            min-width: 60rem;
+            grid-column-start: 1;
+            grid-column-end: 3;
+            background-color: wheat;
             display: flex;
             gap: 1rem;
+            padding: 1rem;
         }
-    }
-    .image-container {
-        max-width: 40rem;
-        grid-column-start: 2;
-        grid-column-end: 3;
-        padding: 1rem;
-        background-color: wheat;
-        img {
-            width: 100%;
+        form {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            background-color: wheat;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            // max-width: 30rem;
+            // min-width: 20rem;
+            mat-radio-group {
+                display: flex;
+                gap: 1rem;
+            }
+        }
+        .image-container {
+            // max-width: 40rem;
+            grid-column-start: 2;
+            grid-column-end: 3;
+            padding: 1rem;
+            background-color: wheat;
+            .image {
+                img {
+                    width: 100%;
+                }
+            }
+            .image-placeholder {
+                font-style: italic;
+                opacity: 0.7;
+            }
         }
     }
 }

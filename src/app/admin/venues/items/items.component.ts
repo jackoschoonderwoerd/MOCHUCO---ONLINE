@@ -11,6 +11,8 @@ import { ItemImageComponent } from './add-item/item-image/item-image.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { ItemsService } from './items.service';
 import { DeleteItemDialogComponent } from './delete-item-dialog/delete-item-dialog.component';
+import { AuthService } from '../../auth/auth.service';
+import { GeneralStoreService } from '../../../shared/general-store.service';
 
 
 @Component({
@@ -28,6 +30,7 @@ export class ItemsComponent implements OnInit {
     audio;
     venue: Venue;
     items$: Observable<Item[]>
+    remoteLink: string
 
 
     constructor(
@@ -36,7 +39,9 @@ export class ItemsComponent implements OnInit {
         private router: Router,
         private dialog: MatDialog,
         private itemDetailsService: ItemDetailsService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        public authService: AuthService,
+        private generalStore: GeneralStoreService
     ) { }
 
     ngOnInit(): void {
@@ -61,7 +66,7 @@ export class ItemsComponent implements OnInit {
                     })
                 )
             this.venue$ = this.venuesService.getVenueById(this.venueId);
-            this.venuesService.setActiveVenue(this.venueId);
+            this.generalStore.setActiveVenue(this.venueId);
 
             this.venuesService.getVenueById(this.venueId).subscribe((venue: Venue) => {
                 console.log(venue)
@@ -69,6 +74,15 @@ export class ItemsComponent implements OnInit {
             })
         });
     }
+    onRemoteLink(itemId: string) {
+        this.remoteLink = `https://mochuco-online-3995f.web.app/item?itemId=${itemId}&venueId=${this.venueId}`
+        window.open(this.remoteLink, '_blank')
+        // https://mochuco-a185b.web.app/mochuco?objectId=CImvrS0TXJXJ9kQohnot&venueId=tFCnVjWeMRTLFjhONWJw
+    }
+    // https://mochuco-online3995f.web.app/item?itemId=NEkWCVvStpdfp0jBssIC&venueId=PCj7rgcRCNxXCCm9NiFk
+
+    // https://mochuco-online-3995f.web.app/item?venueId=tFCnVjWeMRTLFjhONWJw&itemId=IfYdgKoKOBgEBsnHkkqr
+
     onDelete(itemId: string) {
         const dialogRef = this.dialog.open(DeleteItemDialogComponent);
         dialogRef.afterClosed().subscribe((res) => {
@@ -105,14 +119,15 @@ export class ItemsComponent implements OnInit {
             }
         })
     }
-    onEdit(itemId: string) {
-        // this.venuesService.setActiveItem(this.venueId, itemId)
-        console.log(itemId)
-        this.router.navigate(['/admin/add-item', { venueId: this.venue.id, itemId: itemId }])
+    onEdit(item: Item) {
+        this.generalStore.setActiveItem(this.venueId, item.id)
+        this.generalStore.setAction('editing item')
+        this.router.navigate(['/admin/add-item', { venueId: this.venue.id, itemId: item.id }])
     }
 
     onLanguages(item) {
-        // this.itemsService.setActiveItem(item)
+        this.generalStore.setActiveItem(this.venueId, item.id)
+        this.generalStore.setAction('overview languages')
         this.router.navigate(['/admin/languages', { venueId: this.venueId, itemId: item.id, itemName: item.name }])
     }
 
@@ -180,6 +195,7 @@ export class ItemsComponent implements OnInit {
                 }
             ]
         )
+        this.generalStore.setAction('adding item')
     }
     onAddLanguage(itemId: string) {
         this.router.navigate(
@@ -197,6 +213,7 @@ export class ItemsComponent implements OnInit {
 
     onEditItemByLanguage(itemId: string, language: string) {
         console.log(itemId, language)
+        this.generalStore.setActiveLanguage(language);
         this.router.navigate(
             [
                 '/admin/item-details',

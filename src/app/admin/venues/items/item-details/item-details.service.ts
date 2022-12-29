@@ -4,6 +4,7 @@ import { VenuesService } from '../../venues.service';
 import { Item, Venue } from '../../../../shared/models';
 import { ItemByLanguage } from 'src/app/shared/models';
 import { LanguageService } from '../../../../shared/language.service';
+import { GeneralStoreService } from '../../../../shared/general-store.service';
 import {
     Storage,
     ref,
@@ -40,7 +41,8 @@ export class ItemDetailsService {
     constructor(
         private storage: Storage,
         private venuesService: VenuesService,
-        private languageService: LanguageService) { }
+        private languageService: LanguageService,
+        private generalStore: GeneralStoreService) { }
 
     audioUploadStatus(status: boolean) {
         this.uploadingAudioSubject.next(status);
@@ -107,7 +109,7 @@ export class ItemDetailsService {
 
     checkForAlvailableLanguages(itemId) {
         const languages: string[] = this.languageService.getLanguages()
-        this.venuesService.activeVenue$.subscribe((venue: Venue) => {
+        this.generalStore.activeVenue$.subscribe((venue: Venue) => {
             const itemIndex = venue.items.findIndex((item: Item) => {
                 return item.id === itemId
             })

@@ -9,6 +9,7 @@ import { ItemDetailsService } from '../../../../item-details/item-details.servic
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { InjectFlags } from '@angular/compiler/src/core';
 import { ConfirmDeleteComponent } from 'src/app/shared/confirm-delete/confirm-delete.component';
+import { GeneralStoreService } from 'src/app/shared/general-store.service';
 
 @Component({
     selector: 'app-description',
@@ -51,6 +52,7 @@ export class DescriptionComponent implements OnInit {
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<DescriptionComponent>,
         private dialog: MatDialog,
+        private generalStore: GeneralStoreService,
         @Inject(MAT_DIALOG_DATA) private data: any
 
     ) { }
@@ -71,7 +73,7 @@ export class DescriptionComponent implements OnInit {
             this.itemByLanguageIndex = params.itemByLanguageIndex;
             this.name = params.name;
         });
-        this.venuesService.activeVenue$.subscribe((venue: Venue) => {
+        this.generalStore.activeVenue$.subscribe((venue: Venue) => {
             this.venue = venue
         })
     }
@@ -160,6 +162,20 @@ export class DescriptionComponent implements OnInit {
             console.log(event.location)
             this.addLineBreak()
         }
+        // console.log(this.textarea.nativeElement.selectionStart);
+        this.description = this.textarea.nativeElement.value.replace(
+            // /(?!.*<h5>)(?!.*<\/h5>)(?!.*<p>)(?!.*<\/p>)(<([^>]+)>)/ig, ''
+            /(?!.*<br>)(?!.*<p>)(?!.*<\/p>)(?!.*<h5>)(?!.*<\/h5>)(<([^>]+)>)/ig, ''
+        );
+        this.adjustTextareaHeight();
+        this.onCheckForHeaderLength()
+    }
+    textAreaChanged() {
+        console.log('chaNGE')
+        // console.log(event);
+        // console.log(event.location);
+        // console.log(event.code);
+        // console.log(this.textarea.nativeElement.selectionEnd)
         // console.log(this.textarea.nativeElement.selectionStart);
         this.description = this.textarea.nativeElement.value.replace(
             // /(?!.*<h5>)(?!.*<\/h5>)(?!.*<p>)(?!.*<\/p>)(<([^>]+)>)/ig, ''

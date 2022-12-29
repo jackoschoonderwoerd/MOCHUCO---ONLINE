@@ -1,0 +1,34 @@
+<div class="component-container">
+    <div class="buttons">
+        <!-- <div class="venue"
+            *ngIf="generalStore.activeVenue$|async">{{(generalStore.activeVenue$|async)|json}}</div> -->
+        <button mat-raised-button
+            (click)="onManual()">manual</button>
+        <button mat-raised-button
+            (click)="onAllVenues()">all venues</button>
+        <button *ngIf="venue"
+            mat-raised-button
+            (click)="onVenue()">
+            venue:{{venue?.name}}
+        </button>
+        <!-- <button *ngIf="generalStore.activeVenue$|async"
+            mat-raised-button
+            (click)="onVenue()">
+            venue:{{(generalStore.activeVenue$|async).name}}
+        </button> -->
+        <button (click)="onItem()"
+            *ngIf="item"
+            mat-raised-button>item:{{item?.name}}</button>
+        <!-- <button (click)="onLanguage()"
+            *ngIf="language"
+            mat-raised-button>{{language}}</button> -->
+
+    </div>
+
+    <div class="action-container"
+        *ngIf="generalStore.action$|async">
+        <div class="action">{{generalStore.action$|async}}</div>
+        <div class="language"
+            *ngIf="language">{{language}}</div>
+    </div>
+</div>

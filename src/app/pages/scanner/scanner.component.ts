@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Router } from '@angular/router';
 
 import { ScannerService } from './scanner.service';
+import { ItemService } from '../item/item.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class ScannerComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private scannerService: ScannerService,
+        private itemService: ItemService
     ) { }
 
     ngOnInit(): void {
@@ -40,9 +42,16 @@ export class ScannerComponent implements OnInit, OnDestroy {
         const queryParameters = url.searchParams;
         const venueId = queryParameters.get('venueId')
         const itemId = queryParameters.get('itemId')
+
+        // this.scannerService.addVisit(venueId, itemId)
+        //     .then((data: any) => {
+        //         console.log('visitAndLike added', data);
+        //     })
         this.router.navigate(['item'], { queryParams: { venueId: venueId, itemId: itemId } });
         return;
     }
+
+
 
     onError(e: any): void {
         console.log(e);

@@ -1,0 +1,30 @@
+.component-container {
+    background-color: aquamarine;
+    padding: 1rem 3rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    .buttons {
+        display: flex;
+        gap: 1rem;
+    }
+    .action-container {
+        display: flex;
+        gap: 1rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        .action {
+            border: 1px solid black;
+            padding: 0.2rem 0.5rem;
+        }
+        .language {
+            border: 1px solid black;
+            padding: 0.2rem 0.5rem;
+        }
+    }
+}
+.isActive {
+    border: 3px solid red;
+}

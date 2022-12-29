@@ -8,6 +8,7 @@ import { PermissionDeniedDialogComponent } from '../../shared/permission-denied-
 import { Auth } from '@angular/fire/auth';
 import { WarningComponent } from '../../../shared/warning/warning.component';
 import { ConfirmDeleteComponent } from '../../../shared/confirm-delete/confirm-delete.component';
+import { GeneralStoreService } from '../../../shared/general-store.service';
 
 @Component({
     selector: 'app-add-venue',
@@ -35,7 +36,8 @@ export class AddVenueComponent implements OnInit {
         // private dialogRef: MatDialogRef<WarningComponent>,
         private venuesService: VenuesService,
         private router: Router,
-        private auth: Auth) { }
+        private auth: Auth,
+        private generalStore: GeneralStoreService) { }
 
     ngOnInit(): void {
 
@@ -50,6 +52,7 @@ export class AddVenueComponent implements OnInit {
                 .subscribe((venue: Venue) => {
                     console.log(venue);
                     this.form.patchValue({
+                        organization: venue.organization,
                         name: venue.name
                     })
                     this.logoUrl = venue.logoUrl
@@ -58,12 +61,14 @@ export class AddVenueComponent implements OnInit {
     }
     initForm() {
         this.form = this.fb.group({
-            name: new FormControl(null, [Validators.required])
+            name: new FormControl(null, [Validators.required]),
+            organization: new FormControl(null, [Validators.required])
         })
     }
     onFormChanged() {
         this.formChanged = true;
     }
+
     onFileInputChange(e) {
         if (this.logoSrc) {
             this.logoSrc = null;
@@ -135,13 +140,19 @@ export class AddVenueComponent implements OnInit {
         console.log(this.form.value);
         console.log('USER ID:', this.auth.currentUser.uid);
 
-        const venueName = this.form.value.name
+        const venueName = this.form.value.name.toLowerCase();
+        const organization = this.form.value.organization.toLowerCase()
         if (this.editmode) {
-            this.venuesService.updateVenue(this.venueId, venueName, this.logoUrl)
+            if (!this.logoUrl) {
+                this.logoUrl = null;
+            }
+            this.venuesService.updateVenue(this.venueId, organization, venueName, this.logoUrl)
 
                 .then(res => {
-                    console.log('venue updated')
+                    console.log('venue updated');
+                    this.generalStore.setActiveVenue(null);
                     this.router.navigateByUrl('/admin/venues');
+                    this.generalStore.setAction('overview venues')
                 })
                 .catch(err => {
                     console.log(err)
@@ -149,17 +160,22 @@ export class AddVenueComponent implements OnInit {
                 })
         } else {
             const venue: Venue = {
+                organization: organization,
                 name: venueName,
                 owner: this.auth.currentUser.uid,
                 logoUrl: this.logoUrl
 
             }
+            console.log(venue);
             this.venuesService.addVenue(venue)
                 .then(docRef => {
                     console.log('venue added', docRef.id)
                     this.venuesService.updateUser(docRef.id)
                         .then((res) => {
                             console.log('user updated');
+                            this.generalStore.setActiveVenue(null)
+                            this.router.navigateByUrl('/admin/venues');
+                            this.generalStore.setAction('overview venues')
                         })
                     // .then(() => {
                     //     this.venuesService.updateAdmin(docRef.id)
@@ -171,12 +187,26 @@ export class AddVenueComponent implements OnInit {
 
                     // .then((res) => console.log('user updated', res))
                     // .catch(err => console.log(err));
-                    this.router.navigateByUrl('/admin/venues');
                 })
                 .catch(err => console.log(err));
         }
     }
     onCancel() {
-        this.router.navigateByUrl('/admin/venues');
+        if (this.formChanged) {
+            const dialogRef = this.dialog.open(ConfirmDeleteComponent, { data: { message: 'all your edits will be lost' } });
+            dialogRef.afterClosed().subscribe((res) => {
+                if (res) {
+                    this.router.navigateByUrl('/admin/venues');
+                    this.generalStore.setActiveVenue(null);
+                    this.generalStore.setAction('overview venues')
+                }
+                return;
+            })
+        } else {
+            this.router.navigateByUrl('/admin/venues');
+            this.generalStore.setActiveVenue(null);
+            this.generalStore.setAction('overview venues')
+        }
+
     }
 }

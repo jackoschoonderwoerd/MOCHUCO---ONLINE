@@ -1,17 +1,31 @@
 <div class="page-container">
     <form [formGroup]="form">
-        <h4>add logo</h4>
+        <h4>{{editmode ? 'edit' : 'add'}}&nbsp;venue</h4>
         <div class="info">
             Choose a unique, easy to remember name. This name is for your personal reference and will not be shown to the user.
         </div>
-        <mat-form-field>
-            <input type="text"
-                (keyup)="onFormChanged()"
-                (mouseup)="onFormChanged()"
-                matInput
-                formControlName="name"
-                placeholder="venue name">
-        </mat-form-field>
+        <div class="organization">
+            <mat-form-field>
+                <input type="text"
+                    (keyup)="onFormChanged()"
+                    (mouseup)="onFormChanged()"
+                    matInput
+                    formControlName="organization"
+                    placeholder="organization">
+            </mat-form-field>
+            <mat-icon matTooltip="This will appear in the header of the app.">info</mat-icon>
+        </div>
+        <div class="name">
+            <mat-form-field>
+                <input type="text"
+                    (keyup)="onFormChanged()"
+                    (mouseup)="onFormChanged()"
+                    matInput
+                    formControlName="name"
+                    placeholder="venue name">
+            </mat-form-field>
+            <mat-icon matTooltip="This is for reference only and will not be shown to the user.">info</mat-icon>
+        </div>
         <div class="spinner-container"
             *ngIf="isStoringLogo">
             <mat-spinner></mat-spinner>

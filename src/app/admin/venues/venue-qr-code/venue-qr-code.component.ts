@@ -14,7 +14,7 @@ export class VenueQrCodeComponent implements OnInit {
 
     venueName: string;
     venueId: string;
-    remoteLink: string;
+
     @ViewChild('printarea') private printarea: ElementRef
 
     constructor(
