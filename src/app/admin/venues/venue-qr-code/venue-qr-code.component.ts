@@ -29,7 +29,7 @@ export class VenueQrCodeComponent implements OnInit {
         console.log(this.printarea.nativeElement, '/////?????')
         let DATA: any = this.printarea.nativeElement;
         html2canvas(DATA).then((canvas) => {
-            let fileWidth = 100;
+            let fileWidth = 210;
             // let fileHeight = 210;
             let fileHeight = (canvas.height * fileWidth) / canvas.width;
             const FILEURI = canvas.toDataURL('image/png');

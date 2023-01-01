@@ -29,7 +29,7 @@ import {
     query,
     where
 } from '@angular/fire/firestore';
-import { Item, ItemByLanguage, Venue } from 'src/app/shared/models';
+import { Item, ItemByLanguage, ItemVisit, Venue } from 'src/app/shared/models';
 import { getFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Auth } from '@angular/fire/auth';
@@ -125,9 +125,28 @@ export class VenuesService {
         const venueRef = ref(this.storage, `venues/${venueId}`)
         return getMetadata(venueRef)
     }
-    getVisits(venueId: string, itemId: string) {
+    getVisits(venueId: string, itemId: string, timestampStart: number, timestampEnd: number) {
+
+        const today = new Date();
+        const todayTimestamp = today.getTime()
+        console.log(todayTimestamp)
+        const yesterday = today.setDate(today.getDate() - 1);
+        const yesterdayTimestamp = new Date(yesterday).getTime();
         const visitsRef = collection(this.firestore, `venues/${venueId}/visitsLog/${itemId}/visits`);
-        // const query = query(visitsRef,  orderBy('name'))
-        return collectionData(visitsRef, { idField: 'id' })
+        const visitsTimelimitQuery = query(visitsRef, where('liked', '==', true))
+
+
+        console.log(timestampStart)
+        const qtoday = query(visitsRef, where('timestamp', '>', timestampStart), where('timestamp', '<', timestampEnd))
+        // return collectionData(qtomorrow, { idField: 'id' })
+
+        // const qlikes = query(visitsRef, where('liked', '==', true))
+        // return collectionData(qlikes, { idField: 'id' })
+
+        // return collectionData(visitsRef, { idField: 'id' }) as Observable<ItemVisit[]>
+        return collectionData(qtoday, { idField: 'id' }) as Observable<ItemVisit[]>
     }
 }
+// 1672402027052
+
+// 1672354800000

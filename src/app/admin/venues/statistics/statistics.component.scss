@@ -1,5 +1,8 @@
 .module-container {
     padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     .header {
         display: flex;
         .venue-name {
@@ -7,12 +10,21 @@
             padding: 1rem 2rem;
             border: 1px solid black;
         }
+    }
+    .actions {
+        padding: 1rem;
+        border: 1px solid black;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
         mat-form-field {
             display: flex;
             mat-label {
             }
             mat-date-range-input {
             }
+        }
+        .dates {
         }
     }
     mat-accordion {
@@ -21,14 +33,38 @@
             mat-panel-title {
                 text-transform: capitalize;
             }
+            mat-panel-description {
+                display: flex;
+                justify-content: flex-end;
+                gap: 1rem;
+                .total {
+                    padding: 0.2rem 0.5rem;
+                    border: 1px solid #ccc;
+                    display: flex;
+                    justify-content: space-between;
+                    width: 12rem;
+                }
+                .likes {
+                    padding: 0.2rem 0.5rem;
+                    border: 1px solid #ccc;
+                    display: flex;
+                    justify-content: space-between;
+                    width: 8rem;
+                }
+            }
         }
         .header {
             display: flex;
             border-bottom: 1px solid #ccc;
+            .header-timestamp {
+                flex: 2;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
             .header-dates {
                 text-transform: uppercase;
                 font-weight: bold;
-                flex: 1.5;
+                flex: 4;
             }
             .header-liked {
                 text-transform: uppercase;
@@ -40,13 +76,16 @@
             .header-id {
                 text-transform: uppercase;
                 font-weight: bold;
-                flex: 8;
+                flex: 3;
             }
         }
         .item-visit {
             display: flex;
+            .timestamp {
+                flex: 2;
+            }
             .date {
-                flex: 1.5;
+                flex: 4;
             }
             .liked {
                 justify-content: center;
@@ -63,7 +102,7 @@
                 justify-content: center;
             }
             .id {
-                flex: 8;
+                flex: 3;
             }
         }
     }

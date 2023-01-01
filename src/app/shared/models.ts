@@ -15,9 +15,15 @@ export interface ItemVisit {
     liked: boolean;
     id?: string
 }
+export interface ItemNameAndVisitPerItem {
+    itemName: string;
+    itemVisit: ItemVisit,
+}
+
 export interface ItemNameAndVisitsPerItem {
     itemName: string
     itemVisits: ItemVisit[]
+    likes?: number
 }
 export interface AllVisits {
     itemNameAndVisitsPerItem: ItemNameAndVisitsPerItem[]

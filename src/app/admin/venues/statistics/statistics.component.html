@@ -1,7 +1,11 @@
 <div class="module-container">
     <div class="header">
         <div class="venue-name">statistics for venue: {{venue?.name}}</div>
-        <!-- <mat-form-field appearance="fill">
+    </div>
+    <div class="actions">
+        {{dataPresent}}
+        <mat-icon matTooltip="For info on a single day, click the requested date twice.">info</mat-icon>
+        <mat-form-field appearance="fill">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [formGroup]="range"
                 [rangePicker]="picker">
@@ -15,15 +19,26 @@
             </mat-date-range-input>
 
             <mat-datepicker-toggle matIconSuffix
-                [for]="picker"></mat-datepicker-toggle>
+                [for]="picker">
+            </mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
 
-            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            <!-- <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error> -->
         </mat-form-field>
+        <!-- <p>Selected range: {{range.value | json}}</p> -->
+        <div class="dates">
+            <div class="start">from:&nbsp;{{start|date:'EEE dd MMM y HH:mm'}}</div>
+            <div class="end">untill:&nbsp;{{end|date:'EEE dd MMM y HH:mm'}}</div>
+        </div>
+        <!-- <button mat-raised-button
+            [disabled]="!dataPresent"
+            (click)="onGetItemVisits()">on Get Item Visits()</button> -->
 
-        <p>Selected range: {{range.value | json}}</p> -->
+        <!-- <button mat-raised-button
+            (click)="picker.open()">Open</button> -->
     </div>
+
     <mat-accordion>
         <mat-expansion-panel hideToggle
             *ngFor="let itemNameAndVisitPerItem of itemNameAndVisitsPerItem">
@@ -32,37 +47,34 @@
                     {{itemNameAndVisitPerItem.itemName}}
                 </mat-panel-title>
                 <mat-panel-description>
-                    <!-- <mat-form-field appearance="fill">
-                        <mat-label>Enter a date range</mat-label>
-                        <mat-date-range-input [formGroup]="range"
-                            [rangePicker]="picker">
-                            <input matStartDate
-                                formControlName="start"
-                                placeholder="Start date">
-                            <input matEndDate
-                                (dateChange)="onDateChange($event)"
-                                formControlName="end"
-                                placeholder="End date">
-                        </mat-date-range-input>
-
-                        <mat-datepicker-toggle matIconSuffix
-                            [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-
-                        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-                    </mat-form-field> -->
+                    <div class="total">
+                        <div class="total-visits">
+                            total visits:
+                        </div>
+                        <div class="amount"> {{itemNameAndVisitPerItem.itemVisits.length}}</div>
+                    </div>
+                    <div class="likes">
+                        <div class="total-likes">
+                            likes:
+                        </div>
+                        <div class="amount">
+                            {{itemNameAndVisitPerItem.likes}}
+                        </div>
+                    </div>
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <li class="header">
+                <div *ngIf="authService.isAdmin$|async"
+                    class="header-timestamp">timestamp</div>
                 <div class="header-dates">dates</div>
                 <div class="header-liked">liked</div>
                 <div class="header-id">visit id</div>
             </li>
             <li class="item-visit"
                 *ngFor="let itemVisit of itemNameAndVisitPerItem.itemVisits">
-                <!-- {{itemVisit|json}} -->
-                <div class="date">{{itemVisit.timestamp | date:'short'}}</div>
+                <div *ngIf="authService.isAdmin$|async"
+                    class="timestamp">{{itemVisit.timestamp}}</div>
+                <div class="date">{{itemVisit.timestamp | date:'full'}}</div>
                 <div *ngIf="itemVisit.liked"
                     class="liked">
                     <mat-icon>check_circle_outline</mat-icon>
@@ -75,23 +87,7 @@
                 </div>
                 <div class="id">{{itemVisit.id}}</div>
             </li>
-            <!-- <p>This is the primary content of the panel.</p> -->
         </mat-expansion-panel>
     </mat-accordion>
 
 </div>
-
-<!-- <ul class="all-items">
-    <li class="item-name"
-        *ngFor="let itemNameAndVisitPerItem of itemNameAndVisitsPerItem">
-        <div class="name">{{itemNameAndVisitPerItem.itemName}}</div>
-        <ul class="item-visits">
-            <li class="item-visit"
-                *ngFor="let itemVisit of itemNameAndVisitPerItem.itemVisits">
-                <div class="date">{{itemVisit.timestamp | date:'short'}}</div>
-                <div class="liked">{{itemVisit.liked}}</div>
-                <div class="id">{{itemVisit.id}}</div>
-            </li>
-        </ul>
-    </li>
-</ul> -->

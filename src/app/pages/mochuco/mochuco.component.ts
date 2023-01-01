@@ -41,6 +41,9 @@ export class MochucoComponent implements OnInit {
     onCloseWindow() {
 
     }
+    onClose() {
+        window.history.back();
+    }
     onLogin() {
         if (window.innerWidth < 1000) {
             const message = 'You can not log in, You need a screen at least 1000px wide to use the admin section of the Mochuco app.'

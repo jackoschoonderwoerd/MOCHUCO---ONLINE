@@ -47,6 +47,7 @@ export class ItemsService {
     ) { }
 
     getItems(venueId) {
+        console.log('getting items')
         const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
 
         const alphabeticalQuery = query(itemsRef, orderBy("name"));
