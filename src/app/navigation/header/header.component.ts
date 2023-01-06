@@ -14,6 +14,7 @@ import { Item, ItemByLanguage, Venue } from '../../shared/models';
 import { VenuesService } from '../../admin/venues/venues.service';
 import { MainPageComponent } from './main-page/main-page.component';
 import { GeneralStoreService } from 'src/app/shared/general-store.service';
+import { Auth } from '@angular/fire/auth';
 
 
 
@@ -28,8 +29,6 @@ export class HeaderComponent implements OnInit {
     mainPageName: string;
     venue: Venue;
 
-
-
     constructor(
         private router: Router,
         public uiService: UiService,
@@ -38,19 +37,21 @@ export class HeaderComponent implements OnInit {
         public itemService: ItemService,
         public languageService: LanguageService,
         public venuesService: VenuesService,
-        public generalStore: GeneralStoreService
+        public generalStore: GeneralStoreService,
+        public afAuth: Auth
 
 
     ) { }
 
     ngOnInit(): void {
+        // this.afAuth.currentUser.email
         this.generalStore.activeVenue$.subscribe((venue: Venue) => {
             if (venue) {
                 console.log(venue);
                 this.venue = venue
                 return;
             }
-            console.log('no venue selected')
+            // console.log('no venue selected')
         })
 
         // this.itemService.mainPage$.subscribe((mainPage: Item) => {

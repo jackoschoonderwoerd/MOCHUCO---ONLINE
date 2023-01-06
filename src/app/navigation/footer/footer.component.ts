@@ -26,7 +26,6 @@ export class FooterComponent implements OnInit {
         private selectLanguageService: SelectLanguageService,
         public scannerService: ScannerService,
         public uiService: UiService,
-        private itemService: ItemService,
     ) { }
 
     ngOnInit(): void {
@@ -36,24 +35,7 @@ export class FooterComponent implements OnInit {
     onScanner() {
         this.router.navigateByUrl('scanner')
     }
-
     onLanguageSelector() {
-        const dialogRef = this.dialog.open(SelectLanguageComponent)
-    }
-    onScan() {
-
-        const venueId = 'tFCnVjWeMRTLFjhONWJw'
-        const itemId = 'CImvrS0TXJXJ9kQohnot'
-        // const itemId = 'VQTrQBDIHCV4q3mqlXh6'
-        this.router.navigate(['item'], { queryParams: { venueId: venueId, itemId: itemId } });
-        // this.itemService.addVisit(venueId, itemId)
-        //     .then((data: any) => {
-        //         console.log(data)
-        //     })
-        //     .catch(err => console.error(err));
+        this.dialog.open(SelectLanguageComponent)
     }
 }
-// tFCnVjWeMRTLFjhONWJw
-// http://localhost:4200/item?venueId=tFCnVjWeMRTLFjhONWJw&itemId=IfYdgKoKOBgEBsnHkkqr
-
-// http://localhost:4200/item?venueId=vi6JymBHV55wRCYPpakw&itemId=IPcMetm2yRAelA4DMnOv

@@ -1,6 +1,7 @@
 <mat-toolbar color="warn">
     <!-- <div class="logo" (click)="onLogo()"> -->
     <div class="toolbar-content">
+
         <div class="logo">
             <a routerLink="mochuco">
                 <img src="./../../../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png"
@@ -11,10 +12,11 @@
             *ngIf="venue && venue.organization">
             {{venue.organization}}
         </div>
+
         <div class="user"
-            *ngIf="authService.mochucoUser$|async">
+            *ngIf="afAuth.currentUser">
             <div class="user-name">
-                {{(authService.mochucoUser$|async)?.email.split('@')[0]}}
+                {{(afAuth.currentUser.email).split('@')[0]}}
             </div>
             <div class="is-admin"
                 *ngIf="authService.isAdmin$|async">*

@@ -66,7 +66,7 @@
         close
     </button> -->
     <button mat-raised-button
-        *ngIf="!(authService.isLoggedIn$|async)"
+        *ngIf="!(afAuth.currentUser)"
         class="admin-btn"
         color=""
         (click)="onLogin()">

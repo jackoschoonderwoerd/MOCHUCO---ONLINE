@@ -25,14 +25,14 @@ const AUTH_DATA = 'auth_data'
 })
 export class AuthService {
 
-    fireAuthUser;
+    // fireAuthUser;
     $roles: Observable<UserRoles>;
 
     private mochucoUserSubject = new BehaviorSubject<MochucoUser>(null);
     public mochucoUser$: Observable<MochucoUser> = this.mochucoUserSubject.asObservable();
 
     private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-    public isLoggedIn$ = this.isLoggedInSubject.asObservable();
+    // public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
     private isAdminSubject = new BehaviorSubject<boolean>(false);
     public isAdmin$ = this.isAdminSubject.asObservable();
@@ -40,54 +40,30 @@ export class AuthService {
     constructor(
         private afAuth: Auth,
         private router: Router,
-        private generalStore: GeneralStoreService
-
-    ) {
-
-
-        // const mochucoUserString = localStorage.getItem(AUTH_DATA);
-        // if (mochucoUserString) {
-
-        //     console.log(mochucoUserString);
-        //     const mochucoUser: MochucoUser = JSON.parse(mochucoUserString);
-        //     this.mochucoUserSubject.next(mochucoUser)
-        //     if (mochucoUser.email === 'jackoboes@gmail.com') {
-        //         this.isAdminSubject.next(true);
-        //     } else {
-        //         this.isAdminSubject.next(false)
-        //     }
-        // }
-        // this.$roles =
-        // this.afAuth.currentUser.getIdTokenResult()
-        //     .then(data => console.log(data))
-        //     .catch(err => console.log(err));
-    }
+        private generalStore: GeneralStoreService) { }
 
     signUp(user: MochucoUser) {
-        console.log(user)
+        // console.log(user)
         createUserWithEmailAndPassword(this.afAuth, user.email, user.password)
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }
 
     logIn(mochucoUser: MochucoUser) {
-        console.log(mochucoUser);
-        // console.log(mochucoUser.email);
-        // console.log(mochucoUser.password);
         return from(signInWithEmailAndPassword(this.afAuth, mochucoUser.email, mochucoUser.password))
             .pipe(
                 tap((fireAuthUser: any) => {
-                    this.fireAuthUser = fireAuthUser
-                    console.log(fireAuthUser.user);
-                    // console.log(fireAuthUser.user.stsTokenManager);
-                    // console.log(fireAuthUser.user.stsTokenManager.accessToken);
+                    // this.fireAuthUser = fireAuthUser
                     const mochucoUser: MochucoUser = {
                         email: fireAuthUser.user.email
                     }
+                    console.log('tapped')
                     this.mochucoUserSubject.next(mochucoUser);
                     this.checkTimeOut()
                     this.isLoggedInSubject.next(true);
+                    this.router.navigateByUrl('/admin/venues');
                     if (fireAuthUser.user.email === 'jackoboes@gmail.com') {
+
                         // console.log('admin!')
                         this.isAdminSubject.next(true);
                     } else {
@@ -102,9 +78,9 @@ export class AuthService {
         this.isLoggedInSubject.next(status)
     }
 
-    // setUserToNull() {
-    //     this.mochucoUserSubject.next(null);
-    // }
+    setIsAdmin(status: boolean) {
+        this.isAdminSubject.next(status);
+    }
 
     logout() {
         // console.log(this.fireAuthUser);
@@ -121,7 +97,7 @@ export class AuthService {
 
     }
     checkTimeOut() {
-        console.log('checkTimeOut')
+        // console.log('checkTimeOut')
         setTimeout(
             () => {
                 // this.userInactive.next("You are logged out due to inactivity of 15 minutes. Please log in again"), 1000 * 60 * 10;

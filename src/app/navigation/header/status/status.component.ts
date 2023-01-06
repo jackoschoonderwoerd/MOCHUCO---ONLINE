@@ -26,18 +26,18 @@ export class StatusComponent implements OnInit {
         this.generalStore.activeItem$.subscribe((item: Item) => {
             if (item) {
                 this.item = item;
-                console.log(item);
+                // console.log(item);
                 return;
             }
-            console.log('no item selected')
+            // console.log('no item selected')
         })
         this.generalStore.activeLanguage$.subscribe((language: string) => {
             if (language) {
-                console.log(language);
+                // console.log(language);
                 this.language = language;
                 return;
             }
-            console.log('no language selected')
+            // console.log('no language selected')
         })
     }
 

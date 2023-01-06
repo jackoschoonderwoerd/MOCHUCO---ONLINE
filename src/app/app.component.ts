@@ -2,9 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 
 import { SwUpdate } from '@angular/service-worker';
 import { AuthService } from './admin/auth/auth.service';
-import {
-    Auth
-} from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { UiService } from './shared/ui.service';
@@ -27,27 +25,33 @@ export class AppComponent implements OnInit {
     constructor(
         private swUpdate: SwUpdate,
         public authService: AuthService,
-        private afAuth: Auth,
+        public afAuth: Auth,
         private router: Router,
         private uiService: UiService,
         private generalStore: GeneralStoreService
 
-    ) {
-        // const subscripion = this.authService.mochucoUser$.subscribe((mochucoUser: MochucoUser) => {
-        //     console.log(mochucoUser)
-        //     if (mochucoUser) {
-        //         subscripion.unsubscribe();
-        //         this.checkTimeOut();
-        //         // this.userInactive.subscribe((message) => {
-        //         //     alert(message);
-        //         //     this.authService.logout()
-        //         // }
-        //         // );
-        //     }
-        // })
-    }
+    ) { }
 
     ngOnInit(): void {
+
+
+        this.afAuth.onAuthStateChanged((user) => {
+            console.log(user);
+            if (!user) {
+                console.log('no user')
+                return;
+            }
+            if (!(user.email === 'jackoboes@gmail.com')) {
+                console.log(user.email)
+                this.authService.setIsLoggedIn(true);
+                this.router.navigateByUrl('/admin/venues')
+            } else {
+                console.log(user.email);
+                this.authService.setIsLoggedIn(true)
+                this.authService.setIsAdmin(true);
+                this.router.navigateByUrl('/admin/venues')
+            }
+        })
 
         if (this.swUpdate.isEnabled) {
             this.swUpdate.versionUpdates.subscribe(() => {
@@ -56,31 +60,6 @@ export class AppComponent implements OnInit {
                 }
             });
         }
-        if (localStorage.getItem('mochucoUser')) {
-            const mochucoUser: MochucoUser = JSON.parse(localStorage.getItem('mochucoUser'));
-
-            this.authService.logIn(mochucoUser).subscribe((data) => {
-                console.log(data);
-            })
-            this.authService.setIsLoggedIn(true);
-
-            const now = new Date()
-            if (now.getTime() > mochucoUser.expiry) {
-                localStorage.removeItem('mochucoUserItem');
-                console.log('LS expired')
-            } else {
-
-                this.authService.logIn(mochucoUser)
-                    .subscribe((data) => {
-                        // console.log(data);
-                        console.log('LOGGED IN BY LS');
-                    })
-
-            }
-        } else {
-            console.log('NO EXISTING USER IN LS');
-        }
-
     }
 
 

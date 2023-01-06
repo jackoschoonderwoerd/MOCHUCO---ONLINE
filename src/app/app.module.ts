@@ -1,44 +1,35 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './navigation/header/header.component';
-import { HomeComponent } from './pages/home/home.component';
-import { FooterComponent } from './navigation/footer/footer.component';
-import { ScannerComponent } from './pages/scanner/scanner.component';
-
-
-
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from './app-material.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
-
-import { MochucoComponent } from './pages/mochuco/mochuco.component';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideStorage, getStorage } from '@angular/fire/storage';
-
-import { QRCodeModule } from 'angular2-qrcode';
-import { TestComponent } from './pages/test/test.component';
-import { LogoComponent } from './pages/logo/logo.component';
-
-import { UiDialogComponent } from './shared/ui-dialog/ui-dialog.component';
-import { SelectLanguageComponent } from './navigation/footer/select-language/select-language.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin/admin.component';
-
+import { AppComponent } from './app.component';
+import { AppMaterialModule } from './app-material.module';
+import { AppRoutingModule } from './app-routing.module';
+import { AudioComponent } from './pages/item/audio/audio.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
+import { FooterComponent } from './navigation/footer/footer.component';
+import { HeaderComponent } from './navigation/header/header.component';
+import { HomeComponent } from './pages/home/home.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { ItemComponent } from './pages/item/item.component';
 import { LanguagesComponent } from './admin/venues/items/add-item/languages/languages.component';
-import { WarningComponent } from './shared/warning/warning.component';
-import { AudioComponent } from './pages/item/audio/audio.component';
+import { LogoComponent } from './pages/logo/logo.component';
 import { MainPageComponent } from './navigation/header/main-page/main-page.component';
 import { MapComponent } from './navigation/header/main-page/map/map.component';
+import { MochucoComponent } from './pages/mochuco/mochuco.component';
+import { NgModule } from '@angular/core';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { QRCodeModule } from 'angular2-qrcode';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ScannerComponent } from './pages/scanner/scanner.component';
+import { SelectLanguageComponent } from './navigation/footer/select-language/select-language.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { StatusComponent } from './navigation/header/status/status.component';
+import { UiDialogComponent } from './shared/ui-dialog/ui-dialog.component';
+import { WarningComponent } from './shared/warning/warning.component';
 
 
 
@@ -58,7 +49,7 @@ import { StatusComponent } from './navigation/header/status/status.component';
         MochucoComponent,
         ScannerComponent,
         SelectLanguageComponent,
-        TestComponent,
+
         UiDialogComponent,
 
         ItemComponent,

@@ -7,7 +7,7 @@
     </div>
     <div class="status">
 
-        <app-status *ngIf="authService.isLoggedIn$|async"></app-status>
+        <app-status *ngIf="afAuth.currentUser"></app-status>
     </div>
     <!-- <div class="status">
         <app-status></app-status>

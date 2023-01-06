@@ -7,6 +7,7 @@ import { SelectLanguageService } from '../../navigation/footer/select-language/s
 import { LanguageService } from '../../shared/language.service';
 import { AuthService } from '../../admin/auth/auth.service';
 import { WarningComponent } from 'src/app/shared/warning/warning.component';
+import { Auth } from '@angular/fire/auth'
 
 @Component({
     selector: 'app-mochuco',
@@ -22,7 +23,8 @@ export class MochucoComponent implements OnInit {
         public selectedLanguageService: SelectLanguageService,
         public languageService: LanguageService,
         public authService: AuthService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        public afAuth: Auth
         // private dialogRef: MatDialogRef<MochucoComponent>,
         // private dialog: MatDialog
     ) { }
@@ -30,13 +32,8 @@ export class MochucoComponent implements OnInit {
     ngOnInit(): void {
 
         this.languageService.language$.subscribe((language: string) => {
-            // console.log(language)
+            this.languageService.setAvailableLanguages(['dutch', 'english', 'french'])
         })
-        // this.isLoading$ = this.uiService.isLoading$
-        // this.uiService.isLoading$.subscribe((status: boolean) => {
-        //     console.log(status)
-        //     this.isLoading = status;
-        // })
     }
     onCloseWindow() {
 
@@ -48,7 +45,6 @@ export class MochucoComponent implements OnInit {
         if (window.innerWidth < 1000) {
             const message = 'You can not log in, You need a screen at least 1000px wide to use the admin section of the Mochuco app.'
             this.dialog.open(WarningComponent, { data: { message } })
-            // alert();
         } else {
             this.router.navigateByUrl('/admin/login')
         }

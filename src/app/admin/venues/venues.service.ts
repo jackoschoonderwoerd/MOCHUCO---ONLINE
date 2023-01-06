@@ -129,14 +129,14 @@ export class VenuesService {
 
         const today = new Date();
         const todayTimestamp = today.getTime()
-        console.log(todayTimestamp)
+        // console.log(todayTimestamp)
         const yesterday = today.setDate(today.getDate() - 1);
         const yesterdayTimestamp = new Date(yesterday).getTime();
         const visitsRef = collection(this.firestore, `venues/${venueId}/visitsLog/${itemId}/visits`);
         const visitsTimelimitQuery = query(visitsRef, where('liked', '==', true))
 
 
-        console.log(timestampStart)
+        // console.log(timestampStart)
         const qtoday = query(visitsRef, where('timestamp', '>', timestampStart), where('timestamp', '<', timestampEnd))
         // return collectionData(qtomorrow, { idField: 'id' })
 
