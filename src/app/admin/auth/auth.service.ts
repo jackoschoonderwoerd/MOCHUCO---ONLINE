@@ -27,11 +27,12 @@ export class AuthService {
 
     // fireAuthUser;
     $roles: Observable<UserRoles>;
+    timer;
 
-    private mochucoUserSubject = new BehaviorSubject<MochucoUser>(null);
-    public mochucoUser$: Observable<MochucoUser> = this.mochucoUserSubject.asObservable();
+    // private mochucoUserSubject = new BehaviorSubject<MochucoUser>(null);
+    // public mochucoUser$: Observable<MochucoUser> = this.mochucoUserSubject.asObservable();
 
-    private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+    // private isLoggedInSubject = new BehaviorSubject<boolean>(false);
     // public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
     private isAdminSubject = new BehaviorSubject<boolean>(false);
@@ -58,9 +59,9 @@ export class AuthService {
                         email: fireAuthUser.user.email
                     }
                     console.log('tapped')
-                    this.mochucoUserSubject.next(mochucoUser);
-                    this.checkTimeOut()
-                    this.isLoggedInSubject.next(true);
+                    // this.mochucoUserSubject.next(mochucoUser);
+                    // this.checkTimeOut()
+                    // this.isLoggedInSubject.next(true);
                     this.router.navigateByUrl('/admin/venues');
                     if (fireAuthUser.user.email === 'jackoboes@gmail.com') {
 
@@ -70,13 +71,28 @@ export class AuthService {
                         this.isAdminSubject.next(false);
                         console.log('not admin')
                     }
+                    this.startCountDown(5000)
                 })
             )
     }
-
-    setIsLoggedIn(status: boolean) {
-        this.isLoggedInSubject.next(status)
+    // How to stop a function during its execution - JavaScript
+    // https://stackoverflow.com/questions/51793294/how-to-stop-a-function-during-its-execution-javascript
+    startCountDown(time) {
+        console.log('starting countdown')
+        this.timer = setTimeout(() => {
+            alert('time\'s up')
+            this.logout();
+        }, time);
     }
+    resetCountDown() {
+        console.log('clearing timer');
+        clearTimeout(this.timer)
+        this.startCountDown(5000);
+    }
+
+    // setIsLoggedIn(status: boolean) {
+    //     this.isLoggedInSubject.next(status)
+    // }
 
     setIsAdmin(status: boolean) {
         this.isAdminSubject.next(status);
@@ -87,24 +103,24 @@ export class AuthService {
         this.afAuth.signOut()
             .then((res) => {
                 // console.log('logged out')
-                this.mochucoUserSubject.next(null);
+                // this.mochucoUserSubject.next(null);
                 localStorage.removeItem('mochucoUser');
                 // this.generalStore.setAllToNull();
                 this.router.navigateByUrl('/admin/login');
-                this.isLoggedInSubject.next(false);
+                // this.isLoggedInSubject.next(false);
             })
             .catch(err => console.log(err));
 
     }
-    checkTimeOut() {
-        // console.log('checkTimeOut')
-        setTimeout(
-            () => {
-                // this.userInactive.next("You are logged out due to inactivity of 15 minutes. Please log in again"), 1000 * 60 * 10;
-                // this.generalStore.setAllToNull();
-                alert("You are logged out due to inactivity of 15 minutes. Please log in again");
-                this.logout();
-            }, 1000 * 60 * 15
-        );
-    }
+    // checkTimeOut() {
+    //     // console.log('checkTimeOut')
+    //     setTimeout(
+    //         () => {
+    //             // this.userInactive.next("You are logged out due to inactivity of 15 minutes. Please log in again"), 1000 * 60 * 10;
+    //             // this.generalStore.setAllToNull();
+    //             alert("You are logged out due to inactivity of 15 minutes. Please log in again");
+    //             this.logout();
+    //         }, 1000 * 60 * 15
+    //     );
+    // }
 }

@@ -44,10 +44,6 @@ export class LoginComponent implements OnInit {
         })
     }
     onLogIn() {
-        // const mochucoUser: MochucoUser = {
-        //     email: this.form.value.email,
-        //     password: this.form.value.password
-        // }
 
         const now = new Date()
         const mochucoUser: MochucoUser = {
@@ -57,29 +53,8 @@ export class LoginComponent implements OnInit {
         }
         this.authService.logIn(mochucoUser).subscribe(
             userData => {
-                // console.log(userData);
-                // console.log(userData.user);
-                // console.log(userData.user.uid);
-                // console.log(userData.user.stsTokenManager)
-                // console.log(userData.user.stsTokenManager.accessToken)
-                this.router.navigateByUrl('admin')
-
-                localStorage.setItem('mochucoUser', JSON.stringify(mochucoUser))
-                this.afAuth.currentUser.getIdTokenResult()
-                    .then((data: any) => {
-                        // console.log(data);
-                        // console.log(data.user)
-                        // console.log(data.claims)
-                    })
-
+                this.router.navigateByUrl('admin/venues')
             });
-
-        // this.afAuth.currentUser.getIdTokenResult()
-        //     .then(data => console.log(data))
-        //     .catch(err => console.log(err));
-        // }
-
-
     }
 
 }

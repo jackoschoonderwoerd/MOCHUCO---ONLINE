@@ -43,11 +43,12 @@ export class AppComponent implements OnInit {
             }
             if (!(user.email === 'jackoboes@gmail.com')) {
                 console.log(user.email)
-                this.authService.setIsLoggedIn(true);
+                // this.authService.setIsLoggedIn(true);
                 this.router.navigateByUrl('/admin/venues')
             } else {
                 console.log(user.email);
-                this.authService.setIsLoggedIn(true)
+                // this.authService.setIsLoggedIn(true)
+                this.authService.resetCountDown();
                 this.authService.setIsAdmin(true);
                 this.router.navigateByUrl('/admin/venues')
             }
@@ -60,18 +61,22 @@ export class AppComponent implements OnInit {
                 }
             });
         }
+        // this.authService.startCountDown(5000)
     }
+
+
 
 
     @HostListener('window:keydown')
     @HostListener('window:mousedown') checkUserActivity() {
+        if (this.afAuth.currentUser) {
+            this.authService.resetCountDown();
+        }
+
+
         // console.log('clearing timeout')
-        clearTimeout(this.timeoutId);
+        // clearTimeout(this.timeoutId);
         // console.log(this.timeoutId);
         // this.checkTimeOut();
     }
-
-
-
 }
-
