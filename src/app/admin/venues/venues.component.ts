@@ -48,6 +48,7 @@ export class VenuesComponent implements OnInit {
 
     }
     onStatistics(venueId) {
+        this.generalStore.setAction('statistics');
         this.router.navigate(['/admin/statistics', { venueId }]);
     }
     onQrCode(venueId: string, venueName: string) {

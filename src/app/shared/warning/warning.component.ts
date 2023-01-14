@@ -16,7 +16,8 @@ export class WarningComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.message = this.data.message
+        this.message = this.data.message;
+        console.log(this.message);
     }
     onClose() {
         this.dialogRef.close();

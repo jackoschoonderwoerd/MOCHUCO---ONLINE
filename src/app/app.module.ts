@@ -30,6 +30,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { StatusComponent } from './navigation/header/status/status.component';
 import { UiDialogComponent } from './shared/ui-dialog/ui-dialog.component';
 import { WarningComponent } from './shared/warning/warning.component';
+import { LocationErrorDialogComponent } from './pages/item/location-error-dialog/location-error-dialog.component';
 
 
 
@@ -58,7 +59,8 @@ import { WarningComponent } from './shared/warning/warning.component';
         AudioComponent,
         MainPageComponent,
         MapComponent,
-        StatusComponent
+        StatusComponent,
+        LocationErrorDialogComponent
 
 
     ],

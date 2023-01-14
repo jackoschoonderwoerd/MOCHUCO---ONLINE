@@ -16,7 +16,13 @@
             height: 3.5rem;
         }
         .header {
+            max-width: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background-color: rgb(241, 241, 241);
+            // background-color: pink;
+            border: 1px solid #ccc;
             z-index: 100;
             position: fixed;
             padding: 0.3rem 1rem;
@@ -26,8 +32,6 @@
             // border: 3px solid red;
             // align-items: center;
             // vertical-align: middle;
-            align-items: center;
-            justify-content: space-between;
 
             .name {
                 background-color: rgb(241, 241, 241);

@@ -11,12 +11,14 @@ import { LogoComponent } from './pages/logo/logo.component';
 
 import { ItemComponent } from './pages/item/item.component';
 import { AppAuthGuard } from './app-auth-guard.service';
+import { LocationErrorDialogComponent } from './pages/item/location-error-dialog/location-error-dialog.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'mochuco', pathMatch: 'full' },
     { path: 'logo', component: LogoComponent },
     { path: 'home', component: HomeComponent },
     { path: 'scanner', component: ScannerComponent },
+    { path: 'location-error', component: LocationErrorDialogComponent },
 
 
     { path: 'mochuco', component: MochucoComponent },

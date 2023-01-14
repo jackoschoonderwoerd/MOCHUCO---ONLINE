@@ -45,10 +45,11 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit(): void {
         // this.afAuth.currentUser.email
-        this.generalStore.activeVenue$.subscribe((venue: Venue) => {
+        const subscription = this.generalStore.activeVenue$.subscribe((venue: Venue) => {
             if (venue) {
                 console.log(venue);
                 this.venue = venue
+                subscription.unsubscribe();
                 return;
             }
             // console.log('no venue selected')

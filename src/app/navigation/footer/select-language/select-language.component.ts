@@ -36,6 +36,7 @@ export class SelectLanguageComponent implements OnInit {
         private uiService: UiService) { }
 
     ngOnInit(): void {
+
         this.languages = this.languageService.getLanguages();
         console.log(this.languages)
         this.translateLanguages();

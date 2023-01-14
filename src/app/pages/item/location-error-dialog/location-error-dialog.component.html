@@ -1,0 +1,108 @@
+<div class="component-container">
+    <div class="error-code"
+        *ngIf="errorCode === '1'">
+
+        <p>
+            In order for The Mochuco app to work properly, both your <strong>{{device}}</strong> and <strong>{{browserName|titlecase}}</strong> need access to your location.
+        </p>
+        <div class="iphone"
+            *ngIf="device === 'iphone'">
+            <p>
+                intructions for {{device}}
+            </p>
+
+            <ol>
+                <li>On your device: Go to settings</li>
+                <li>Select "Privacy"</li>
+                <li>"Location Services" should be checked.</li>
+                <li>In the same window, make sure that <strong>{{browserName|titlecase}}</strong> is set to "While Using the App"</li>
+            </ol>
+            <!-- <ol>
+                <li>On your {{device}}: Go to settings</li>
+                <li>select the {{browserName|titlecase}} icon</li>
+                <li>select "Locations"</li>
+                <li>select "While Using the App"</li> -->
+            <!-- </ol> -->
+        </div>
+        <div *ngIf="device === 'android'"
+            class="android">
+
+            intructions for {{device}}
+            <ol>
+                <li>On your {{device}}: Go to settings</li>
+                <li>Select "Security and pivacy"</li>
+                <li>Select Location services</li>
+                <li>"Access to my location" should be checked</li>
+                <li>After this your {{browserName}} may ask for permission</li>
+            </ol>
+            <ol>
+                <li>On your {{device}}: Go to settings</li>
+                <li>Select "Apps & notifications"</li>
+                <li>Select "Apps"</li>
+                <li>Select {{browserName}}</li>
+                <li>Select "Permissions"</li>
+                <li>Make sure that "Your location" is checked</li>
+            </ol>
+
+        </div>
+        <div class="rest"
+            *ngIf="device !=='android' && device !== 'iphone'">
+            Check and make sure location services is checked
+        </div>
+        <div class="associated-constant">
+            Error: PERMISSION_DENIED
+        </div>
+        <div class="description">
+            Error message: The acquisition of the geolocation information failed because the page didn't have the permission to do it.
+        </div>
+    </div>
+
+    <div class="error-code"
+        *ngIf="errorCode === '2'">
+        <div class="associated-constant">
+            POSITION_UNAVAILABLE
+        </div>
+        <div class="description">
+            The acquisition of the geolocation failed because one or several internal sources of position returned an internal error.
+        </div>
+    </div>
+    <div class="error-code"
+        *ngIf="errorCode === '3'">
+        <div class="associated-constant">
+            TIMEOUT
+        </div>
+        <div class="description">
+            Geolocation information was not obtained in the allowed time.
+        </div>
+    </div>
+
+    <div class="error-code">ERROR CODE: {{errorCode}}</div>
+    <ul>
+        <li>data.error.code: {{errorCode}}</li>
+        <li>USER AGENT: {{userAgent}}</li>
+        <li>Device: {{device}}</li>
+        <li>Is Mobile {{isMobile}}</li>
+        <li>Browser name: {{browserName|titlecase}}</li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="adjust-settings-location"
+    *ngIf="data.error.message === 'User denied Geolocation'; else problem ">
+    <p>{{browserName}}</p>
+    <p>
+        The Mochuco app needs to know your location in order to present the correct information.
+    </p>
+    <ol>
+        <li>On your device: Go to settings</li>
+        <li>select the {{browserName|titlecase}} icon</li>
+        <li>select "Locations"</li>
+        <li>select "While Using the App"</li>
+    </ol>
+</div>
+<ng-template #problem>there was a problem</ng-template> -->

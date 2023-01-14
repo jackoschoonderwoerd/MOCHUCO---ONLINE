@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 
 import {
@@ -18,6 +18,8 @@ import { MochucoUser } from './mochuco-user.model';
 import { Router } from '@angular/router';
 import { UserRoles } from 'src/app/shared/models';
 import { GeneralStoreService } from '../../shared/general-store.service';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningComponent } from '../../shared/warning/warning.component';
 
 const AUTH_DATA = 'auth_data'
 @Injectable({
@@ -28,9 +30,10 @@ export class AuthService {
     // fireAuthUser;
     $roles: Observable<UserRoles>;
     timer;
+    countDownPeriod: number = (60 * 1000) * 15; // seconds * minutes
 
-    // private mochucoUserSubject = new BehaviorSubject<MochucoUser>(null);
-    // public mochucoUser$: Observable<MochucoUser> = this.mochucoUserSubject.asObservable();
+    private mochucoUserSubject = new BehaviorSubject<MochucoUser | null>(null);
+    public mochucoUser$: Observable<MochucoUser> = this.mochucoUserSubject.asObservable();
 
     // private isLoggedInSubject = new BehaviorSubject<boolean>(false);
     // public isLoggedIn$ = this.isLoggedInSubject.asObservable();
@@ -41,7 +44,7 @@ export class AuthService {
     constructor(
         private afAuth: Auth,
         private router: Router,
-        private generalStore: GeneralStoreService) { }
+        private zone: NgZone) { }
 
     signUp(user: MochucoUser) {
         // console.log(user)
@@ -51,67 +54,60 @@ export class AuthService {
     }
 
     logIn(mochucoUser: MochucoUser) {
+        this.startCountDown()
+        // this.startCountDown(this.countDownPeriod)
         return from(signInWithEmailAndPassword(this.afAuth, mochucoUser.email, mochucoUser.password))
             .pipe(
                 tap((fireAuthUser: any) => {
-                    // this.fireAuthUser = fireAuthUser
-                    const mochucoUser: MochucoUser = {
-                        email: fireAuthUser.user.email
-                    }
-                    console.log('tapped')
-                    // this.mochucoUserSubject.next(mochucoUser);
-                    // this.checkTimeOut()
-                    // this.isLoggedInSubject.next(true);
+                    console.log(fireAuthUser)
                     this.router.navigateByUrl('/admin/venues');
                     if (fireAuthUser.user.email === 'jackoboes@gmail.com') {
-
-                        // console.log('admin!')
                         this.isAdminSubject.next(true);
                     } else {
                         this.isAdminSubject.next(false);
                         console.log('not admin')
                     }
-                    this.startCountDown(5000)
                 })
             )
     }
     // How to stop a function during its execution - JavaScript
     // https://stackoverflow.com/questions/51793294/how-to-stop-a-function-during-its-execution-javascript
-    startCountDown(time) {
-        console.log('starting countdown')
-        this.timer = setTimeout(() => {
-            alert('time\'s up')
-            this.logout();
-        }, time);
-    }
-    resetCountDown() {
-        console.log('clearing timer');
-        clearTimeout(this.timer)
-        this.startCountDown(5000);
+
+    startCountDown() {
+        console.log('starting countdown', this.countDownPeriod)
+        // this.timer = setTimeout(() => {
+        //     this.router.navigate(['/admin/login', { action: 'logout' }])
+        // }, this.countDownPeriod);
+        this.timer = setTimeout(this.logOutAndNavigateToLogin.bind(this), this.countDownPeriod);
     }
 
-    // setIsLoggedIn(status: boolean) {
-    //     this.isLoggedInSubject.next(status)
-    // }
+    resetCountDown() {
+        console.log('clearing timer');
+        console.log(this.timer)
+        clearTimeout(this.timer)
+        console.log(this.timer);
+        this.startCountDown();
+    }
 
     setIsAdmin(status: boolean) {
         this.isAdminSubject.next(status);
     }
 
     logout() {
-        // console.log(this.fireAuthUser);
         this.afAuth.signOut()
             .then((res) => {
-                // console.log('logged out')
-                // this.mochucoUserSubject.next(null);
-                localStorage.removeItem('mochucoUser');
-                // this.generalStore.setAllToNull();
-                this.router.navigateByUrl('/admin/login');
-                // this.isLoggedInSubject.next(false);
+                console.log('logged out')
             })
             .catch(err => console.log(err));
 
     }
+    logOutAndNavigateToLogin() {
+        this.timer = null;
+        this.logout()
+        this.router.navigateByUrl('/admin/login')
+        alert('You are automatically logged out due to inactivity. Please log in again')
+    }
+
     // checkTimeOut() {
     //     // console.log('checkTimeOut')
     //     setTimeout(

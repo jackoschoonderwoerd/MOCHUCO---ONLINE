@@ -48,7 +48,7 @@ export class ItemService {
         private uiService: UiService) { }
 
     getItem(venueId: string, itemId: string) {
-        console.log('GETTING ITEM: ', venueId, itemId);
+        // console.log('GETTING ITEM: ', venueId, itemId);
         const itemRef = doc(this.firestore, `venues/${venueId}/items/${itemId}`)
         return docData(itemRef)
     }
@@ -57,7 +57,7 @@ export class ItemService {
             timestamp: new Date().getTime(),
             liked: false
         }
-        console.log(itemVisit)
+        // console.log(itemVisit)
         const visitRef = collection(this.firestore, `venues/${venueId}/visitsLog/${itemId}/visits`)
         return addDoc(visitRef, itemVisit)
 

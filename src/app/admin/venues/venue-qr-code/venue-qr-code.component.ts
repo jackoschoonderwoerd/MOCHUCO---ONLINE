@@ -14,6 +14,7 @@ export class VenueQrCodeComponent implements OnInit {
 
     venueName: string;
     venueId: string;
+    FILEURI;
 
     @ViewChild('printarea') private printarea: ElementRef
 
@@ -30,11 +31,10 @@ export class VenueQrCodeComponent implements OnInit {
         let DATA: any = this.printarea.nativeElement;
         html2canvas(DATA).then((canvas) => {
             let fileWidth = 210;
-            // let fileHeight = 210;
             let fileHeight = (canvas.height * fileWidth) / canvas.width;
             const FILEURI = canvas.toDataURL('image/png');
+            console.log(FILEURI)
             let PDF = new jsPDF('p', 'mm', 'a4');
-
             let position = 0;
             PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
             PDF.save(this.venueName);

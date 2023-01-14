@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { MochucoUser } from '../mochuco-user.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
     Auth,
     createUserWithEmailAndPassword,
@@ -31,12 +31,19 @@ export class LoginComponent implements OnInit {
         private fb: FormBuilder,
         private authService: AuthService,
         private router: Router,
-        private afAuth: Auth
+        private afAuth: Auth,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
+        const action = this.route.snapshot.paramMap.get('action')
+        console.log(action)
+        if (this.route.snapshot.paramMap.get('action') === 'logout') {
+            this.authService.logout();
+        }
         this.initForm();
     }
+
     initForm() {
         this.form = this.fb.group({
             email: new FormControl('jackoboes@gmail.com', [Validators.required]),
@@ -49,7 +56,6 @@ export class LoginComponent implements OnInit {
         const mochucoUser: MochucoUser = {
             email: this.form.value.email,
             password: this.form.value.password,
-            expiry: now.getTime() + (5 * 1000 * 60 * 60)
         }
         this.authService.logIn(mochucoUser).subscribe(
             userData => {
