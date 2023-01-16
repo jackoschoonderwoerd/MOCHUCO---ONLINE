@@ -11,7 +11,7 @@ mat-toolbar {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.3.5rem;
         align-items: center;
         // font-size: 1rem;
         .logo {
@@ -58,6 +58,55 @@ mat-toolbar {
             }
         }
         .isAdmin {
+        }
+    }
+}
+.sidenav {
+    color: #ccc;
+    // height: 100%; /* 100% Full-height */
+    height: calc(100% - 56px);
+    @media screen and (min-width: 600px) {
+        height: calc(100% - 64px);
+    }
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+
+    // top: 7rem; /* Stay at the top */
+    top: 56px;
+    @media screen and (min-width: 600px) {
+        top: 64px;
+    }
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    // padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    .main-page-container {
+        padding: 1rem;
+        .name {
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .description {
+            margin-bottom: 1rem;
+        }
+        .itemids-and-distances {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li {
+                border: 1px solid white;
+                padding: 0.7rem 0.5rem 0.8rem 0.5rem;
+                border-radius: 5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+        }
+        .close {
+            display: flex;
+            justify-content: end;
         }
     }
 }

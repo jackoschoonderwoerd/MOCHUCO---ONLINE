@@ -1,8 +1,34 @@
+<div id="mainPageSidenav"
+    class="sidenav">
+    <div class="main-page-container">
+        <div class="name">
+            {{mainPageByLanguage?.itemLS.name}}
+        </div>
+        <div class="description">
+            {{mainPageByLanguage?.itemLS.description}}
+        </div>
+        <ul class="itemids-and-distances">
+            <li *ngFor="let item of itemIdsAndDistances"
+                (click)="onItem(item.id)">
+                <div class="info_name">
+                    <span class="name">{{item.name}}</span>
+                </div>
+                <div class="distance">{{item.distance}}&nbsp;m</div>
+            </li>
+        </ul>
+        <div class="close"
+            (click)="onCloseNav()">
+            <mat-icon>close</mat-icon>
+        </div>
+    </div>
+</div>
+
 <mat-toolbar color="warn">
     <!-- <div class="logo" (click)="onLogo()"> -->
     <div class="toolbar-content">
 
-        <div class="logo">
+        <div (click)="onMochucoLogo()"
+            class="logo">
             <a routerLink="mochuco">
                 <img src="./../../../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png"
                     alt="">

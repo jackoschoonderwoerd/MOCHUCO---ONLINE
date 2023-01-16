@@ -30,7 +30,7 @@ export class GeneralStoreService {
     ) { }
 
     setActiveVenue(venueId: string) {
-        console.log('GS setting active venue');
+        // console.log('GS setting active venue');
         this.venuesService.getVenueById(venueId)
             .subscribe((venue: Venue) => {
                 this.activeVenueSubject.next(venue);
@@ -38,7 +38,7 @@ export class GeneralStoreService {
 
     }
     setActiveItem(venueId: string, itemId: string) {
-        console.log('GS setting active item');
+        // console.log('GS setting active item');
         this.itemsService.getItem(venueId, itemId)
             .subscribe((item: Item) => {
                 this.activeItemSubject.next(item);

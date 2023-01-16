@@ -16,7 +16,7 @@ import { Auth } from '@angular/fire/auth'
 })
 export class MochucoComponent implements OnInit {
 
-
+    definedLanguages: string[] = ['dutch', 'english', 'french']
     constructor(
         public uiService: UiService,
         private router: Router,
@@ -32,7 +32,11 @@ export class MochucoComponent implements OnInit {
     ngOnInit(): void {
 
         this.languageService.language$.subscribe((language: string) => {
-            this.languageService.setAvailableLanguages(['dutch', 'english', 'french'])
+            console.log(language);
+            if (!this.definedLanguages.includes(language)) {
+                this.languageService.setLanguage('dutch');
+            }
+            this.languageService.setAvailableLanguages(this.definedLanguages)
         })
     }
     onCloseWindow() {

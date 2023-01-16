@@ -25,12 +25,13 @@ import { provideStorage, getStorage } from '@angular/fire/storage';
 import { QRCodeModule } from 'angular2-qrcode';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ScannerComponent } from './pages/scanner/scanner.component';
-import { SelectLanguageComponent } from './navigation/footer/select-language/select-language.component';
+// import { SelectLanguageComponent } from './navigation/footer/select-language/select-language.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { StatusComponent } from './navigation/header/status/status.component';
 import { UiDialogComponent } from './shared/ui-dialog/ui-dialog.component';
 import { WarningComponent } from './shared/warning/warning.component';
 import { LocationErrorDialogComponent } from './pages/item/location-error-dialog/location-error-dialog.component';
+import { TranslateLanguagesPipe } from './shared/translate-languages.pipe';
 
 
 
@@ -49,10 +50,8 @@ import { LocationErrorDialogComponent } from './pages/item/location-error-dialog
         LogoComponent,
         MochucoComponent,
         ScannerComponent,
-        SelectLanguageComponent,
-
+        // SelectLanguageComponent,
         UiDialogComponent,
-
         ItemComponent,
         LanguagesComponent,
         WarningComponent,
@@ -60,7 +59,8 @@ import { LocationErrorDialogComponent } from './pages/item/location-error-dialog
         MainPageComponent,
         MapComponent,
         StatusComponent,
-        LocationErrorDialogComponent
+        LocationErrorDialogComponent,
+        TranslateLanguagesPipe
 
 
     ],

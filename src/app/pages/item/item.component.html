@@ -9,8 +9,8 @@
             <button class="like-button"
                 (click)="onLike()"
                 mat-raised-button
-                *ngIf="!isLiked"
-                color="primary">like</button>
+                [disabled]="isLiked"
+                color="primary">{{isLiked ? 'liked': 'like'}}</button>
         </div>
         <div class="img_audio_description">
             <img *ngIf="imageUrl"

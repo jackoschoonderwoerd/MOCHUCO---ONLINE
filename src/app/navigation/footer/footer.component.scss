@@ -13,9 +13,14 @@
         flex-direction: column;
         justify-content: center;
         mat-icon {
-            // border: 1px solid lightblue;
+            border: 1px solid lightblue;
+            font-size: 2rem;
+        }
+        img {
+            width: 2.5rem;
         }
     }
+
     .on-scanner {
         // border: 3px solid red;
     }
@@ -53,7 +58,7 @@
         padding: 1rem;
         display: flex;
         flex-direction: column;
-        gap: 0.3rem;
+        // gap: 0.3rem;
         .language {
             // background-color: pink;
             text-transform: uppercase;
@@ -62,6 +67,18 @@
             border: 1px solid#ccc;
             border-radius: 5px;
             padding: 0.1rem 0.5rem 0.3rem 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .close-nav {
+            padding: 0.5rem;
+            // display: flex;
+            // justify-content: end;
+            width: 100%;
+            // border: 1px solid red;
+            mat-icon {
+                float: right;
+                font-size: 2rem;
+            }
         }
     }
 }

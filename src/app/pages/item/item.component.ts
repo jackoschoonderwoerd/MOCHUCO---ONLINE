@@ -11,6 +11,7 @@ import { VenuesService } from '../../admin/venues/venues.service';
 import { GeneralStoreService } from 'src/app/shared/general-store.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LocationErrorDialogComponent } from './location-error-dialog/location-error-dialog.component';
+import { WarningComponent } from '../../shared/warning/warning.component';
 
 
 
@@ -56,7 +57,7 @@ export class ItemComponent implements OnInit {
             console.log(queryParams);
             this.venueId = queryParams.venueId;
             this.generalStore.setActiveVenue(this.venueId);
-            this.itemService.getMainPageItem(this.venueId)
+            this.itemService.getMainPageItem(this.venueId);
             // this.venuesService.getVenueById(this.venueId).subscribe((venue: Venue) => {
 
             // })
@@ -85,11 +86,14 @@ export class ItemComponent implements OnInit {
         this.isAudioPanelOpen = status;
     }
 
-    getAvailableLanguages(item: Item) {
-
-        console.log(this.item);
+    setAvailableLanguages(item) {
+        if (!item) {
+            return;
+        }
+        console.log(item);
         const languages: string[] = [];
-        this.item.itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
+        item.itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
+            console.log(itemByLanguage.language);
             languages.push(itemByLanguage.language)
             this.languageService.setAvailableLanguages(languages)
         })
@@ -97,6 +101,7 @@ export class ItemComponent implements OnInit {
 
 
     getItemIdNearestItem(venueId: string, language: string) {
+        alert(`getting nearest item ${venueId}, ${language}`)
         // IPHONE 6 & 8 => SETTINGS => PRIVACY & SECURITY (at the bottom of 'General') => LOCATION SERVICES (first on the list) ON => (allow location access) ON
 
         // IPHONE 6 & 8 => SETTINGS => PRIVACY & SECURITY (at the bottom of 'General') => LOCATION SERVICES (first on the list) ON => SAFARI WEBSITES => WHILE USING THE APP
@@ -150,112 +155,62 @@ export class ItemComponent implements OnInit {
             if (error) {
                 alert('ERROR CODE' + error.code)
                 this.router.navigate(['/location-error', { errorCode: error.code }]);
-                // this.dialog.open(LocationErrorDialogComponent, {
-                //     data: {
-                //         action: 'locations',
-                // message: error.message,
-                // permissionDenied: error.PERMISSION_DENIED,
-                // positionUnavailable: error.POSITION_UNAVAILABLE,
-                // timeout: error.TIMEOUT,
-                // code: error.code
-                //         error: error
-                //     }
-                // })
-                // alert('error.message: ' + error.message);
-                // alert('error.PERMISSION_DENIED: ' + error.PERMISSION_DENIED);
-                // alert('error.POSITION_UNAVAILABLE' + error.POSITION_UNAVAILABLE);
-                // alert('error.TIMEOUT' + error.TIMEOUT);
-                // alert('error.code' + error.code)
             } else {
                 this.dialog.open(LocationErrorDialogComponent, { data: { error: 'no errors' } })
             }
         }, options);
-
-
-        // navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-        //     if (position) {
-        //         alert(position.coords.latitude + ' ' + position.coords.longitude)
-        //     } else {
-        //         alert('No coordinates. On your IPhone, please turn on location services');
-        //     }
-        // })
-
-        // if (navigator.permissions && navigator.permissions.query) {
-        //     alert('IC 116: permissions & query present')
-        //     navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-        //         const permission = result.state;
-        //         if (permission === 'granted' || permission === 'prompt') {
-        //             this._onGetCurrentLocation();
-        //         }
-        //         alert(result.state)
-        //         this._onGetCurrentLocation();
-        //     })
-        // } else {
-        //     alert('IC 118: permissions and or query denied')
-        // }
-
-
-        // navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-        //     if (!position) {
-        //         alert('IC 117 no position')
-        //     } else {
-        //         alert(position.coords.latitude + ' ' + position.coords.longitude);
-        //     }
-        // })
-
-
     }
 
-    // _onGetCurrentLocation() {
-    //     alert('_onGetCurrentLocation')
-    //     const options = {
-    //         enableHighAccuracy: true,
-    //         timeout: 15000,
-    //         maximumAge: Infinity
-    //     };
-    //     navigator.geolocation.getCurrentPosition(function (position) {
-    //         //use coordinates
-    //         const marker = {
-    //             lat: position.coords.latitude,
-    //             lng: position.coords.longitude
-    //         };
-    //     }, function (error: GeolocationPositionError) {
-    //         alert(error.message)
-    //         error.TIMEOUT
-    //         //error handler here
-    //     }, options)
-    // }
-
     getItem(venueId: string, itemId: string, language: string) {
-        // alert('IC 129: getting item' + ' ' + venueId + ' ' + itemId + ' ' + language)
-        this.uiService.setIsFetchingItemData(true)
-        // console.log(venueId, itemId, language)
-        this.itemService.getItem(venueId, itemId).subscribe((item: Item) => {
-            this.item = item;
-            console.log(item);
-            this.getAvailableLanguages(item)
-            this.uiService.setIsFetchingItemData(false)
-            this.imageUrl = item.imageUrl;
-            this.itemService.addVisit(venueId, itemId)
-                .then((docRef: any) => {
-                    this.itemService.setActiveVisitId(docRef.id)
+        if (venueId && itemId && language) {
+            console.log(venueId, itemId, language)
+
+            // alert('IC 129: getting item' + ' ' + venueId + ' ' + itemId + ' ' + language)
+            this.uiService.setIsFetchingItemData(true)
+            this.itemService.getItem(venueId, itemId).subscribe((item: Item) => {
+                if (!item) {
+                    // alert('no item found');
+                    this.dialog.open(WarningComponent, { data: { message: 'no item found' } });
+                    this.router.navigateByUrl('/mochuco')
+                    return;
+                }
+                this.item = item;
+                console.log(item);
+                this.setAvailableLanguages(item);
+                this.uiService.setIsFetchingItemData(false)
+                this.imageUrl = item.imageUrl;
+                this.itemService.addVisit(venueId, itemId)
+                    .then((docRef: any) => {
+                        this.itemService.setActiveVisitId(docRef.id)
+                    })
+                    .catch(err => console.error(err));
+                const itemByLanguageArray: ItemByLanguage[] = item.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
+                    return itemByLanguage.language === language
                 })
-                .catch(err => console.error(err));
-            const itemByLanguageArray: ItemByLanguage[] = item.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
-                return itemByLanguage.language === language
+                console.log(itemByLanguageArray)
+                if (itemByLanguageArray.length > 0) {
+                    console.log(itemByLanguageArray)
+                    const itemByLanguage: ItemByLanguage = itemByLanguageArray[0];
+                    this.itemName = itemByLanguage.itemLS.name;
+                    this.description = itemByLanguage.itemLS.description;
+                    this.audioUrl = itemByLanguage.itemLS.audioUrl;
+                    this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay;
+
+                    this.itemService.updateAudioUrl(this.audioUrl);
+                } else {
+                    console.log(item.itemsByLanguage);
+                    const itemByLanguage: ItemByLanguage = item.itemsByLanguage[0];
+                    this.itemName = itemByLanguage.itemLS.name;
+                    this.description = itemByLanguage.itemLS.description;
+                    this.audioUrl = itemByLanguage.itemLS.audioUrl;
+                    this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay;
+
+                    this.itemService.updateAudioUrl(this.audioUrl);
+                }
             })
-            // console.log(itemByLanguageArray)
-            if (itemByLanguageArray.length > 0) {
-                const itemByLanguage: ItemByLanguage = itemByLanguageArray[0]
-
-                this.itemName = itemByLanguage.itemLS.name;
-                this.description = itemByLanguage.itemLS.description;
-                this.audioUrl = itemByLanguage.itemLS.audioUrl;
-                this.audioAutoplay = itemByLanguage.itemLS.audioAutoplay;
-
-                this.itemService.updateAudioUrl(this.audioUrl);
-            }
-        })
+        } else {
+            alert('insufficient data to get item')
+        }
     }
     onLike() {
         this.isLiked = true;
@@ -264,11 +219,6 @@ export class ItemComponent implements OnInit {
     }
 
     distanceFromObject(latObject: number, lonObject: number, latVisitor: number, lonVisitor: number) {  // generally used geo measurement function
-        // alert('calculating distance');
-        // alert(latObject);
-        // alert(lonObject);
-        // alert(latVisitor);
-        // alert(lonVisitor);
         var R = 6378.137; // Radius of earth in KM
         var dLat = latVisitor * Math.PI / 180 - latObject * Math.PI / 180;
         var dLon = lonVisitor * Math.PI / 180 - lonObject * Math.PI / 180;
