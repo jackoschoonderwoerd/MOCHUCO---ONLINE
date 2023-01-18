@@ -236,9 +236,9 @@ export class DescriptionComponent implements OnInit {
 
         }
         for (let i = 0; i < indicesH5start.length; i++) {
-            if (indicesH5end[i] - indicesH5start[i] > 25) {
+            if (indicesH5end[i] - indicesH5start[i] > 50) {
                 tagsToLong = true
-                alert('a header can contain a maximum of 25 characters')
+                alert('a header can contain a maximum of 50 characters')
             } else {
 
             }

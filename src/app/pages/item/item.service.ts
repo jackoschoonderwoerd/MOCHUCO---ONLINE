@@ -18,7 +18,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { Console } from 'console';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, map } from 'rxjs';
 import { ItemByLanguage, Venue } from 'src/app/shared/models';
 import { Item, ItemVisit } from '../../shared/models';
 import { UiService } from '../../shared/ui.service';
@@ -106,6 +106,7 @@ export class ItemService {
         this.availableLanguagesSubject.next(availableLanguages)
     }
     getMainPageItem(venueId) {
+        console.log('getMainpageItem: ', venueId)
         const itemsRef = collection(this.firestore, `venues/${venueId}/items`);
         const q = query(itemsRef, where('isMainPage', '==', true,));
         // collectionData(q, { idField: 'id' }).subscribe(data => console.log(data))

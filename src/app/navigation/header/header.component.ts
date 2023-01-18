@@ -15,6 +15,8 @@ import { VenuesService } from '../../admin/venues/venues.service';
 import { MainPageComponent } from './main-page/main-page.component';
 import { GeneralStoreService } from 'src/app/shared/general-store.service';
 import { Auth } from '@angular/fire/auth';
+import { WarningComponent } from 'src/app/shared/warning/warning.component';
+
 
 
 
@@ -34,7 +36,8 @@ export class HeaderComponent implements OnInit {
     mainPageByLanguage: ItemByLanguage;
     mainPageOpen: boolean = false;
     itemIdsAndDistances: any[];
-    isNavOpen: boolean = false;
+    mainPageDescription: Observable<string>;
+    // isNavOpen: boolean = false;
 
     constructor(
         private router: Router,
@@ -52,73 +55,72 @@ export class HeaderComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        // this.afAuth.currentUser.email
-        const subscription = this.generalStore.activeVenue$.subscribe((venue: Venue) => {
-            if (venue) {
-                // console.log(venue);
-                this.venue = venue
-
-                subscription.unsubscribe();
-                return;
-            }
-            // console.log('no venue selected')
-        })
-
-
-        // this.itemService.mainPage$.subscribe((mainPage: Item) => {
-        //     console.log(mainPage)
-        //     if (mainPage) {
-        //         this.languageService.language$.subscribe((language: String) => {
-
-        //             const itemsByLanguage: ItemByLanguage[] = mainPage.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
-        //                 return itemByLanguage.language === language
-        //             })
-        //             console.log(itemsByLanguage[0])
-        //             console.log(itemsByLanguage[0].itemLS.name);
-        //             this.mainPageName = itemsByLanguage[0].itemLS.name
-        //         })
-        //     }
-        // })
-    }
-
-    onLogo() {
-        this.dialog.open(MochucoComponent, {
-            maxHeight: '80vh'
+        this.generalStore.activeVenue$.subscribe((venue: Venue) => {
+            console.log(venue)
+            this.venue = venue;
         })
     }
+
+
     onVenueLogo() {
+        console.log('this.onVenueLogo()')
+        // console.log(mainPageByLanguage)
         if (!this.mainPageOpen) {
 
-            this.languageService.language$.subscribe((language: string) => {
-                // console.log(language);
-
-                this.itemService.getMainPageItem(this.venue.id).subscribe((mainPageArray: Item[]) => {
-                    // console.log(mainPageArray[0]);
-                    const mainPage: Item = mainPageArray[0]
-                    const itemByLanguageArray: ItemByLanguage[] = mainPage.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
-                        return itemByLanguage.language = language
-                    })
-                    this.mainPageByLanguage = itemByLanguageArray[0];
-                    // console.log(this.mainPageByLanguage);
-
+            // this.mainPageOpen = true;
+            const language = this.languageService.getLanguage();
+            console.log(language);
+            this.itemService.getMainPageItem(this.venue.id).subscribe((items: Item[]) => {
+                const mainPageByLanguages = items[0].itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
+                    console.log(itemByLanguage)
+                    return itemByLanguage.language === language
                 })
+                if (mainPageByLanguages.length > 0) {
+                    this.mainPageByLanguage = mainPageByLanguages[0];
+                    this.openMainPageSide();
+                } else {
+                    this.mainPageByLanguage = {
+                        language: '',
+                        itemLS: {
+                            name: '',
+                            description: 'This page in not available in the selected language.'
+                        }
+                    }
+                    this.openMainPageSide();
+                    // this.dialog.open(WarningComponent, { data: { message: 'not available in selected language' } })
+                    // console.log('not available in selected language');
+                }
+                this.getSortedItems();
             })
-            this.openNav();
+            // this.languageService.language$.subscribe((language: string) => {
+            //     console.log(language);
+
+            // this.itemService.getMainPageItem(this.venue.id).subscribe((mainPageArray: Item[]) => {
+            //     console.log(mainPageArray);
+            //     if (mainPageArray.length > 0) {
+            //         mainPageArray.forEach((mainPage: Item) => {
+            //             console.log(mainPage)
+            //         })
+            //         const mainPage: Item = mainPageArray[0]
+            //         const theLanguage = this.languageService.getLanguage()
+            //         console.log(theLanguage)
+            //         const itemByLanguageArray: ItemByLanguage[] = mainPage.itemsByLanguage.filter((itemByLanguage: ItemByLanguage) => {
+            //             return itemByLanguage.language = 'english'
+            //         })
+            //         this.mainPageByLanguage = itemByLanguageArray[0];
+            //         console.log(this.mainPageByLanguage.itemLS.description)
+            //         this.getSortedItems();
+            //     } else {
+            //         console.log('no mainpage available')
+            //         this.mainPageByLanguage = null;
+            //     }
+            // })
+            // })
             this.mainPageOpen = true;
-            this.getSortedItems();
         } else {
             this.onCloseNav()
             this.mainPageOpen = false;
         }
-        // this.dialog.open(MainPageComponent, {
-        //     panelClass: 'fullscreen-dialog',
-        //     height: '100vh',
-        //     width: '100vw',
-        //     data: {
-        //         venueId: this.venue.id
-        //     }
-        // })
-
     }
 
     onMochucoLogo() {
@@ -132,14 +134,17 @@ export class HeaderComponent implements OnInit {
             this.authService.logout()
         }, 1000);
     }
-    openNav() {
+    openMainPageSide() {
+        console.log('this.openMainPageSide()')
         document.getElementById("mainPageSidenav").style.width = "100vw";
-        this.isNavOpen = true
+        this.mainPageOpen = true
 
     }
     onCloseNav() {
         document.getElementById("mainPageSidenav").style.width = "0";
-        this.isNavOpen = false
+        this.mainPageOpen = false;
+        this.mainPageOpen = false;
+
     }
     onItem(itemId: string) {
         // console.log(itemId)

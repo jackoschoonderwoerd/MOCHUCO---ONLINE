@@ -1,13 +1,19 @@
 <div id="mainPageSidenav"
-    class="sidenav">
+    class="mainPageSidenav">
     <div class="main-page-container">
+        <div class="close-top"
+            (click)="onCloseNav()">
+            <mat-icon>close</mat-icon>
+        </div>
         <div class="name">
             {{mainPageByLanguage?.itemLS.name}}
         </div>
-        <div class="description">
-            {{mainPageByLanguage?.itemLS.description}}
+        <div class="description"
+            [innerHTML]="mainPageByLanguage?.itemLS.description">
+            <!-- {{mainPageByLanguage?.itemLS.description}} -->
         </div>
-        <ul class="itemids-and-distances">
+        <ul *ngIf="authService.isAdmin$|async"
+            class="itemids-and-distances">
             <li *ngFor="let item of itemIdsAndDistances"
                 (click)="onItem(item.id)">
                 <div class="info_name">
@@ -16,27 +22,34 @@
                 <div class="distance">{{item.distance}}&nbsp;m</div>
             </li>
         </ul>
-        <div class="close"
+        <!-- <div class="close"
             (click)="onCloseNav()">
             <mat-icon>close</mat-icon>
-        </div>
+        </div> -->
     </div>
 </div>
 
 <mat-toolbar color="warn">
+    <!-- {{mainPageOpen}} -->
     <!-- <div class="logo" (click)="onLogo()"> -->
     <div class="toolbar-content">
 
         <div (click)="onMochucoLogo()"
             class="logo">
             <a routerLink="mochuco">
-                <img src="./../../../assets/Logo/2021-0705_Mochuco_-_Logo_zwart_wit_1000px.png"
+                <img src="./../../../assets/Logo/2023-0101 Mochuco - Logo transparant (1).png"
                     alt="">
             </a>
         </div>
-        <div class="organization"
+        <!-- <div class="organization"
             *ngIf="venue && venue.organization">
             {{venue.organization}}
+            {{(generalStore.activeVenue$|async).orginazation}}
+        </div> -->
+
+        <div class="organization">
+            {{(generalStore.activeVenue$|async)?.organization}}
+            <!-- {{(generalStore.activeVenue$|async|json)}} -->
         </div>
 
         <div class="user"

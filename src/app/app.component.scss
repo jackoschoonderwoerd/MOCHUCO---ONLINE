@@ -13,6 +13,14 @@
             height: 64px;
         }
     }
+    // .status {
+    //     width: calc(100vw);
+    //     position: absolute;
+    //     top: 56px;
+    //     @media (min-width: 600px) {
+    //         top: 64px;
+    //     }
+    // }
     /* Hide scrollbar for IE, Edge and Firefox */
     .router-outlet {
         -ms-overflow-style: none; /* IE and Edge */

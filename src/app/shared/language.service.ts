@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class LanguageService {
 
     languages: string[] = ['dutch', 'english', 'german', 'french', 'spanish']
+    language: string = 'dutch';
 
 
     private languageSubject = new BehaviorSubject<string>('dutch');
@@ -22,14 +23,16 @@ export class LanguageService {
     }
 
     setLanguage(language) {
+        this.language = language
         console.log(language);
         this.languageSubject.next(language);
+    }
+    getLanguage() {
+        return this.language;
     }
     setAvailableLanguages(availableLanguages: string[]) {
         console.log('setting available languages', availableLanguages)
         this.languages = availableLanguages;
         this.availableLanguagesSubject.next(availableLanguages)
     }
-
-
 }

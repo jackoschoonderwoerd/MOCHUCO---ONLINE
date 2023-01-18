@@ -45,7 +45,6 @@ export class FooterComponent implements OnInit {
     }
     onLanguageSelector() {
         document.getElementById("mySidenav").style.width = "80vw";
-
     }
 
     onSelectLanguage(language: string) {

@@ -88,20 +88,22 @@ export class ItemComponent implements OnInit {
 
     setAvailableLanguages(item) {
         if (!item) {
+            console.log('no item')
             return;
+        } else {
+            console.log(item);
+            const languages: string[] = [];
+            item.itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
+                console.log(itemByLanguage.language);
+                languages.push(itemByLanguage.language)
+                this.languageService.setAvailableLanguages(languages)
+            })
         }
-        console.log(item);
-        const languages: string[] = [];
-        item.itemsByLanguage.forEach((itemByLanguage: ItemByLanguage) => {
-            console.log(itemByLanguage.language);
-            languages.push(itemByLanguage.language)
-            this.languageService.setAvailableLanguages(languages)
-        })
     }
 
 
     getItemIdNearestItem(venueId: string, language: string) {
-        alert(`getting nearest item ${venueId}, ${language}`)
+        // alert(`getting nearest item ${venueId}, ${language}`)
         // IPHONE 6 & 8 => SETTINGS => PRIVACY & SECURITY (at the bottom of 'General') => LOCATION SERVICES (first on the list) ON => (allow location access) ON
 
         // IPHONE 6 & 8 => SETTINGS => PRIVACY & SECURITY (at the bottom of 'General') => LOCATION SERVICES (first on the list) ON => SAFARI WEBSITES => WHILE USING THE APP
