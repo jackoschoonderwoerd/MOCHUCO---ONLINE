@@ -53,6 +53,8 @@ export class VenuesComponent implements OnInit {
     }
     onQrCode(venueId: string, venueName: string) {
         this.dialog.open(VenueQrCodeComponent, { data: { venueId, venueName } })
+        // this.dialog.open(VenueQrCodeComponent)
+
     }
     onEditVenue(venueId: string, venueName: string) {
         this.router.navigate(['/admin/add-venue', { venueId, venueName }])

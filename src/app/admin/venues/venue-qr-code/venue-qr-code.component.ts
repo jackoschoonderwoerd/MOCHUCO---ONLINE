@@ -23,8 +23,9 @@ export class VenueQrCodeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.venueId = this.data.venueId
-        this.venueName = this.data.venueName
+        console.log(this.data)
+        this.venueId = this.data.venueId;
+        this.venueName = this.data.venueName;
     }
     onDownloadQrCode() {
         console.log(this.printarea.nativeElement, '/////?????')
