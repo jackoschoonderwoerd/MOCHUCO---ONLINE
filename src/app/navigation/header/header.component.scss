@@ -62,7 +62,7 @@ mat-toolbar {
     }
 }
 .mainPageSidenav {
-    color: #ccc;
+    color: black;
     // height: 100%; /* 100% Full-height */
     height: calc(100% - 56px);
     @media screen and (min-width: 600px) {
@@ -77,7 +77,7 @@ mat-toolbar {
         top: 64px;
     }
     left: 0;
-    background-color: #111; /* Black*/
+    background-color: white; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     // padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */

@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LanguageService {
 
-    languages: string[] = ['dutch', 'english', 'german', 'french', 'spanish']
+    languages: string[] = ['dutch', 'english', 'german', 'french', 'spanish', 'japanese']
     language: string = 'dutch';
 
 

@@ -27,7 +27,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class SelectLanguageService {
 
     defaultLanguage = 'nl'
-    languages: string[] = ['dutch', 'german', 'french', 'english', 'italian', 'spanish']
+    languages: string[] = ['dutch', 'german', 'french', 'english', 'italian', 'spanish', 'japanese']
 
 
 

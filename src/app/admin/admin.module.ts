@@ -25,6 +25,7 @@ import { StatisticsComponent } from './venues/statistics/statistics.component';
 import { StatusComponent } from '../navigation/header/status/status.component';
 import { VenueQrCodeComponent } from './venues/venue-qr-code/venue-qr-code.component';
 import { VenuesComponent } from './venues/venues.component';
+import { VenueQrCodePngComponent } from './venues/venue-qr-code-png/venue-qr-code-png.component';
 
 
 
@@ -53,6 +54,7 @@ import { VenuesComponent } from './venues/venues.component';
         StatisticsComponent,
         VenueQrCodeComponent,
         VenuesComponent,
+        VenueQrCodePngComponent,
         // StatusComponent,
 
 
